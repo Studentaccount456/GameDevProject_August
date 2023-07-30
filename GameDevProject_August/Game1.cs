@@ -40,8 +40,26 @@ namespace GameDevProject_August
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if(Keyboard.GetState().IsKeyDown(Keys.Up))
+            {
+                _position.Y -= 1;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            {
+                _position.Y += 1;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            {
+                _position.X -= 1;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            {
+                _position.X += 1;
+            }
+
+            //GamePad logic
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
 
             // TODO: Add your update logic here
 
