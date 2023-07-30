@@ -9,6 +9,11 @@ namespace GameDevProject_August
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        //What sprite looks like
+        private Texture2D _texture;
+        // Position of sprite
+        private Vector2 _position;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -28,6 +33,9 @@ namespace GameDevProject_August
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            _texture = Content.Load<Texture2D>("Widthlook");
+            _position = new Vector2(0, 0);
         }
 
         protected override void Update(GameTime gameTime)
@@ -45,6 +53,13 @@ namespace GameDevProject_August
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
+            _spriteBatch.Begin();
+
+            _spriteBatch.Draw(_texture, _position, Color.White);
+
+            _spriteBatch.End();
+
 
             base.Draw(gameTime);
         }
