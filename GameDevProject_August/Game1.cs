@@ -9,10 +9,8 @@ namespace GameDevProject_August
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        //What sprite looks like
-        private Texture2D _texture;
-        // Position of sprite
-        private Vector2 _position;
+        private PlayableCharacter _sprite1;
+        private PlayableCharacter _sprite2;
 
         public Game1()
         {
@@ -34,28 +32,22 @@ namespace GameDevProject_August
 
             // TODO: use this.Content to load your game content here
 
-            _texture = Content.Load<Texture2D>("Widthlook");
-            _position = new Vector2(0, 0);
+            var texture = Content.Load<Texture2D>("Widthlook");
+
+            _sprite1 = new PlayableCharacter(texture);
+            _sprite1.Position = new Vector2(100, 100);
+
+            _sprite2 = new PlayableCharacter(texture) 
+            {
+                Position = new Vector2(0,0),
+                Speed = 3f,
+            };
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if(Keyboard.GetState().IsKeyDown(Keys.Up))
-            {
-                _position.Y -= 1;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
-            {
-                _position.Y += 1;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
-            {
-                _position.X -= 1;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
-            {
-                _position.X += 1;
-            }
+            _sprite1.Update();
+            _sprite2.Update();
 
             //GamePad logic
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -74,7 +66,8 @@ namespace GameDevProject_August
 
             _spriteBatch.Begin();
 
-            _spriteBatch.Draw(_texture, _position, Color.White);
+            _sprite1.Draw(_spriteBatch);
+            _sprite2.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
