@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameDevProject_August.Sprites;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -33,24 +34,24 @@ namespace GameDevProject_August
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            var personTexture = Content.Load<Texture2D>("Widthlook");
 
-            var texture = Content.Load<Texture2D>("Widthlook");
-
-            _sprites = new List<Sprite>() 
+            _sprites = new List<Sprite>()
             {
-                new Sprite(texture) 
-                { 
-                    Position = new Vector2(100,100), 
-                    Input = new Input() 
+                new MainCharacter(personTexture)
+                {
+                    Position = new Vector2(100,100),
+                    Input = new Input()
                     {
-                        Down = System.Windows.Forms.Keys.Down, 
-                        Up = System.Windows.Forms.Keys.Up, 
-                        Left = System.Windows.Forms.Keys.Left, 
+                        Down = System.Windows.Forms.Keys.Down,
+                        Up = System.Windows.Forms.Keys.Up,
+                        Left = System.Windows.Forms.Keys.Left,
                         Right = System.Windows.Forms.Keys.Right
-                    }
+                    },
+                    Bullet = new Bullet(Content.Load<Texture2D>("GoToeBullet"))
                 },
-                new Sprite(texture)                
+
+                new MainCharacter(personTexture)                
                 {
                     Position = new Vector2(200,100),
                     Input = new Input()
@@ -59,7 +60,9 @@ namespace GameDevProject_August
                         Up = System.Windows.Forms.Keys.Z,
                         Left = System.Windows.Forms.Keys.Q,
                         Right = System.Windows.Forms.Keys.D
-                    }
+                    },
+                    Bullet = new Bullet(Content.Load<Texture2D>("GoToeBullet"))
+
                 },
             };
 
@@ -75,10 +78,12 @@ namespace GameDevProject_August
 
         protected override void Update(GameTime gameTime)
         {
-            foreach(var sprite in _sprites)
+            foreach (var sprite in _sprites.ToArray())
             {
-                sprite.Update();
+                sprite.Update(gameTime, _sprites);
             }
+
+            PostUpdate();
             /*_sprite1.Update();
             _sprite2.Update();*/
 
@@ -89,6 +94,18 @@ namespace GameDevProject_August
             // TODO: Add your update logic here
 
             base.Update(gameTime);
+        }
+
+        private void PostUpdate()
+        {
+            for (int i = 0; i < _sprites.Count; i++)
+            {
+                if (_sprites[i].IsRemoved)
+                {
+                    _sprites.RemoveAt(i);
+                    i--;
+                }
+            }
         }
 
         protected override void Draw(GameTime gameTime)
