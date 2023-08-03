@@ -31,6 +31,14 @@ namespace GameDevProject_August.Sprites
 
         public bool IsRemoved = false;
 
+        public Rectangle Rectangle
+        {
+            get 
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
+            }
+        }
+
 
         public Sprite(Texture2D texture)
         {

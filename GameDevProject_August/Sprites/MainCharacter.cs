@@ -13,6 +13,8 @@ namespace GameDevProject_August.Sprites
     {
         public Bullet Bullet;
 
+        public bool HasDied = false;
+
         public MainCharacter(Texture2D texture) 
             : base(texture)
         {
@@ -30,6 +32,22 @@ namespace GameDevProject_August.Sprites
             {
                 AddBullet(sprites);
             }
+
+            foreach (var sprite in sprites)
+            {
+                if(sprite is MainCharacter) 
+                {
+                    continue;
+                }
+
+                if(sprite.Rectangle.Intersects(Rectangle) && sprite is FallingCode)
+                {
+                    this.HasDied = true;
+                }
+            }
+
+            Position.X = MathHelper.Clamp(Position.X, 0, Game1.ScreenWidth - Rectangle.Width);
+
         }
 
         private void AddBullet(List<Sprite> sprites)

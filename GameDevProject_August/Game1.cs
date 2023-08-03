@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace GameDevProject_August
@@ -11,16 +12,30 @@ namespace GameDevProject_August
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        public static Random Random;
+
+        public static int ScreenWidth;
+        public static int ScreenHeight;
+
         /*private Sprite _sprite1;
         private Sprite _sprite2;*/
 
         private List<Sprite> _sprites;
+
+        private float _timer;
+
+        private bool _hasStarted = false;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            Random = new Random();
+
+            ScreenWidth = _graphics.PreferredBackBufferWidth;
+            ScreenHeight = _graphics.PreferredBackBufferHeight;
         }
 
         protected override void Initialize()
@@ -34,37 +49,21 @@ namespace GameDevProject_August
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var personTexture = Content.Load<Texture2D>("Widthlook");
+            Restart();
 
-            _sprites = new List<Sprite>()
-            {
-                new MainCharacter(personTexture)
-                {
-                    Position = new Vector2(100,100),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.Down,
-                        Up = System.Windows.Forms.Keys.Up,
-                        Left = System.Windows.Forms.Keys.Left,
-                        Right = System.Windows.Forms.Keys.Right
-                    },
-                    Bullet = new Bullet(Content.Load<Texture2D>("GoToeBullet"))
-                },
+            //new MainCharacter(personTexture)                
+            //{
+            //    Position = new Vector2(200,100),
+            //    Input = new Input()
+            //    {
+            //        Down = System.Windows.Forms.Keys.S,
+            //        Up = System.Windows.Forms.Keys.Z,
+            //        Left = System.Windows.Forms.Keys.Q,
+            //        Right = System.Windows.Forms.Keys.D
+            //    },
+            //    Bullet = new Bullet(Content.Load<Texture2D>("GoToeBullet"))
 
-                new MainCharacter(personTexture)                
-                {
-                    Position = new Vector2(200,100),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.S,
-                        Up = System.Windows.Forms.Keys.Z,
-                        Left = System.Windows.Forms.Keys.Q,
-                        Right = System.Windows.Forms.Keys.D
-                    },
-                    Bullet = new Bullet(Content.Load<Texture2D>("GoToeBullet"))
-
-                },
-            };
+            //},
 
             /*_sprite1 = new Sprite(texture);
             _sprite1.Position = new Vector2(100, 100);
@@ -76,11 +75,53 @@ namespace GameDevProject_August
             }; */
         }
 
+        private void Restart()
+        {
+            var personTexture = Content.Load<Texture2D>("Widthlook");
+
+            _sprites = new List<Sprite>()
+            {
+                new MainCharacter(personTexture)
+                {
+                    Position = new Vector2((ScreenWidth / 2) - (personTexture.Width / 2), ScreenHeight - personTexture.Height),
+                    Input = new Input()
+                    {
+                        Down = System.Windows.Forms.Keys.Down,
+                        Up = System.Windows.Forms.Keys.Up,
+                        Left = System.Windows.Forms.Keys.Left,
+                        Right = System.Windows.Forms.Keys.Right
+                    },
+                    Speed = 10f,
+                    Bullet = new Bullet(Content.Load<Texture2D>("GoToeBullet"))
+                },
+            };
+
+            _hasStarted = false;
+        }
+
         protected override void Update(GameTime gameTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.C)) 
+            { 
+                _hasStarted = true;
+            }
+
+            if(!_hasStarted)
+            {
+                return;
+            }
+
+            _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             foreach (var sprite in _sprites.ToArray())
             {
                 sprite.Update(gameTime, _sprites);
+            }
+
+            if (_timer > 0.25f)
+            {
+                _timer = 0;
+                _sprites.Add(new FallingCode(Content.Load<Texture2D>("GoToeBullet")));
             }
 
             PostUpdate();
@@ -93,6 +134,7 @@ namespace GameDevProject_August
 
             // TODO: Add your update logic here
 
+
             base.Update(gameTime);
         }
 
@@ -100,10 +142,21 @@ namespace GameDevProject_August
         {
             for (int i = 0; i < _sprites.Count; i++)
             {
-                if (_sprites[i].IsRemoved)
+                var sprite_1 = _sprites[i];
+
+                if (sprite_1.IsRemoved)
                 {
                     _sprites.RemoveAt(i);
                     i--;
+                }
+
+                if (sprite_1 is MainCharacter)
+                {
+                    var player = sprite_1 as MainCharacter;
+                    if (player.HasDied)
+                    {
+                        Restart();
+                    }
                 }
             }
         }
