@@ -50,37 +50,6 @@ namespace GameDevProject_August.Sprites
         {
 
         }
-
-        /*
-        public void Update()
-        {
-            Move();
-        }
-        
-
-        private void Move()
-        {
-            if (Input == null)
-                return;
-
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Up))
-            {
-                Position.Y -= Speed;
-            }
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
-            {
-                Position.Y += Speed;
-            }
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
-            {
-                Position.X -= Speed;
-            }
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
-            {
-                Position.X += Speed;
-            }
-        }
-        */
         
         public virtual void Draw(SpriteBatch spriteBatch)
         {

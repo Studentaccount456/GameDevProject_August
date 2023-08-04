@@ -17,9 +17,6 @@ namespace GameDevProject_August
         public static int ScreenWidth;
         public static int ScreenHeight;
 
-        /*private Sprite _sprite1;
-        private Sprite _sprite2;*/
-
         private List<Sprite> _sprites;
 
         private float _timer;
@@ -40,8 +37,6 @@ namespace GameDevProject_August
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -125,15 +120,6 @@ namespace GameDevProject_August
             }
 
             PostUpdate();
-            /*_sprite1.Update();
-            _sprite2.Update();*/
-
-            //GamePad logic
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            //    Exit();
-
-            // TODO: Add your update logic here
-
 
             base.Update(gameTime);
         }
@@ -165,17 +151,12 @@ namespace GameDevProject_August
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-
             _spriteBatch.Begin();
 
             foreach (var sprite in _sprites)
             {
                 sprite.Draw(_spriteBatch);
             }
-
-            /*_sprite1.Draw(_spriteBatch);
-            _sprite2.Draw(_spriteBatch);*/
 
             _spriteBatch.End();
 
