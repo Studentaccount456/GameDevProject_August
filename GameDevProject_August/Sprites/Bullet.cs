@@ -13,6 +13,8 @@ namespace GameDevProject_August.Sprites
     {
         private float _timer;
 
+        private float bulletSpeed = 4f;
+
         public Bullet(Texture2D texture) 
             : base(texture)
         {
@@ -22,7 +24,7 @@ namespace GameDevProject_August.Sprites
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Position += facingDirection * Speed;
+            Position += facingDirection * bulletSpeed;
 
 
             if (_timer > Lifespan)
