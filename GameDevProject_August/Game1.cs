@@ -78,7 +78,7 @@ namespace GameDevProject_August
 
         private void Restart()
         {
-            var personTexture = Content.Load<Texture2D>("Widthlook");
+            var personTexture = Content.Load<Texture2D>("Textures\\Widthlook");
 
             _sprites = new List<Sprite>()
             {
@@ -93,13 +93,13 @@ namespace GameDevProject_August
                         Right = System.Windows.Forms.Keys.Right
                     },
                     Speed = 10f,
-                    Bullet = new Bullet(Content.Load<Texture2D>("GoToeBullet"))
+                    Bullet = new Bullet(Content.Load<Texture2D>("Textures\\GoToeBullet"))
                 },
             };
 
             _hasStarted = false;
-            _font = Content.Load<SpriteFont>("Font_Score");
-            _regularPointTexture = Content.Load<Texture2D>("Point_1");
+            _font = Content.Load<SpriteFont>("Fonts\\Font_Score");
+            _regularPointTexture = Content.Load<Texture2D>("Textures\\Point_1");
         }
 
         protected override void Update(GameTime gameTime)
@@ -135,7 +135,7 @@ namespace GameDevProject_August
             if (_timer > 0.25f)
             {
                 _timer = 0;
-                _sprites.Add(new FallingCode(Content.Load<Texture2D>("GoToeBullet")));
+                _sprites.Add(new FallingCode(Content.Load<Texture2D>("Textures\\GoToeBullet")));
             }
         }
 
@@ -148,7 +148,7 @@ namespace GameDevProject_August
                 var xPos = Random.Next(0, ScreenWidth - _regularPointTexture.Width);
                 var yPos = Random.Next(0, ScreenHeight - _regularPointTexture.Height);
 
-                _sprites.Add(new Sprite(_regularPointTexture)
+                _sprites.Add(new Regular_Point(_regularPointTexture)
                 {
                     Position = new Vector2(xPos, yPos)
 

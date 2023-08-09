@@ -48,7 +48,7 @@ namespace GameDevProject_August.Sprites
                     this.HasDied = true;
                 }
 
-                if (sprite.Rectangle.Intersects(Rectangle) && sprite is not FallingCode)
+                if (sprite.Rectangle.Intersects(Rectangle) && sprite is Regular_Point)
                 {
                     Score++;
                     sprite.IsRemoved = true;
