@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GameDevProject_August.Sprites
 {
-    public class Sprite : ICloneable
+    public class Sprite
     {
         protected Texture2D _texture;
         public Vector2 Position;
@@ -60,11 +60,6 @@ namespace GameDevProject_August.Sprites
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_texture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-        }
-
-        public object Clone()
-        {
-            return this.MemberwiseClone();
         }
 
         #region Collision

@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameDevProject_August.Sprites.Projectiles
+namespace GameDevProject_August.Sprites.NotSentient.Projectiles
 {
-    public class FallingCode : Sprite
+    public class FallingCode : Projectile
     {
         public FallingCode(Texture2D texture)
             : base(texture)

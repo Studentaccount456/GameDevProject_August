@@ -1,9 +1,9 @@
 ﻿using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
-using GameDevProject_August.Sprites.Characters.Enemy;
-using GameDevProject_August.Sprites.Characters.Main;
-using GameDevProject_August.Sprites.Collectibles;
-using GameDevProject_August.Sprites.Projectiles;
+using GameDevProject_August.Sprites.NotSentient.Collectibles;
+using GameDevProject_August.Sprites.NotSentient.Projectiles;
+using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
+using GameDevProject_August.Sprites.Sentient.Characters.Main;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -121,7 +121,7 @@ namespace GameDevProject_August
                 sprite.Update(gameTime, _sprites);
             }
 
-            //SpawnFallingCode();
+            SpawnFallingCode();
 
             SpawnRegularPoint();
 

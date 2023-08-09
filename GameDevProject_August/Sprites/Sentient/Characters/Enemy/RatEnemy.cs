@@ -1,6 +1,6 @@
-﻿using GameDevProject_August.Sprites.Characters.Main;
-using GameDevProject_August.Sprites.Collectibles;
-using GameDevProject_August.Sprites.Projectiles;
+﻿using GameDevProject_August.Sprites.NotSentient.Collectibles;
+using GameDevProject_August.Sprites.NotSentient.Projectiles;
+using GameDevProject_August.Sprites.Sentient.Characters.Main;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameDevProject_August.Sprites.Characters.Enemy
+namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 {
     public class RatEnemy : Sprite
     {

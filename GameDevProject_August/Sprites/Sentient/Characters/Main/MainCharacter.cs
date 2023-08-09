@@ -2,13 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
-using GameDevProject_August.Sprites.Projectiles;
-using GameDevProject_August.Sprites.Collectibles;
 using GameDevProject_August.UI;
-using GameDevProject_August.Sprites.Characters.Enemy;
 using GameDevProject_August.AnimationClasses;
+using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
+using GameDevProject_August.Sprites.NotSentient.Projectiles;
+using GameDevProject_August.Sprites.NotSentient.Collectibles;
 
-namespace GameDevProject_August.Sprites.Characters.Main
+namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 {
     public class MainCharacter : Sprite
     {
@@ -39,7 +39,7 @@ namespace GameDevProject_August.Sprites.Characters.Main
         public MainCharacter(Texture2D texture)
             : base(texture)
         {
-            this._texture = texture;
+            _texture = texture;
             animationMoveRight = new Animation();
             animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(0, 0, 30, 50)));
             animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(128, 0, 28, 50)));
@@ -65,7 +65,7 @@ namespace GameDevProject_August.Sprites.Characters.Main
 
             foreach (var sprite in sprites)
             {
-                if(sprite is MainCharacter) 
+                if (sprite is MainCharacter)
                 {
                     continue;
                 }
@@ -96,7 +96,7 @@ namespace GameDevProject_August.Sprites.Characters.Main
                     }
 
                 }
-                
+
             }
 
             Position += Velocity;
@@ -110,8 +110,8 @@ namespace GameDevProject_August.Sprites.Characters.Main
             var bullet = Bullet.Clone() as Bullet;
             bullet.facingDirection = facingDirection;
             bullet.Position = Position + OriginBullet;
-            bullet.Speed = Speed * 2;
-            bullet.Lifespan = 2f;
+            bullet.Speed = Speed;
+            bullet.Lifespan = 1f;
             bullet.Parent = this;
 
             sprites.Add(bullet);
@@ -149,7 +149,7 @@ namespace GameDevProject_August.Sprites.Characters.Main
             //Position.X = MathHelper.Clamp(Position.X, 0, Game1.ScreenWidth - Rectangle.Width);
         }
 
-        
+
 
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -157,6 +157,6 @@ namespace GameDevProject_August.Sprites.Characters.Main
 
             spriteBatch.Draw(_texture, Position, animationMoveRight.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
         }
-        
+
     }
 }

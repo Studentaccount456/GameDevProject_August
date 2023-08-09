@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameDevProject_August.Sprites.Collectibles
+namespace GameDevProject_August.Sprites.NotSentient.Collectibles
 {
     //TODO: Implement the class
     internal class Regular_Point : Sprite
