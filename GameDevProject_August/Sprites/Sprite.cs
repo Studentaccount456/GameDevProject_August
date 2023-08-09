@@ -37,7 +37,7 @@ namespace GameDevProject_August.Sprites
         // Color.Black for glitch
         public Color Colour = Color.White;
 
-        public Rectangle Rectangle
+        public virtual Rectangle Rectangle
         {
             get 
             {

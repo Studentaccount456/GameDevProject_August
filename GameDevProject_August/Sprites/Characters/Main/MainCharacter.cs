@@ -1,15 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using GameDevProject_August.Sprites.Projectiles;
 using GameDevProject_August.Sprites.Collectibles;
 using GameDevProject_August.UI;
 using GameDevProject_August.Sprites.Characters.Enemy;
+using GameDevProject_August.AnimationClasses;
 
 namespace GameDevProject_August.Sprites.Characters.Main
 {
@@ -22,10 +19,36 @@ namespace GameDevProject_August.Sprites.Characters.Main
 
         public bool HasDied = false;
 
+        private Animation animationMoveRight;
+        private Animation animationMoveLeft;
+        private Animation animationDeath;
+        private Animation animationIdle;
+        private Animation animationShootLeft;
+        private Animation animationShootRight;
+
+
+
+        public override Rectangle Rectangle
+        {
+            get
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y, 34, 50);
+            }
+        }
+
         public MainCharacter(Texture2D texture)
             : base(texture)
         {
-
+            this._texture = texture;
+            animationMoveRight = new Animation();
+            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(0, 0, 30, 50)));
+            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(128, 0, 28, 50)));
+            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(256, 0, 28, 50)));
+            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(384, 0, 28, 50)));
+            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(512, 0, 30, 50)));
+            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(640, 0, 34, 50)));
+            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(768, 0, 34, 50)));
+            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(896, 0, 34, 50)));
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites)
@@ -79,6 +102,7 @@ namespace GameDevProject_August.Sprites.Characters.Main
             Position += Velocity;
 
             Velocity = Vector2.Zero;
+            animationMoveRight.Update(gameTime);
         }
 
         private void AddBullet(List<Sprite> sprites)
@@ -124,5 +148,15 @@ namespace GameDevProject_August.Sprites.Characters.Main
 
             //Position.X = MathHelper.Clamp(Position.X, 0, Game1.ScreenWidth - Rectangle.Width);
         }
+
+        
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            //spriteBatch.Draw(_texture, new Vector2(0,0), animation.CurrentFrame.SourceRectangle, Color.White);
+
+            spriteBatch.Draw(_texture, Position, animationMoveRight.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+        }
+        
     }
 }

@@ -49,6 +49,7 @@ namespace GameDevProject_August
         protected override void Initialize()
         {
             base.Initialize();
+
         }
 
         protected override void LoadContent()
@@ -61,7 +62,7 @@ namespace GameDevProject_August
 
         private void Restart()
         {
-            var personTexture = Content.Load<Texture2D>("Textures\\Widthlook");
+            var personTexture = Content.Load<Texture2D>("Animations\\MainCharacter\\MC_MoveRight");
             var ratEnemyTexture = Content.Load<Texture2D>("Textures\\Enemy_Rat");
             _score = new Score(Content.Load<SpriteFont>("Fonts\\Font_Score"), ScreenWidth, ScreenHeight);
 
@@ -71,7 +72,7 @@ namespace GameDevProject_August
             {
                 new MainCharacter(personTexture)
                 {
-                    Position = new Vector2((ScreenWidth / 2) - (personTexture.Width / 2), ScreenHeight - personTexture.Height),
+                    Position = new Vector2((ScreenWidth / 2) /*- (personTexture.Width / 2)*/, ScreenHeight /*- personTexture.Height*/),
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.Down,
@@ -188,6 +189,7 @@ namespace GameDevProject_August
             {
                 sprite.Draw(_spriteBatch);
             }
+
 
             _score.Draw(_spriteBatch);
 
