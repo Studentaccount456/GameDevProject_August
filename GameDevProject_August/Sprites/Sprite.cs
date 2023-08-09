@@ -18,7 +18,6 @@ namespace GameDevProject_August.Sprites
         public Vector2 OriginBullet;
         public Vector2 Velocity;
 
-
         public float Speed = 2f;
 
         public Input Input;
@@ -29,8 +28,6 @@ namespace GameDevProject_August.Sprites
         public Vector2 facingDirection = Vector2.UnitX;
 
         public Sprite Parent;
-
-        public float Lifespan = 0f;
 
         public bool IsRemoved = false;
 

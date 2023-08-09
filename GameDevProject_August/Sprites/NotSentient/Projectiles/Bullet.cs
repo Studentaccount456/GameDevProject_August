@@ -11,6 +11,8 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
 {
     public class Bullet : Projectile , ICloneable
     {
+        public float Lifespan = 0f;
+
         private float _timer;
 
         private float bulletSpeed = 4f;

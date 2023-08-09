@@ -19,13 +19,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 
         public bool HasDied = false;
 
-        private Animation animationMoveRight;
+        private Animation animationMove;
         private Animation animationMoveLeft;
         private Animation animationDeath;
         private Animation animationIdle;
-        private Animation animationShootLeft;
-        private Animation animationShootRight;
-
+        private Animation animationShoot;
 
 
         public override Rectangle Rectangle
@@ -40,15 +38,32 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             : base(texture)
         {
             _texture = texture;
-            animationMoveRight = new Animation();
-            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(0, 0, 30, 50)));
-            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(128, 0, 28, 50)));
-            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(256, 0, 28, 50)));
-            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(384, 0, 28, 50)));
-            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(512, 0, 30, 50)));
-            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(640, 0, 34, 50)));
-            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(768, 0, 34, 50)));
-            animationMoveRight.AddFrame(new AnimationFrame(new Rectangle(896, 0, 34, 50)));
+
+            // Difference off 128 x
+            // Standard walks right
+            #region MoveAnimation
+            animationMove = new Animation();
+            animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 30, 50)));
+            animationMove.AddFrame(new AnimationFrame(new Rectangle(128, 0, 28, 50)));
+            animationMove.AddFrame(new AnimationFrame(new Rectangle(256, 0, 28, 50)));
+            animationMove.AddFrame(new AnimationFrame(new Rectangle(384, 0, 28, 50)));
+            animationMove.AddFrame(new AnimationFrame(new Rectangle(512, 0, 30, 50)));
+            animationMove.AddFrame(new AnimationFrame(new Rectangle(640, 0, 34, 50)));
+            animationMove.AddFrame(new AnimationFrame(new Rectangle(768, 0, 34, 50)));
+            animationMove.AddFrame(new AnimationFrame(new Rectangle(896, 0, 34, 50)));
+            #endregion
+
+            #region animationShoot
+            animationShoot = new Animation();
+            animationShoot.AddFrame(new AnimationFrame(new Rectangle(0, 0, 34, 50)));
+            animationShoot.AddFrame(new AnimationFrame(new Rectangle(128, 0, 34, 50)));
+            animationShoot.AddFrame(new AnimationFrame(new Rectangle(256, 0, 34, 50)));
+            animationShoot.AddFrame(new AnimationFrame(new Rectangle(384, 0, 30, 50)));
+            animationShoot.AddFrame(new AnimationFrame(new Rectangle(512, 0, 28, 50)));
+            animationShoot.AddFrame(new AnimationFrame(new Rectangle(640, 0, 28, 50)));
+            animationShoot.AddFrame(new AnimationFrame(new Rectangle(768, 0, 28, 50)));
+            animationShoot.AddFrame(new AnimationFrame(new Rectangle(896, 0, 30, 50)));
+            #endregion
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites)
@@ -102,7 +117,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             Position += Velocity;
 
             Velocity = Vector2.Zero;
-            animationMoveRight.Update(gameTime);
+            animationMove.Update(gameTime);
         }
 
         private void AddBullet(List<Sprite> sprites)
@@ -154,8 +169,17 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         public override void Draw(SpriteBatch spriteBatch)
         {
             //spriteBatch.Draw(_texture, new Vector2(0,0), animation.CurrentFrame.SourceRectangle, Color.White);
-
-            spriteBatch.Draw(_texture, Position, animationMoveRight.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+            if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
+            {
+                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+            }
+            else if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
+            {
+                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+            } else
+            {
+                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+            }
         }
 
     }

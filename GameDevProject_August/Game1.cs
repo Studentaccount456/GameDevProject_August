@@ -121,7 +121,7 @@ namespace GameDevProject_August
                 sprite.Update(gameTime, _sprites);
             }
 
-            SpawnFallingCode();
+            //SpawnFallingCode();
 
             SpawnRegularPoint();
 
