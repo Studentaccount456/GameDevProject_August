@@ -1,6 +1,10 @@
 ﻿using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
+using GameDevProject_August.Sprites.Characters.Enemy;
 using GameDevProject_August.Sprites.Characters.Main;
+using GameDevProject_August.Sprites.Collectibles;
+using GameDevProject_August.Sprites.Projectiles;
+using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -22,15 +26,13 @@ namespace GameDevProject_August
 
         private List<Sprite> _sprites;
 
-        private SpriteFont _font;
-
         private Texture2D _regularPointTexture;
 
         private float _timer;
 
         private bool _hasStarted = false;
 
-        float scale = 2f;
+        private Score _score;
 
         public Game1()
         {
@@ -55,36 +57,14 @@ namespace GameDevProject_August
 
             Restart();
 
-
-
-            //new MainCharacter(personTexture)                
-            //{
-            //    Position = new Vector2(200,100),
-            //    Input = new Input()
-            //    {
-            //        Down = System.Windows.Forms.Keys.S,
-            //        Up = System.Windows.Forms.Keys.Z,
-            //        Left = System.Windows.Forms.Keys.Q,
-            //        Right = System.Windows.Forms.Keys.D
-            //    },
-            //    Bullet = new Bullet(Content.Load<Texture2D>("GoToeBullet"))
-
-            //},
-
-            /*_sprite1 = new Sprite(texture);
-            _sprite1.Position = new Vector2(100, 100);
-
-            _sprite2 = new Sprite(texture) 
-            {
-                Position = new Vector2(0,0),
-                Speed = 3f,
-            }; */
         }
 
         private void Restart()
         {
             var personTexture = Content.Load<Texture2D>("Textures\\Widthlook");
             var ratEnemyTexture = Content.Load<Texture2D>("Textures\\Enemy_Rat");
+            _score = new Score(Content.Load<SpriteFont>("Fonts\\Font_Score"), ScreenWidth, ScreenHeight);
+
 
 
             _sprites = new List<Sprite>()
@@ -100,9 +80,10 @@ namespace GameDevProject_August
                         Right = System.Windows.Forms.Keys.Right
                     },
                     Speed = 10f,
-                    Bullet = new Bullet(Content.Load<Texture2D>("Textures\\GoToeBullet"))
+                    Bullet = new Bullet(Content.Load<Texture2D>("Textures\\GoToeBullet")),
+                    Score = _score
                 },
-                new MainCharacter(ratEnemyTexture)
+                new RatEnemy(ratEnemyTexture)
                 {
                     Position = new Vector2((ScreenWidth / 2) - (ratEnemyTexture.Width / 2) + 5, ScreenHeight - ratEnemyTexture.Height + 6),
                     Input = new Input()
@@ -113,13 +94,10 @@ namespace GameDevProject_August
                         Right = System.Windows.Forms.Keys.D
                     },
                     Speed = 10f,
-                    Bullet = new Bullet(Content.Load<Texture2D>("Textures\\GoToeBullet"))
-
         },
             };
 
             _hasStarted = false;
-            _font = Content.Load<SpriteFont>("Fonts\\Font_Score");
             _regularPointTexture = Content.Load<Texture2D>("Textures\\Point_1");
         }
 
@@ -144,7 +122,7 @@ namespace GameDevProject_August
 
             //SpawnFallingCode();
 
-            //SpawnRegularPoint();
+            SpawnRegularPoint();
 
             PostUpdate();
 
@@ -211,6 +189,10 @@ namespace GameDevProject_August
                 sprite.Draw(_spriteBatch);
             }
 
+            _score.Draw(_spriteBatch);
+
+            /*
+            // Scores multiple players
             var fontY = 10;
             var i = 0;
             foreach (var sprite in _sprites)
@@ -220,6 +202,7 @@ namespace GameDevProject_August
                     _spriteBatch.DrawString(_font, String.Format("Player {0} : {1}", ++i, ((MainCharacter)sprite).Score), new Vector2(10, fontY += 20), Color.Red);
                 }
             }
+            */
 
             _spriteBatch.End();
 
