@@ -1,5 +1,6 @@
 ﻿using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
+using GameDevProject_August.Sprites.Characters.Main;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

@@ -6,21 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameDevProject_August.Sprites
+namespace GameDevProject_August.Sprites.Projectiles
 {
     public class FallingCode : Sprite
     {
-        public FallingCode(Texture2D texture) 
+        public FallingCode(Texture2D texture)
             : base(texture)
         {
-            Position = new Vector2(Game1.Random.Next(0, Game1.ScreenWidth - _texture.Width), - _texture.Height);
+            Position = new Vector2(Game1.Random.Next(0, Game1.ScreenWidth - _texture.Width), -_texture.Height);
             Speed = Game1.Random.Next(3, 10);
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             Position.Y += Speed;
-            
+
             // When the bottom of the window is hit
             if (Rectangle.Bottom >= Game1.ScreenHeight)
             {

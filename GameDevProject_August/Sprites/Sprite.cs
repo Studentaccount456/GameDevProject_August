@@ -59,7 +59,7 @@ namespace GameDevProject_August.Sprites
         
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, Position,null, Colour, 0, Origin,1, SpriteEffects.None,0);
+            spriteBatch.Draw(_texture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
         }
 
         public object Clone()

@@ -6,8 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
+using GameDevProject_August.Sprites.Projectiles;
+using GameDevProject_August.Sprites.Collectibles;
 
-namespace GameDevProject_August.Sprites
+namespace GameDevProject_August.Sprites.Characters.Main
 {
     public class MainCharacter : Sprite
     {
@@ -18,10 +20,10 @@ namespace GameDevProject_August.Sprites
 
         public bool HasDied = false;
 
-        public MainCharacter(Texture2D texture) 
+        public MainCharacter(Texture2D texture)
             : base(texture)
         {
-            
+
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites)
@@ -43,9 +45,9 @@ namespace GameDevProject_August.Sprites
                     continue;
                 }*/
 
-                if(sprite.Rectangle.Intersects(Rectangle) && sprite is FallingCode)
+                if (sprite.Rectangle.Intersects(Rectangle) && sprite is FallingCode)
                 {
-                    this.HasDied = true;
+                    HasDied = true;
                 }
 
                 if (sprite.Rectangle.Intersects(Rectangle) && sprite is Regular_Point)
@@ -54,16 +56,16 @@ namespace GameDevProject_August.Sprites
                     sprite.IsRemoved = true;
                 }
 
-                if (this.Velocity.X > 0 && this.IsTouchingLeft(sprite) ||
-                   (this.Velocity.X < 0 && this.IsTouchingRight(sprite)))
+                if (Velocity.X > 0 && IsTouchingLeft(sprite) ||
+                   Velocity.X < 0 && IsTouchingRight(sprite))
                 {
-                    this.Velocity.X = 0;
+                    Velocity.X = 0;
                 }
 
-                if (this.Velocity.Y > 0 && this.IsTouchingTop(sprite) ||
-                   (this.Velocity.Y < 0 && this.IsTouchingBottom(sprite)))
+                if (Velocity.Y > 0 && IsTouchingTop(sprite) ||
+                   Velocity.Y < 0 && IsTouchingBottom(sprite))
                 {
-                    this.Velocity.Y = 0;
+                    Velocity.Y = 0;
                 }
             }
 
@@ -75,9 +77,9 @@ namespace GameDevProject_August.Sprites
         private void AddBullet(List<Sprite> sprites)
         {
             var bullet = Bullet.Clone() as Bullet;
-            bullet.facingDirection = this.facingDirection;
-            bullet.Position = this.Position + OriginBullet;
-            bullet.Speed = this.Speed * 2;
+            bullet.facingDirection = facingDirection;
+            bullet.Position = Position + OriginBullet;
+            bullet.Speed = Speed * 2;
             bullet.Lifespan = 2f;
             bullet.Parent = this;
 
@@ -108,7 +110,7 @@ namespace GameDevProject_August.Sprites
                 facingDirection = Vector2.UnitX;
             }
 
-            Position = Vector2.Clamp(Position, new Vector2(0 - this.Rectangle.Width, 0 + (this.Rectangle.Height / 2)), new Vector2(Game1.ScreenWidth - (this.Rectangle.Width * 2), Game1.ScreenHeight - (this.Rectangle.Height / 2)));
+            Position = Vector2.Clamp(Position, new Vector2(0 - Rectangle.Width, 0 + Rectangle.Height / 2), new Vector2(Game1.ScreenWidth - Rectangle.Width * 2, Game1.ScreenHeight - Rectangle.Height / 2));
             //Position = Vector2.Clamp(Position, new Vector2(0,0), new Vector2(Game1.ScreenWidth - this.Rectangle.Width, Game1.ScreenHeight - this.Rectangle.Height));
 
             //Restrict movement on x-axis

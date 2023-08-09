@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GameDevProject_August.Sprites
+namespace GameDevProject_August.Sprites.Projectiles
 {
     public class Bullet : Sprite
     {
@@ -15,7 +15,7 @@ namespace GameDevProject_August.Sprites
 
         private float bulletSpeed = 4f;
 
-        public Bullet(Texture2D texture) 
+        public Bullet(Texture2D texture)
             : base(texture)
         {
 
