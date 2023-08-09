@@ -10,7 +10,8 @@ namespace GameDevProject_August.Sprites
     //TODO: Implement the class
     internal class Regular_Point : Sprite
     {
-        public Regular_Point(Texture2D texture) : base(texture)
+        public Regular_Point(Texture2D texture) 
+            : base(texture)
         {
         }
     }

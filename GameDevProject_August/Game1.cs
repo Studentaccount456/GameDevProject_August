@@ -29,6 +29,8 @@ namespace GameDevProject_August
 
         private bool _hasStarted = false;
 
+        float scale = 2f;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -51,6 +53,8 @@ namespace GameDevProject_August
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Restart();
+
+
 
             //new MainCharacter(personTexture)                
             //{
@@ -79,6 +83,8 @@ namespace GameDevProject_August
         private void Restart()
         {
             var personTexture = Content.Load<Texture2D>("Textures\\Widthlook");
+            var ratEnemyTexture = Content.Load<Texture2D>("Textures\\Enemy_Rat");
+
 
             _sprites = new List<Sprite>()
             {
@@ -95,6 +101,20 @@ namespace GameDevProject_August
                     Speed = 10f,
                     Bullet = new Bullet(Content.Load<Texture2D>("Textures\\GoToeBullet"))
                 },
+                new MainCharacter(ratEnemyTexture)
+                {
+                    Position = new Vector2((ScreenWidth / 2) - (ratEnemyTexture.Width / 2) + 5, ScreenHeight - ratEnemyTexture.Height + 6),
+                    Input = new Input()
+                    {
+                        Down = System.Windows.Forms.Keys.S,
+                        Up = System.Windows.Forms.Keys.Z,
+                        Left = System.Windows.Forms.Keys.Q,
+                        Right = System.Windows.Forms.Keys.D
+                    },
+                    Speed = 10f,
+                    Bullet = new Bullet(Content.Load<Texture2D>("Textures\\GoToeBullet"))
+
+        },
             };
 
             _hasStarted = false;
@@ -123,7 +143,7 @@ namespace GameDevProject_August
 
             //SpawnFallingCode();
 
-            SpawnRegularPoint();
+            //SpawnRegularPoint();
 
             PostUpdate();
 

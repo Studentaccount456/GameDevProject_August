@@ -38,10 +38,10 @@ namespace GameDevProject_August.Sprites
 
             foreach (var sprite in sprites)
             {
-                if(sprite is MainCharacter) 
+                /*if(sprite is MainCharacter) 
                 {
                     continue;
-                }
+                }*/
 
                 if(sprite.Rectangle.Intersects(Rectangle) && sprite is FallingCode)
                 {
@@ -53,15 +53,30 @@ namespace GameDevProject_August.Sprites
                     Score++;
                     sprite.IsRemoved = true;
                 }
+
+                if (this.Velocity.X > 0 && this.IsTouchingLeft(sprite) ||
+                   (this.Velocity.X < 0 && this.IsTouchingRight(sprite)))
+                {
+                    this.Velocity.X = 0;
+                }
+
+                if (this.Velocity.Y > 0 && this.IsTouchingTop(sprite) ||
+                   (this.Velocity.Y < 0 && this.IsTouchingBottom(sprite)))
+                {
+                    this.Velocity.Y = 0;
+                }
             }
 
+            Position += Velocity;
+
+            Velocity = Vector2.Zero;
         }
 
         private void AddBullet(List<Sprite> sprites)
         {
             var bullet = Bullet.Clone() as Bullet;
             bullet.facingDirection = this.facingDirection;
-            bullet.Position = this.Position;
+            bullet.Position = this.Position + OriginBullet;
             bullet.Speed = this.Speed * 2;
             bullet.Lifespan = 2f;
             bullet.Parent = this;
@@ -76,20 +91,20 @@ namespace GameDevProject_August.Sprites
 
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Up))
             {
-                Position.Y -= Speed;
+                Velocity.Y -= Speed;
             }
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
             {
-                Position.Y += Speed;
+                Velocity.Y += Speed;
             }
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
             {
-                Position.X -= Speed;
+                Velocity.X -= Speed;
                 facingDirection = -Vector2.UnitX;
             }
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
             {
-                Position.X += Speed;
+                Velocity.X += Speed;
                 facingDirection = Vector2.UnitX;
             }
 

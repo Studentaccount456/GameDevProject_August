@@ -15,6 +15,7 @@ namespace GameDevProject_August.Sprites
         protected Texture2D _texture;
         public Vector2 Position;
         public Vector2 Origin;
+        public Vector2 OriginBullet;
         public Vector2 Velocity;
 
 
@@ -44,19 +45,11 @@ namespace GameDevProject_August.Sprites
             }
         }
 
-        public Rectangle Rectangle2
-        {
-            get
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
-            }
-        }
-
-
         public Sprite(Texture2D texture)
         {
             _texture = texture;
-            Origin = new Vector2(-(_texture.Width), _texture.Height / 2);
+            Origin = Vector2.Zero;
+            OriginBullet = new Vector2(0, _texture.Height / 2);
         }
 
         public virtual void Update(GameTime gameTime, List<Sprite> sprites)
@@ -82,6 +75,30 @@ namespace GameDevProject_August.Sprites
                    this.Rectangle.Left < sprite.Rectangle.Left &&
                    this.Rectangle.Bottom > sprite.Rectangle.Top &&
                    this.Rectangle.Top < sprite.Rectangle.Bottom;
+        }
+
+        protected bool IsTouchingRight(Sprite sprite)
+        {
+            return this.Rectangle.Left + this.Velocity.X < sprite.Rectangle.Right &&
+                   this.Rectangle.Right > sprite.Rectangle.Right &&
+                   this.Rectangle.Bottom > sprite.Rectangle.Top &&
+                   this.Rectangle.Top < sprite.Rectangle.Bottom;
+        }
+
+        protected bool IsTouchingTop(Sprite sprite)
+        {
+            return this.Rectangle.Bottom + this.Velocity.Y > sprite.Rectangle.Top &&
+                   this.Rectangle.Top < sprite.Rectangle.Top &&
+                   this.Rectangle.Right > sprite.Rectangle.Left &&
+                   this.Rectangle.Left < sprite.Rectangle.Right;
+        }
+
+        protected bool IsTouchingBottom(Sprite sprite)
+        {
+            return this.Rectangle.Top + this.Velocity.Y < sprite.Rectangle.Bottom &&
+                   this.Rectangle.Bottom > sprite.Rectangle.Bottom &&
+                   this.Rectangle.Right > sprite.Rectangle.Left &&
+                   this.Rectangle.Left < sprite.Rectangle.Right;
         }
 
         #endregion
