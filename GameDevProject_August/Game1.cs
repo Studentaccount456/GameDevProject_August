@@ -1,9 +1,11 @@
-﻿using GameDevProject_August.Sprites;
+﻿using GameDevProject_August.Models;
+using GameDevProject_August.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace GameDevProject_August
 {
@@ -18,6 +20,10 @@ namespace GameDevProject_August
         public static int ScreenHeight;
 
         private List<Sprite> _sprites;
+
+        private SpriteFont _font;
+
+        private Texture2D _regularPointTexture;
 
         private float _timer;
 
@@ -92,16 +98,18 @@ namespace GameDevProject_August
             };
 
             _hasStarted = false;
+            _font = Content.Load<SpriteFont>("Font_Score");
+            _regularPointTexture = Content.Load<Texture2D>("Point_1");
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.C)) 
-            { 
+            if (Keyboard.GetState().IsKeyDown(Keys.C))
+            {
                 _hasStarted = true;
             }
 
-            if(!_hasStarted)
+            if (!_hasStarted)
             {
                 return;
             }
@@ -113,15 +121,39 @@ namespace GameDevProject_August
                 sprite.Update(gameTime, _sprites);
             }
 
+            //SpawnFallingCode();
+
+            SpawnRegularPoint();
+
+            PostUpdate();
+
+            base.Update(gameTime);
+        }
+
+        private void SpawnFallingCode()
+        {
             if (_timer > 0.25f)
             {
                 _timer = 0;
                 _sprites.Add(new FallingCode(Content.Load<Texture2D>("GoToeBullet")));
             }
+        }
 
-            PostUpdate();
+        private void SpawnRegularPoint()
+        {
+            if (_timer > 1)
+            {
+                _timer = 0;
 
-            base.Update(gameTime);
+                var xPos = Random.Next(0, ScreenWidth - _regularPointTexture.Width);
+                var yPos = Random.Next(0, ScreenHeight - _regularPointTexture.Height);
+
+                _sprites.Add(new Sprite(_regularPointTexture)
+                {
+                    Position = new Vector2(xPos, yPos)
+
+                });
+            }
         }
 
         private void PostUpdate()
@@ -156,6 +188,16 @@ namespace GameDevProject_August
             foreach (var sprite in _sprites)
             {
                 sprite.Draw(_spriteBatch);
+            }
+
+            var fontY = 10;
+            var i = 0;
+            foreach (var sprite in _sprites)
+            {
+                if(sprite is MainCharacter)
+                {
+                    _spriteBatch.DrawString(_font, String.Format("Player {0} : {1}", ++i, ((MainCharacter)sprite).Score), new Vector2(10, fontY += 20), Color.Red);
+                }
             }
 
             _spriteBatch.End();

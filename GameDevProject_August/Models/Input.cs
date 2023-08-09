@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GameDevProject_August
+namespace GameDevProject_August.Models
 {
     public class Input
     {

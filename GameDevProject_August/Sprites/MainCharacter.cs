@@ -11,6 +11,9 @@ namespace GameDevProject_August.Sprites
 {
     public class MainCharacter : Sprite
     {
+        // Might want to put it in a class if it's a score for entire game
+        public int Score;
+
         public Bullet Bullet;
 
         public bool HasDied = false;
@@ -44,9 +47,13 @@ namespace GameDevProject_August.Sprites
                 {
                     this.HasDied = true;
                 }
-            }
 
-            Position.X = MathHelper.Clamp(Position.X, 0, Game1.ScreenWidth - Rectangle.Width);
+                if (sprite.Rectangle.Intersects(Rectangle) && sprite is not FallingCode)
+                {
+                    Score++;
+                    sprite.IsRemoved = true;
+                }
+            }
 
         }
 
@@ -85,6 +92,13 @@ namespace GameDevProject_August.Sprites
                 Position.X += Speed;
                 facingDirection = Vector2.UnitX;
             }
+
+            Position = Vector2.Clamp(Position, new Vector2(0 - this.Rectangle.Width, 0 + (this.Rectangle.Height / 2)), new Vector2(Game1.ScreenWidth - (this.Rectangle.Width * 2), Game1.ScreenHeight - (this.Rectangle.Height / 2)));
+            //Position = Vector2.Clamp(Position, new Vector2(0,0), new Vector2(Game1.ScreenWidth - this.Rectangle.Width, Game1.ScreenHeight - this.Rectangle.Height));
+
+            //Restrict movement on x-axis
+
+            //Position.X = MathHelper.Clamp(Position.X, 0, Game1.ScreenWidth - Rectangle.Width);
         }
     }
 }
