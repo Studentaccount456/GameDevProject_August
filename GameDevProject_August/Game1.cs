@@ -62,7 +62,10 @@ namespace GameDevProject_August
 
         private void Restart()
         {
-            var personTexture = Content.Load<Texture2D>("Animations\\MainCharacter\\MC_MoveRight");
+            var personMoveTexture = Content.Load<Texture2D>("Animations\\MainCharacter\\MC_MoveRight");
+            var personShootTexture = Content.Load<Texture2D>("Animations\\MainCharacter\\MC_ShootRight"); ;
+            var personIdleTexture = Content.Load<Texture2D>("Animations\\MainCharacter\\MC_Idle"); ;
+            var personDeathTexture = Content.Load<Texture2D>("Animations\\MainCharacter\\MC_Dies"); ;
             var ratEnemyTexture = Content.Load<Texture2D>("Textures\\Enemy_Rat");
             _score = new Score(Content.Load<SpriteFont>("Fonts\\Font_Score"), ScreenWidth, ScreenHeight);
 
@@ -70,7 +73,7 @@ namespace GameDevProject_August
 
             _sprites = new List<Sprite>()
             {
-                new MainCharacter(personTexture)
+                new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture)
                 {
                     Position = new Vector2((ScreenWidth / 2) /*- (personTexture.Width / 2)*/, ScreenHeight /*- personTexture.Height*/),
                     Input = new Input()
@@ -78,7 +81,8 @@ namespace GameDevProject_August
                         Down = System.Windows.Forms.Keys.Down,
                         Up = System.Windows.Forms.Keys.Up,
                         Left = System.Windows.Forms.Keys.Left,
-                        Right = System.Windows.Forms.Keys.Right
+                        Right = System.Windows.Forms.Keys.Right,
+                        Shoot = System.Windows.Forms.Keys.Space
                     },
                     Speed = 10f,
                     Bullet = new Bullet(Content.Load<Texture2D>("Textures\\GoToeBullet")),
@@ -92,7 +96,8 @@ namespace GameDevProject_August
                         Down = System.Windows.Forms.Keys.S,
                         Up = System.Windows.Forms.Keys.Z,
                         Left = System.Windows.Forms.Keys.Q,
-                        Right = System.Windows.Forms.Keys.D
+                        Right = System.Windows.Forms.Keys.D,
+                        Shoot = System.Windows.Forms.Keys.Space
                     },
                     Speed = 10f,
         },

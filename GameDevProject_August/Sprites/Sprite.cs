@@ -26,6 +26,8 @@ namespace GameDevProject_August.Sprites
         protected KeyboardState _previousKey;
 
         public Vector2 facingDirection = Vector2.UnitX;
+        // False is left en Right is True
+        public bool facingDirectionIndicator = true;
 
         public Sprite Parent;
 

@@ -12,7 +12,6 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 {
     public class MainCharacter : Sprite
     {
-        // Might want to put it in a class if it's a score for entire game
         public Score Score;
 
         public Bullet Bullet;
@@ -20,11 +19,13 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         public bool HasDied = false;
 
         private Animation animationMove;
-        private Animation animationMoveLeft;
         private Animation animationDeath;
         private Animation animationIdle;
         private Animation animationShoot;
 
+        public Texture2D ShootTexture;
+        public Texture2D IdleExture;
+        public Texture2D DeathTexture;
 
         public override Rectangle Rectangle
         {
@@ -34,10 +35,13 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             }
         }
 
-        public MainCharacter(Texture2D texture)
-            : base(texture)
+        public MainCharacter(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture)
+            : base(moveTexture)
         {
-            _texture = texture;
+            _texture = moveTexture;
+            ShootTexture = shootTexture;
+            IdleExture = idleTexture;
+            DeathTexture = deathTexture;
 
             // Difference off 128 x
             // Standard walks right
@@ -52,17 +56,37 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             animationMove.AddFrame(new AnimationFrame(new Rectangle(768, 0, 34, 50)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(896, 0, 34, 50)));
             #endregion
-
+            
+            //Height is 48 for each frame
             #region animationShoot
             animationShoot = new Animation();
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(0, 0, 34, 50)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(128, 0, 34, 50)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(256, 0, 34, 50)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(384, 0, 30, 50)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(512, 0, 28, 50)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(640, 0, 28, 50)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(768, 0, 28, 50)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(896, 0, 30, 50)));
+            animationShoot.AddFrame(new AnimationFrame(new Rectangle(0, 0, 36, 50)));
+            animationShoot.AddFrame(new AnimationFrame(new Rectangle(126, 0, 44, 50)));
+            animationShoot.AddFrame(new AnimationFrame(new Rectangle(256, 0, 40, 50)));
+            animationShoot.AddFrame(new AnimationFrame(new Rectangle(384, 0, 44, 50)));
+            #endregion
+
+            //Height is 44 for each frame
+            #region Idle
+            animationIdle = new Animation();
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(0, 0, 32, 50)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(128, 0, 32, 50)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(256, 0, 32, 50)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(384, 0, 32, 50)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(512, 0, 32, 50)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(640, 0, 32, 50)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(768, 0, 32, 50)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(896, 0, 32, 50)));
+            #endregion
+
+            //Height is 44 for each frame
+            #region DeathAnimation
+            animationDeath = new Animation();
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 0, 32, 44)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 0, 42, 44)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(260, 0, 50, 44)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(388, 0, 50, 44)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(516, 0, 50, 44)));
             #endregion
         }
 
@@ -118,6 +142,9 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 
             Velocity = Vector2.Zero;
             animationMove.Update(gameTime);
+            animationShoot.Update(gameTime);
+            animationIdle.Update(gameTime);
+            animationDeath.Update(gameTime);
         }
 
         private void AddBullet(List<Sprite> sprites)
@@ -149,26 +176,22 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             {
                 Velocity.X -= Speed;
                 facingDirection = -Vector2.UnitX;
+                facingDirectionIndicator = false;
             }
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
             {
                 Velocity.X += Speed;
                 facingDirection = Vector2.UnitX;
+                facingDirectionIndicator = true;
             }
 
             Position = Vector2.Clamp(Position, new Vector2(0 - Rectangle.Width, 0 + Rectangle.Height / 2), new Vector2(Game1.ScreenWidth - Rectangle.Width, Game1.ScreenHeight - Rectangle.Height / 2));
-            //Position = Vector2.Clamp(Position, new Vector2(0,0), new Vector2(Game1.ScreenWidth - this.Rectangle.Width, Game1.ScreenHeight - this.Rectangle.Height));
-
-            //Restrict movement on x-axis
-
-            //Position.X = MathHelper.Clamp(Position.X, 0, Game1.ScreenWidth - Rectangle.Width);
         }
 
 
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(_texture, new Vector2(0,0), animation.CurrentFrame.SourceRectangle, Color.White);
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
             {
                 spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
@@ -176,10 +199,26 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             else if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
             {
                 spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
-            } else
+            } else if (Keyboard.GetState().IsKeyDown((Keys)Input.Shoot) && facingDirectionIndicator == true)
             {
-                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(ShootTexture, Position, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
+            else if (Keyboard.GetState().IsKeyDown((Keys)Input.Shoot) && facingDirectionIndicator == false)
+            {
+                spriteBatch.Draw(ShootTexture, Position, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+            }
+            /* Death animation
+            else
+            {
+                spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+            }
+            */
+            
+            else
+            {
+                spriteBatch.Draw(IdleExture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+            }
+            
         }
 
     }

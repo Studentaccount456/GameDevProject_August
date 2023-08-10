@@ -18,6 +18,7 @@
   <ItemGroup>
     <Folder Include="Content\Animations\DragonFly\" />
     <Folder Include="Content\Animations\Porcupine\" />
+    <Folder Include="Sprites\Sentient\Characters\Enemy\Active\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />

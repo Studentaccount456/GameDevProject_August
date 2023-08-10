@@ -16,5 +16,7 @@ namespace GameDevProject_August.Models
 
         public Keys Down { get; set; }
 
+        public Keys Shoot { get; set; }
+
     }
 }

@@ -88,11 +88,13 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             {
                 Velocity.X -= Speed;
                 facingDirection = -Vector2.UnitX;
+                facingDirectionIndicator = false;
             }
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
             {
                 Velocity.X += Speed;
                 facingDirection = Vector2.UnitX;
+                facingDirectionIndicator = true;
             }
 
             Position = Vector2.Clamp(Position, new Vector2(0 - Rectangle.Width, 0 + Rectangle.Height / 2), new Vector2(Game1.ScreenWidth - Rectangle.Width, Game1.ScreenHeight - Rectangle.Height / 2));

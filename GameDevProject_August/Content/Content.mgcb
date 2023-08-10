@@ -25,6 +25,30 @@
 /processorParam:TextureFormat=Color
 /build:Animations/DragonFly/DragonFly_MoveRight.png
 
+#begin Animations/MainCharacter/MC_Dies.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Animations/MainCharacter/MC_Dies.png
+
+#begin Animations/MainCharacter/MC_Idle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Animations/MainCharacter/MC_Idle.png
+
 #begin Animations/MainCharacter/MC_MoveRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -36,6 +60,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Animations/MainCharacter/MC_MoveRight.png
+
+#begin Animations/MainCharacter/MC_ShootRight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Animations/MainCharacter/MC_ShootRight.png
 
 #begin Animations/Minotaur/Minotaur_Attack.png
 /importer:TextureImporter
