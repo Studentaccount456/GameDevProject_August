@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameDevProject_August.Sprites.NotSentient.Projectiles
 {
-    public class Bullet : Projectile , ICloneable
+    public class PlayerBullet : Projectile , ICloneable
     {
         public float Lifespan = 0f;
 
@@ -17,7 +17,7 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
 
         private float bulletSpeed = 4f;
 
-        public Bullet(Texture2D texture)
+        public PlayerBullet(Texture2D texture)
             : base(texture)
         {
 

@@ -14,7 +14,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
     {
         public Score Score;
 
-        public Bullet Bullet;
+        public PlayerBullet Bullet;
 
         public bool HasDied = false;
 
@@ -24,8 +24,27 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         private Animation animationShoot;
 
         public Texture2D ShootTexture;
-        public Texture2D IdleExture;
+        public Texture2D IdleTexture;
         public Texture2D DeathTexture;
+        public Texture2D StandStillTexture;
+
+        private bool canMove = true;
+
+        private bool isDeathAnimating = false;
+        private bool isShootingAnimating = false;
+
+        private bool isShootingCooldown = false;
+        private const float ShootingCooldownDuration = 0.5f;
+        private float shootingCooldownTimer = 0f;
+
+        private bool isIdling = false;
+        private const float IdleTimeoutDuration = 3.0f;
+        private float idleTimer = 0f;
+        private bool standStillNoIdle = false;
+
+
+
+
 
         public override Rectangle Rectangle
         {
@@ -35,15 +54,15 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             }
         }
 
-        public MainCharacter(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture)
+        public MainCharacter(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture)
             : base(moveTexture)
         {
             _texture = moveTexture;
             ShootTexture = shootTexture;
-            IdleExture = idleTexture;
+            IdleTexture = idleTexture;
             DeathTexture = deathTexture;
+            StandStillTexture = standStillTexture;
 
-            // Difference off 128 x
             // Standard walks right
             #region MoveAnimation
             animationMove = new Animation();
@@ -60,6 +79,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             //Height is 48 for each frame
             #region animationShoot
             animationShoot = new Animation();
+            animationShoot.fps = 4;
             animationShoot.AddFrame(new AnimationFrame(new Rectangle(0, 0, 36, 50)));
             animationShoot.AddFrame(new AnimationFrame(new Rectangle(126, 0, 44, 50)));
             animationShoot.AddFrame(new AnimationFrame(new Rectangle(256, 0, 40, 50)));
@@ -69,14 +89,15 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             //Height is 44 for each frame
             #region Idle
             animationIdle = new Animation();
-            animationIdle.AddFrame(new AnimationFrame(new Rectangle(0, 0, 32, 50)));
-            animationIdle.AddFrame(new AnimationFrame(new Rectangle(128, 0, 32, 50)));
-            animationIdle.AddFrame(new AnimationFrame(new Rectangle(256, 0, 32, 50)));
-            animationIdle.AddFrame(new AnimationFrame(new Rectangle(384, 0, 32, 50)));
-            animationIdle.AddFrame(new AnimationFrame(new Rectangle(512, 0, 32, 50)));
-            animationIdle.AddFrame(new AnimationFrame(new Rectangle(640, 0, 32, 50)));
-            animationIdle.AddFrame(new AnimationFrame(new Rectangle(768, 0, 32, 50)));
-            animationIdle.AddFrame(new AnimationFrame(new Rectangle(896, 0, 32, 50)));
+            animationIdle.fps = 8;
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(0, 0, 32, 44)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(128, 0, 32, 44)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(256, 0, 32, 44)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(384, 0, 32, 44)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(512, 0, 32, 44)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(640, 0, 32, 44)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(768, 0, 32, 44)));
+            animationIdle.AddFrame(new AnimationFrame(new Rectangle(896, 0, 32, 44)));
             #endregion
 
             //Height is 44 for each frame
@@ -95,11 +116,65 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             _previousKey = _currentKey;
             _currentKey = Keyboard.GetState();
 
-            Move();
+            bool keyPressed = _currentKey.IsKeyDown(Keys.Left) || _currentKey.IsKeyDown(Keys.Right) ||
+                  _currentKey.IsKeyDown(Keys.Up) || _currentKey.IsKeyDown(Keys.Down) ||
+                  _currentKey.IsKeyDown(Keys.Space) && isShootingAnimating;
 
-            if (_currentKey.IsKeyDown(Keys.Space) && _previousKey.IsKeyUp(Keys.Space))
+            if (keyPressed)
+            {
+                idleTimer = 0f;
+                isIdling = false;
+                standStillNoIdle = false;
+
+            }
+            else
+            {
+                idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (idleTimer >= IdleTimeoutDuration)
+                {
+                    isIdling = true;
+                    standStillNoIdle = false;
+                } else
+                {
+                    standStillNoIdle = true;
+                }
+            }
+
+
+            // Shooting cooldown
+            if (isShootingCooldown)
+            {
+                shootingCooldownTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (shootingCooldownTimer >= ShootingCooldownDuration)
+                {
+                    isShootingCooldown = false;
+                }
+            }
+
+            if (isShootingAnimating)
+            {
+                animationShoot.Update(gameTime);
+                if (animationShoot.IsAnimationComplete)
+                {
+                    isShootingAnimating = false;
+                }
+            }
+            else
+            {
+                if (canMove)
+                {
+                    Move();
+                }
+                animationMove.Update(gameTime);
+            }
+
+            if (_currentKey.IsKeyDown(Keys.Space) && _previousKey.IsKeyUp(Keys.Space) && !isShootingCooldown && !isShootingAnimating)
             {
                 AddBullet(sprites);
+                isShootingAnimating = true; 
+
+                isShootingCooldown = true;
+                shootingCooldownTimer = 0f;
             }
 
             foreach (var sprite in sprites)
@@ -112,6 +187,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                 if (sprite.Rectangle.Intersects(Rectangle) && sprite is FallingCode)
                 {
                     HasDied = true;
+                    isDeathAnimating = true;
                 }
 
                 if (sprite.Rectangle.Intersects(Rectangle) && sprite is Regular_Point)
@@ -120,7 +196,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     sprite.IsRemoved = true;
                 }
 
-                if (sprite is RatEnemy)
+                if (sprite is RatMage)
                 {
                     if (Velocity.X > 0 && IsTouchingLeft(sprite) ||
                         Velocity.X < 0 && IsTouchingRight(sprite))
@@ -141,15 +217,21 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             Position += Velocity;
 
             Velocity = Vector2.Zero;
-            animationMove.Update(gameTime);
             animationShoot.Update(gameTime);
-            animationIdle.Update(gameTime);
-            animationDeath.Update(gameTime);
+            if (!isShootingAnimating)
+            {
+                    animationIdle.Update(gameTime);
+            }
+            if (isDeathAnimating == true) 
+            {
+                animationDeath.Update(gameTime);
+            }
         }
+
 
         private void AddBullet(List<Sprite> sprites)
         {
-            var bullet = Bullet.Clone() as Bullet;
+            var bullet = Bullet.Clone() as PlayerBullet;
             bullet.facingDirection = facingDirection;
             bullet.Position = Position + OriginBullet;
             bullet.Speed = Speed;
@@ -192,33 +274,47 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
+            if (isDeathAnimating)
+            {
+                spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                if (animationDeath.IsAnimationComplete)
+                {
+                    isDeathAnimating = false; // Stop death animation
+                }
+            }
+            else if (isShootingAnimating)
+            {
+                if(facingDirectionIndicator == true)
+                {
+                    spriteBatch.Draw(ShootTexture, Position, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                } else if (facingDirectionIndicator == false)
+                {
+                    spriteBatch.Draw(ShootTexture, Position, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                }
+                if (animationShoot.IsAnimationComplete)
+                {
+                    isShootingAnimating = false;
+                }
+            }
+            else if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
             {
                 spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
             else if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
             {
                 spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
-            } else if (Keyboard.GetState().IsKeyDown((Keys)Input.Shoot) && facingDirectionIndicator == true)
+            }         
+            else if (isIdling)
             {
-                spriteBatch.Draw(ShootTexture, Position, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-            }
-            else if (Keyboard.GetState().IsKeyDown((Keys)Input.Shoot) && facingDirectionIndicator == false)
+                spriteBatch.Draw(IdleTexture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+            } else if (facingDirectionIndicator == true && standStillNoIdle == true && !isShootingAnimating)
             {
-                spriteBatch.Draw(ShootTexture, Position, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(StandStillTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
-            /* Death animation
-            else
+            else if (facingDirectionIndicator == false && standStillNoIdle == true && !isShootingAnimating)
             {
-                spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(StandStillTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
-            */
-            
-            else
-            {
-                spriteBatch.Draw(IdleExture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-            }
-            
         }
 
     }

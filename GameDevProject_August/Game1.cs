@@ -65,15 +65,19 @@ namespace GameDevProject_August
             var personMoveTexture = Content.Load<Texture2D>("Animations\\MainCharacter\\MC_MoveRight");
             var personShootTexture = Content.Load<Texture2D>("Animations\\MainCharacter\\MC_ShootRight"); ;
             var personIdleTexture = Content.Load<Texture2D>("Animations\\MainCharacter\\MC_Idle"); ;
-            var personDeathTexture = Content.Load<Texture2D>("Animations\\MainCharacter\\MC_Dies"); ;
-            var ratEnemyTexture = Content.Load<Texture2D>("Textures\\Enemy_Rat");
+            var personDeathTexture = Content.Load<Texture2D>("Animations\\MainCharacter\\MC_Dies");
+            var personStandStillTexture = Content.Load<Texture2D>("Animations\\MainCharacter\\MC_StandStill");
+
+            var ratMoveTexture = Content.Load<Texture2D>("Animations\\Rat\\Rat_MoveRight");
+            var ratCastTexture = Content.Load<Texture2D>("Animations\\Rat\\Rat_Cast_One");
+            var ratIdleTexture = Content.Load<Texture2D>("Animations\\Rat\\Rat_Idle");
             _score = new Score(Content.Load<SpriteFont>("Fonts\\Font_Score"), ScreenWidth, ScreenHeight);
 
 
 
             _sprites = new List<Sprite>()
             {
-                new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture)
+                new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture)
                 {
                     Position = new Vector2((ScreenWidth / 2) /*- (personTexture.Width / 2)*/, ScreenHeight /*- personTexture.Height*/),
                     Input = new Input()
@@ -85,12 +89,12 @@ namespace GameDevProject_August
                         Shoot = System.Windows.Forms.Keys.Space
                     },
                     Speed = 10f,
-                    Bullet = new Bullet(Content.Load<Texture2D>("Textures\\GoToeBullet")),
+                    Bullet = new PlayerBullet(Content.Load<Texture2D>("Textures\\GoToeBullet")),
                     Score = _score
                 },
-                new RatEnemy(ratEnemyTexture)
+                new RatMage(ratMoveTexture, ratCastTexture, ratIdleTexture)
                 {
-                    Position = new Vector2((ScreenWidth / 2) - (ratEnemyTexture.Width / 2) + 5, ScreenHeight - ratEnemyTexture.Height + 6),
+                    Position = new Vector2((ScreenWidth / 2) - (ratMoveTexture.Width / 2) + 5, ScreenHeight - ratMoveTexture.Height + 6),
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.S,
@@ -100,6 +104,8 @@ namespace GameDevProject_August
                         Shoot = System.Windows.Forms.Keys.Space
                     },
                     Speed = 10f,
+                    Bullet = new EnemyBullet(Content.Load<Texture2D>("Textures\\GoToeBullet")),
+
         },
             };
 

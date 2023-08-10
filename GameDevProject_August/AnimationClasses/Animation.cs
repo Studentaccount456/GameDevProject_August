@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,15 @@ namespace GameDevProject_August.AnimationClasses
     public class Animation
     {
         public AnimationFrame CurrentFrame { get; set; }
-        private List<AnimationFrame> frames;
+        public List<AnimationFrame> frames;
         private int counter;
+        public int fps = 12;
+
+        public bool IsAnimationComplete
+        {
+            get { return counter >= frames.Count - 1; }
+        }
+
         public Animation()
         {
             frames = new List<AnimationFrame>();
@@ -23,6 +31,11 @@ namespace GameDevProject_August.AnimationClasses
             CurrentFrame = frames[0];
         }
 
+        public void Reset()
+        {
+            counter = 0;
+        }
+
         private double secondCounter = 0;
 
         public void Update(GameTime gameTime)
@@ -30,7 +43,6 @@ namespace GameDevProject_August.AnimationClasses
             CurrentFrame = frames[counter];
 
             secondCounter += gameTime.ElapsedGameTime.TotalSeconds;
-            int fps = 12;
 
             if (secondCounter >= 1d / fps)
             {
@@ -41,7 +53,6 @@ namespace GameDevProject_August.AnimationClasses
             if (counter >= frames.Count)
             {
                 counter = 0;
-
             }
         }
     }
