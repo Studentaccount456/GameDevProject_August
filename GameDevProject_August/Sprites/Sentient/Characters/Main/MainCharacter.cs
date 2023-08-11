@@ -267,7 +267,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                 facingDirectionIndicator = true;
             }
 
-            Position = Vector2.Clamp(Position, new Vector2(0 - Rectangle.Width, 0 + Rectangle.Height / 2), new Vector2(Game1.ScreenWidth - Rectangle.Width, Game1.ScreenHeight - Rectangle.Height / 2));
+            Position = Vector2.Clamp(Position, new Vector2(0, 0 + Rectangle.Height / 4), new Vector2(Game1.ScreenWidth - Rectangle.Width, Game1.ScreenHeight - Rectangle.Height));
         }
 
 
@@ -307,11 +307,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             else if (isIdling)
             {
                 spriteBatch.Draw(IdleTexture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-            } else if (facingDirectionIndicator == true && standStillNoIdle == true && !isShootingAnimating)
+            } else if (facingDirectionIndicator == true && standStillNoIdle == true && !isShootingAnimating || (facingDirectionIndicator == true && !isShootingAnimating && _currentKey.IsKeyDown(Keys.Down)) || (facingDirectionIndicator == true && !isShootingAnimating && _currentKey.IsKeyDown(Keys.Up)))
             {
                 spriteBatch.Draw(StandStillTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
-            else if (facingDirectionIndicator == false && standStillNoIdle == true && !isShootingAnimating)
+            else if (facingDirectionIndicator == false && standStillNoIdle == true && !isShootingAnimating || (facingDirectionIndicator == false && !isShootingAnimating && _currentKey.IsKeyDown(Keys.Up)) || (facingDirectionIndicator == false && !isShootingAnimating && _currentKey.IsKeyDown(Keys.Down)))
             {
                 spriteBatch.Draw(StandStillTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }

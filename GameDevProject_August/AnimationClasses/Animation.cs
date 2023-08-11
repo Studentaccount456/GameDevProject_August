@@ -15,6 +15,11 @@ namespace GameDevProject_August.AnimationClasses
         private int counter;
         public int fps = 12;
 
+        public int CurrentFrameIndex
+        {
+            get { return counter; }
+        }
+
         public bool IsAnimationComplete
         {
             get { return counter >= frames.Count - 1; }

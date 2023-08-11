@@ -42,8 +42,20 @@ namespace GameDevProject_August
 
             Random = new Random();
 
+            /*
             ScreenWidth = _graphics.PreferredBackBufferWidth;
             ScreenHeight = _graphics.PreferredBackBufferHeight;
+            */
+
+            ScreenWidth = 1280;
+            ScreenHeight = 720;
+
+            // Set the desired resolution
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+
+            // Apply the changes
+            _graphics.ApplyChanges();
         }
 
         protected override void Initialize()
@@ -71,7 +83,18 @@ namespace GameDevProject_August
             var ratMoveTexture = Content.Load<Texture2D>("Animations\\Rat\\Rat_MoveRight");
             var ratCastTexture = Content.Load<Texture2D>("Animations\\Rat\\Rat_Cast_One");
             var ratIdleTexture = Content.Load<Texture2D>("Animations\\Rat\\Rat_Idle");
+            var ratStandStillTexture = Content.Load<Texture2D>("Animations\\Rat\\Rat_StandStill");
             _score = new Score(Content.Load<SpriteFont>("Fonts\\Font_Score"), ScreenWidth, ScreenHeight);
+
+            var porcupineMoveTexture = Content.Load<Texture2D>("Animations\\Porcupine\\Porcupine_MoveRight");
+            var porcupineStandStillTexture = Content.Load<Texture2D>("Animations\\Porcupine\\Porcupine_StandStill");
+
+
+            var dragonflyMoveTexture = Content.Load<Texture2D>("Animations\\DragonFly\\DragonFly_MoveRight");
+
+
+            //Yet to insert
+            var glitchDeathTexture = Content.Load<Texture2D>("Animations\\Death\\GlitchDeathEffect");
 
 
 
@@ -92,7 +115,36 @@ namespace GameDevProject_August
                     Bullet = new PlayerBullet(Content.Load<Texture2D>("Textures\\GoToeBullet")),
                     Score = _score
                 },
-                new RatMage(ratMoveTexture, ratCastTexture, ratIdleTexture)
+                /*
+                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture)
+                {
+                    Position = new Vector2((ScreenWidth / 2) - (ratMoveTexture.Width / 2) + 5, ScreenHeight - ratMoveTexture.Height + 6),
+                    Input = new Input()
+                    {
+                        Down = System.Windows.Forms.Keys.S,
+                        Up = System.Windows.Forms.Keys.Z,
+                        Left = System.Windows.Forms.Keys.Q,
+                        Right = System.Windows.Forms.Keys.D,
+                        Shoot = System.Windows.Forms.Keys.Space
+                    },
+                    Speed = 2f,
+                }
+                */
+                new Porcupine(porcupineMoveTexture, glitchDeathTexture,porcupineStandStillTexture)
+                {
+                    Position = new Vector2((ScreenWidth / 2) - (ratMoveTexture.Width / 2) + 5, ScreenHeight - ratMoveTexture.Height + 6),
+                    Input = new Input()
+                    {
+                        Down = System.Windows.Forms.Keys.S,
+                        Up = System.Windows.Forms.Keys.Z,
+                        Left = System.Windows.Forms.Keys.Q,
+                        Right = System.Windows.Forms.Keys.D,
+                        Shoot = System.Windows.Forms.Keys.Space
+                    },
+                    Speed = 2f,
+                },
+                /*
+                new RatMage(ratMoveTexture, ratCastTexture, ratIdleTexture, glitchDeathTexture, ratStandStillTexture)
                 {
                     Position = new Vector2((ScreenWidth / 2) - (ratMoveTexture.Width / 2) + 5, ScreenHeight - ratMoveTexture.Height + 6),
                     Input = new Input()
@@ -104,9 +156,9 @@ namespace GameDevProject_August
                         Shoot = System.Windows.Forms.Keys.Space
                     },
                     Speed = 10f,
-                    Bullet = new EnemyBullet(Content.Load<Texture2D>("Textures\\GoToeBullet")),
+                    Bullet = new EnemyBullet(Content.Load<Texture2D>("Textures\\RatArrow")),
 
-        },
+        },*/
             };
 
             _hasStarted = false;

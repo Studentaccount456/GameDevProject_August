@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
+using GameDevProject_August.UI;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 {
@@ -18,6 +19,19 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
         public bool HasDied = false;
 
         private Animation animationMove;
+        private Animation animationDeath;
+
+        public Texture2D DeathTexture;
+        public Texture2D StandStillTexture;
+
+        private bool canMove = true;
+
+        private bool isDeathAnimating = false;
+
+        private int deathAnimationFrameIndex = 0;
+
+
+
 
         public override Rectangle Rectangle
         {
@@ -27,23 +41,39 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             }
         }
 
-        public Dragonfly(Texture2D moveTexture)
+        public Dragonfly(Texture2D moveTexture, Texture2D deathTexture)
             : base(moveTexture)
         {
             _texture = moveTexture;
+            DeathTexture = deathTexture;
 
-            // Difference off 128 x
             // Standard walks right
             #region MoveAnimation
             animationMove = new Animation();
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 30, 50)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(128, 0, 28, 50)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(256, 0, 28, 50)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(384, 0, 28, 50)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(512, 0, 30, 50)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(640, 0, 34, 50)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(768, 0, 34, 50)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(896, 0, 34, 50)));
+            animationMove.fps = 8;
+            animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 51, 42)));
+            animationMove.AddFrame(new AnimationFrame(new Rectangle(96, 0, 51, 42)));
+            animationMove.AddFrame(new AnimationFrame(new Rectangle(192, 0, 51, 42)));
+            animationMove.AddFrame(new AnimationFrame(new Rectangle(288, 0, 51, 42)));
+            #endregion
+
+            //Height is 44 for each frame
+            #region Death
+            animationDeath = new Animation();
+            animationDeath.fps = 1;
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 0, 64, 64)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 0, 64, 64)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 0, 64, 64)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(192, 0, 64, 64)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 64, 64, 64)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 64, 64, 64)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 64, 64, 64)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(192, 64, 64, 64)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 128, 64, 64)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 128, 64, 64)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 128, 64, 64)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(192, 128, 64, 64)));
+            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 192, 64, 64)));
             #endregion
         }
 
@@ -52,11 +82,19 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             _previousKey = _currentKey;
             _currentKey = Keyboard.GetState();
 
-            Move();
+            bool keyPressed = _currentKey.IsKeyDown(Keys.Left) || _currentKey.IsKeyDown(Keys.Right) ||
+                  _currentKey.IsKeyDown(Keys.Up) || _currentKey.IsKeyDown(Keys.Down);
+
+
+            if (canMove && !isDeathAnimating)
+            {
+                Move();
+            }
+            animationMove.Update(gameTime);
 
             foreach (var sprite in sprites)
             {
-                if (sprite is Dragonfly)
+                if (sprite is Porcupine)
                 {
                     continue;
                 }
@@ -64,6 +102,20 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 if (sprite.Rectangle.Intersects(Rectangle) && sprite is PlayerBullet)
                 {
                     HasDied = true;
+                    isDeathAnimating = true;
+                }
+
+                if (isDeathAnimating)
+                {
+                    animationDeath.Update(gameTime);
+
+                    // Track the current frame index
+                    deathAnimationFrameIndex = animationDeath.CurrentFrameIndex;
+
+                    if (deathAnimationFrameIndex == 3) // 4th frame (0-based index)
+                    {
+                        IsRemoved = true;
+                    }
                 }
 
                 if (sprite.Rectangle.Intersects(Rectangle) && sprite is Regular_Point)
@@ -71,7 +123,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     sprite.IsRemoved = true;
                 }
 
-                if (sprite is MainCharacter)
+                if (sprite is not Porcupine && sprite is not Regular_Point)
                 {
                     if (Velocity.X > 0 && IsTouchingLeft(sprite) ||
                         Velocity.X < 0 && IsTouchingRight(sprite))
@@ -92,7 +144,10 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             Position += Velocity;
 
             Velocity = Vector2.Zero;
-            animationMove.Update(gameTime);
+            if (isDeathAnimating == true)
+            {
+                animationDeath.Update(gameTime);
+            }
         }
 
         private void Move()
@@ -128,21 +183,23 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
+            if (isDeathAnimating)
             {
-                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                if (animationDeath.IsAnimationComplete)
+                {
+                    isDeathAnimating = false;
+                }
             }
-            else if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
+            else if (Keyboard.GetState().IsKeyDown((Keys)Input.Up))
             {
                 spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
-            /*
-            else
+            else if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
             {
-                spriteBatch.Draw(IdleExture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
-            */
-
         }
+
     }
 }

@@ -51,6 +51,8 @@ namespace GameDevProject_August.Sprites
             OriginBullet = new Vector2(0, _texture.Height / 2);
         }
 
+
+
         public virtual void Update(GameTime gameTime, List<Sprite> sprites)
         {
 
