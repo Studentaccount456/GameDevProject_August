@@ -6,6 +6,7 @@ using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
 using GameDevProject_August.Sprites.Sentient.Characters.Main;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -34,6 +35,11 @@ namespace GameDevProject_August
 
         private Score _score;
 
+        public static Texture2D GrassTexture, DirtTexture, StoneTexture;
+
+
+
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -56,17 +62,21 @@ namespace GameDevProject_August
 
             // Apply the changes
             _graphics.ApplyChanges();
+
         }
 
         protected override void Initialize()
         {
             base.Initialize();
-
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            GrassTexture = Content.Load<Texture2D>("Textures\\Tiles\\DirtAboveGround");
+            DirtTexture  = Content.Load<Texture2D>("Textures\\Tiles\\DirtUnderGround");
+            StoneTexture = Content.Load<Texture2D>("Textures\\Tiles\\Stone");
 
             Restart();
 
@@ -96,13 +106,18 @@ namespace GameDevProject_August
             //Yet to insert
             var glitchDeathTexture = Content.Load<Texture2D>("Animations\\Death\\GlitchDeathEffect");
 
+            var minotaurMoveTexture = Content.Load<Texture2D>("Animations\\Minotaur\\Minotaur_RunRight");
+            var minotaurCastTexture = Content.Load<Texture2D>("Animations\\Minotaur\\Minotaur_Attack");
+            var minotaurIdleTexture = Content.Load<Texture2D>("Animations\\Minotaur\\Minotaur_Idle");
+            var minotaurStandStillTexture = Content.Load<Texture2D>("Animations\\Minotaur\\Minotaur_StandStill");
+
 
 
             _sprites = new List<Sprite>()
             {
                 new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture)
                 {
-                    Position = new Vector2((ScreenWidth / 2) /*- (personTexture.Width / 2)*/, ScreenHeight /*- personTexture.Height*/),
+                    Position = new Vector2(500,20),
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.Down,
@@ -115,6 +130,20 @@ namespace GameDevProject_August
                     Bullet = new PlayerBullet(Content.Load<Texture2D>("Textures\\GoToeBullet")),
                     Score = _score
                 },
+                
+                  new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture, minotaurStandStillTexture)
+                {
+                    Position = new Vector2(10,10),
+                    Input = new Input()
+                    {
+                        Down = System.Windows.Forms.Keys.S,
+                        Up = System.Windows.Forms.Keys.Z,
+                        Left = System.Windows.Forms.Keys.Q,
+                        Right = System.Windows.Forms.Keys.D,
+                        Shoot = System.Windows.Forms.Keys.Space
+                    },
+                    Speed = 10f,
+        },
                 /*
                 new Dragonfly(dragonflyMoveTexture, glitchDeathTexture)
                 {
@@ -129,7 +158,7 @@ namespace GameDevProject_August
                     },
                     Speed = 2f,
                 }
-                */
+                
                 new Porcupine(porcupineMoveTexture, glitchDeathTexture,porcupineStandStillTexture)
                 {
                     Position = new Vector2((ScreenWidth / 2) - (ratMoveTexture.Width / 2) + 5, ScreenHeight - ratMoveTexture.Height + 6),
@@ -245,14 +274,12 @@ namespace GameDevProject_August
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
             _spriteBatch.Begin();
 
             foreach (var sprite in _sprites)
             {
                 sprite.Draw(_spriteBatch);
             }
-
 
             _score.Draw(_spriteBatch);
 

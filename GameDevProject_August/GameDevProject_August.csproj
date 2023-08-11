@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Animations\DragonFly\" />
+    <Folder Include="Content\Animations\Minotaur\" />
     <Folder Include="Content\Animations\Porcupine\" />
     <Folder Include="Content\Animations\Rat\" />
     <Folder Include="Sprites\Sentient\Characters\Enemy\Active\" />

@@ -133,6 +133,18 @@
 /processorParam:TextureFormat=Color
 /build:Animations/Minotaur/Minotaur_RunRight.png
 
+#begin Animations/Minotaur/Minotaur_StandStill.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Animations/Minotaur/Minotaur_StandStill.png
+
 #begin Animations/Porcupine/Porcupine_MoveRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -212,18 +224,6 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Font_Score.spritefont
 
-#begin Textures/Enemy_Rat.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Enemy_Rat.png
-
 #begin Textures/GoToeBullet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -259,6 +259,42 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/RatArrow.png
+
+#begin Textures/Tiles/DirtAboveGround.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Tiles/DirtAboveGround.png
+
+#begin Textures/Tiles/DirtUnderGround.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Tiles/DirtUnderGround.png
+
+#begin Textures/Tiles/Stone.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Tiles/Stone.png
 
 #begin Textures/Widthlook.png
 /importer:TextureImporter

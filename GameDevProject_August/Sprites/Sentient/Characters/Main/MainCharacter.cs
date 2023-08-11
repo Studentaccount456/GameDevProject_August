@@ -164,8 +164,9 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                 if (canMove)
                 {
                     Move();
+                    animationMove.Update(gameTime);
+
                 }
-                animationMove.Update(gameTime);
             }
 
             if (_currentKey.IsKeyDown(Keys.Space) && _previousKey.IsKeyUp(Keys.Space) && !isShootingCooldown && !isShootingAnimating)
@@ -188,6 +189,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                 {
                     HasDied = true;
                     isDeathAnimating = true;
+                    sprite.IsRemoved = true;
                 }
 
                 if (sprite.Rectangle.Intersects(Rectangle) && sprite is Regular_Point)

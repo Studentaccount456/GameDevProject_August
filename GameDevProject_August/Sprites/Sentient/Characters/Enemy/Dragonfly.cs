@@ -30,7 +30,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
         private int deathAnimationFrameIndex = 0;
 
-
+        private bool reachedFourthDeathFrame = false;
 
 
         public override Rectangle Rectangle
@@ -40,6 +40,9 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 return new Rectangle((int)Position.X, (int)Position.Y, 34, 50);
             }
         }
+
+        public Rectangle DeathRectangle;
+
 
         public Dragonfly(Texture2D moveTexture, Texture2D deathTexture)
             : base(moveTexture)
@@ -60,7 +63,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             //Height is 44 for each frame
             #region Death
             animationDeath = new Animation();
-            animationDeath.fps = 1;
+            animationDeath.fps = 4;
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 0, 64, 64)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 0, 64, 64)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 0, 64, 64)));
@@ -89,33 +92,58 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             if (canMove && !isDeathAnimating)
             {
                 Move();
+                animationMove.Update(gameTime);
             }
-            animationMove.Update(gameTime);
 
             foreach (var sprite in sprites)
             {
-                if (sprite is Porcupine)
+                if (sprite is Dragonfly)
                 {
                     continue;
+                }
+
+                if (sprite.Rectangle.Intersects(Rectangle) && sprite is MainCharacter)
+                {
+                    HasDied = true;
+                    sprite.IsRemoved = true;
                 }
 
                 if (sprite.Rectangle.Intersects(Rectangle) && sprite is PlayerBullet)
                 {
                     HasDied = true;
                     isDeathAnimating = true;
+                    sprite.IsRemoved = true;
                 }
 
                 if (isDeathAnimating)
                 {
+                    DeathRectangle = new Rectangle((int)Position.X, (int)Position.Y, 64, 64);
+
                     animationDeath.Update(gameTime);
 
-                    // Track the current frame index
                     deathAnimationFrameIndex = animationDeath.CurrentFrameIndex;
 
-                    if (deathAnimationFrameIndex == 3) // 4th frame (0-based index)
+                    if (deathAnimationFrameIndex == 3) // 4th frame
+                    {
+                        reachedFourthDeathFrame = true;
+                    }
+
+                    if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
                     {
                         IsRemoved = true;
                     }
+
+                    if (sprite.Rectangle.Intersects(DeathRectangle) && sprite is MainCharacter)
+                    {
+                        sprite.IsRemoved = true;
+                    }
+
+                    if (deathAnimationFrameIndex > 6)
+                    {
+                        DeathRectangle.Width = 0;
+                        DeathRectangle.Height = 0;
+                    }
+
                 }
 
                 if (sprite.Rectangle.Intersects(Rectangle) && sprite is Regular_Point)
@@ -123,7 +151,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     sprite.IsRemoved = true;
                 }
 
-                if (sprite is not Porcupine && sprite is not Regular_Point)
+                if (sprite is not Dragonfly)
                 {
                     if (Velocity.X > 0 && IsTouchingLeft(sprite) ||
                         Velocity.X < 0 && IsTouchingRight(sprite))
@@ -185,10 +213,17 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
         {
             if (isDeathAnimating)
             {
-                spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-                if (animationDeath.IsAnimationComplete)
+                if (reachedFourthDeathFrame)
                 {
-                    isDeathAnimating = false;
+                    spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                }
+                else
+                {
+                    spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                    if (animationDeath.IsAnimationComplete)
+                    {
+                        IsRemoved = true;
+                    }
                 }
             }
             else if (Keyboard.GetState().IsKeyDown((Keys)Input.Up))
