@@ -1,12 +1,8 @@
 ﻿using GameDevProject_August.Controls;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameDevProject_August.States
 {
@@ -20,10 +16,9 @@ namespace GameDevProject_August.States
 
         private Button loadGameButton;
 
-
         #endregion
 
-        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
+        public MenuState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
         {
             var buttonTexture = _content.Load<Texture2D>("Controls\\Illustration2");
             var buttonFont = _content.Load<SpriteFont>("Fonts\\ButtonFont");

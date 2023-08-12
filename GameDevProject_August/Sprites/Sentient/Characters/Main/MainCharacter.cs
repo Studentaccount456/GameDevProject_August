@@ -7,6 +7,10 @@ using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
 using GameDevProject_August.Sprites.NotSentient.Projectiles;
 using GameDevProject_August.Sprites.NotSentient.Collectibles;
+using GameDevProject_August.Levels;
+using SharpDX.Direct2D1.Effects;
+using GameDevProject_August.AnimationClasses.AnimationMethods;
+using GameDevProject_August.Models;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 {
@@ -22,6 +26,8 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         private Animation animationDeath;
         private Animation animationIdle;
         private Animation animationShoot;
+
+        public Dictionary<string, Animation> animationDictionary;
 
         public Texture2D ShootTexture;
         public Texture2D IdleTexture;
@@ -42,8 +48,20 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         private float idleTimer = 0f;
         private bool standStillNoIdle = false;
 
+        public AnimationHandler AnimationHandler_MC;
 
+        //TODO: movement enum van dit maken
+        bool isMovingLeft;
+        bool isMovingRight;
+        bool isMovingUp;
+        bool isMovingDown;
 
+        public CharacterDrawer CharacterDrawer_MC;
+
+        // Movement
+        //public ManualMovement manualMovementController;
+        // 
+        //public Input MainCharacterInput;
 
 
         public override Rectangle Rectangle
@@ -57,15 +75,15 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         public MainCharacter(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture)
             : base(moveTexture)
         {
-            _texture = moveTexture;
-            ShootTexture = shootTexture;
-            IdleTexture = idleTexture;
-            DeathTexture = deathTexture;
+            AnimationHandler_MC = new AnimationHandler();
+
+            CharacterDrawer_MC = new CharacterDrawer(AnimationHandler_MC);
+
             StandStillTexture = standStillTexture;
 
             // Standard walks right
             #region MoveAnimation
-            animationMove = new Animation();
+            animationMove = new Animation(AnimationType.Move, moveTexture);
             animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 30, 50)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(128, 0, 28, 50)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(256, 0, 28, 50)));
@@ -78,7 +96,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             
             //Height is 48 for each frame
             #region animationShoot
-            animationShoot = new Animation();
+            animationShoot = new Animation(AnimationType.Attack, shootTexture);
             animationShoot.fps = 4;
             animationShoot.AddFrame(new AnimationFrame(new Rectangle(0, 0, 36, 50)));
             animationShoot.AddFrame(new AnimationFrame(new Rectangle(126, 0, 44, 50)));
@@ -88,7 +106,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 
             //Height is 44 for each frame
             #region Idle
-            animationIdle = new Animation();
+            animationIdle = new Animation(AnimationType.Idle, idleTexture);
             animationIdle.fps = 8;
             animationIdle.AddFrame(new AnimationFrame(new Rectangle(0, 0, 32, 44)));
             animationIdle.AddFrame(new AnimationFrame(new Rectangle(128, 0, 32, 44)));
@@ -102,13 +120,21 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 
             //Height is 44 for each frame
             #region DeathAnimation
-            animationDeath = new Animation();
+            animationDeath = new Animation(AnimationType.Death, deathTexture);
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 0, 32, 44)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 0, 42, 44)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(260, 0, 50, 44)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(388, 0, 50, 44)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(516, 0, 50, 44)));
             #endregion
+
+            animationDictionary = new Dictionary<string, Animation>
+{
+                                { "MoveAnimation", animationMove },
+                                { "AttackAnimation", animationShoot },
+                                { "DeathAnimation", animationDeath },
+                                { "IdleAnimation", animationIdle }
+                                };
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites)
@@ -163,6 +189,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             {
                 if (canMove)
                 {
+                    //manualMovementController.Move(Position, Rectangle, Velocity, Speed, facingDirection, facingDirectionIndicator);
                     Move();
                     animationMove.Update(gameTime);
 
@@ -198,7 +225,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     sprite.IsRemoved = true;
                 }
 
-                if (sprite is RatMage)
+                if (sprite is Component)
                 {
                     if (Velocity.X > 0 && IsTouchingLeft(sprite) ||
                         Velocity.X < 0 && IsTouchingRight(sprite))
@@ -251,73 +278,50 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Up))
             {
                 Velocity.Y -= Speed;
+                isMovingUp = true;
             }
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
             {
                 Velocity.Y += Speed;
+                isMovingDown = true;
             }
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
             {
                 Velocity.X -= Speed;
                 facingDirection = -Vector2.UnitX;
                 facingDirectionIndicator = false;
+                isMovingLeft = true;
             }
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
             {
                 Velocity.X += Speed;
                 facingDirection = Vector2.UnitX;
-                facingDirectionIndicator = true;
+                facingDirectionIndicator = true; 
+                isMovingRight = true;
+
+            }
+            if (!Keyboard.GetState().IsKeyDown((Keys)Input.Left)) {
+                isMovingLeft = false;
+            }
+            if (!Keyboard.GetState().IsKeyDown((Keys)Input.Right)) {
+                isMovingRight = false;
+            }
+            if (!Keyboard.GetState().IsKeyDown((Keys)Input.Down))
+            {
+                isMovingDown = false;
+            }
+            if (!Keyboard.GetState().IsKeyDown((Keys)Input.Up))
+            {
+                isMovingUp = false;
             }
 
             Position = Vector2.Clamp(Position, new Vector2(0, 0 + Rectangle.Height / 4), new Vector2(Game1.ScreenWidth - Rectangle.Width, Game1.ScreenHeight - Rectangle.Height));
         }
 
-
-
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (isDeathAnimating)
-            {
-                spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-                if (animationDeath.IsAnimationComplete)
-                {
-                    isDeathAnimating = false; // Stop death animation
-                }
-            }
-            else if (isShootingAnimating)
-            {
-                if(facingDirectionIndicator == true)
-                {
-                    spriteBatch.Draw(ShootTexture, Position, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-                } else if (facingDirectionIndicator == false)
-                {
-                    spriteBatch.Draw(ShootTexture, Position, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
-                }
-                if (animationShoot.IsAnimationComplete)
-                {
-                    isShootingAnimating = false;
-                }
-            }
-            else if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
-            {
-                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-            }
-            else if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
-            {
-                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
-            }         
-            else if (isIdling)
-            {
-                spriteBatch.Draw(IdleTexture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-            } else if (facingDirectionIndicator == true && standStillNoIdle == true && !isShootingAnimating || (facingDirectionIndicator == true && !isShootingAnimating && _currentKey.IsKeyDown(Keys.Down)) || (facingDirectionIndicator == true && !isShootingAnimating && _currentKey.IsKeyDown(Keys.Up)))
-            {
-                spriteBatch.Draw(StandStillTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-            }
-            else if (facingDirectionIndicator == false && standStillNoIdle == true && !isShootingAnimating || (facingDirectionIndicator == false && !isShootingAnimating && _currentKey.IsKeyDown(Keys.Up)) || (facingDirectionIndicator == false && !isShootingAnimating && _currentKey.IsKeyDown(Keys.Down)))
-            {
-                spriteBatch.Draw(StandStillTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
-            }
+            CharacterDrawer_MC.DrawMainCharacter(spriteBatch, AnimationHandler_MC, animationDictionary, StandStillTexture, Position, isDeathAnimating, isShootingAnimating, facingDirectionIndicator, 
+                isIdling, standStillNoIdle, isMovingLeft, isMovingRight, isMovingUp, isMovingDown);
         }
-
     }
 }

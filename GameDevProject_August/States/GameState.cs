@@ -1,4 +1,6 @@
-﻿using GameDevProject_August.Models;
+﻿using GameDevProject_August.Levels;
+using GameDevProject_August.Levels.Level1;
+using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.NotSentient.Collectibles;
 using GameDevProject_August.Sprites.NotSentient.Projectiles;
@@ -11,14 +13,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameDevProject_August.States
 {
-    public class GameState : State
+    public class GameState : PlayingState
     {
         public static Random Random;
 
@@ -27,101 +25,60 @@ namespace GameDevProject_August.States
 
         private List<Sprite> _sprites;
 
-        private Texture2D _regularPointTexture;
-
         private float _timer;
 
         private bool _hasStarted = false;
 
         private Score _score;
 
-        private Texture2D GrassTexture, DirtTexture, StoneTexture;
-
         private Color _backgroundColour = Color.CornflowerBlue;
 
         private List<Component> _gameComponents;
 
+        private Texture2D _regularPointTexture;
 
+        
         private Texture2D RegularPointTexture;
 
-        private Texture2D personMoveTexture;
-        private Texture2D personShootTexture;
-        private Texture2D personIdleTexture;
-        private Texture2D personDeathTexture;
-        private Texture2D personStandStillTexture;
+        Level level;
 
-        private Texture2D ratMoveTexture;
-        private Texture2D ratCastTexture;
-        private Texture2D ratIdleTexture;
-        private Texture2D ratStandStillTexture;
-
-        private SpriteFont fontOfScoreLoaded;
-
-        private Texture2D porcupineMoveTexture;
-        private Texture2D porcupineStandStillTexture;
-
-
-        private Texture2D dragonflyMoveTexture;
-
-
-        private Texture2D glitchDeathTexture;
-
-        private Texture2D minotaurMoveTexture;
-        private Texture2D minotaurCastTexture;
-        private Texture2D minotaurIdleTexture;
-        private Texture2D minotaurStandStillTexture;
-
-        private Texture2D playerBullet;
-
-
-
-
-
-
-
-        public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
+        public GameState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
         {
             content.RootDirectory = "Content";
             Random = new Random();
             ScreenWidth = Game1.ScreenWidth; 
             ScreenHeight = Game1.ScreenHeight;
 
-            GrassTexture = content.Load<Texture2D>("Textures\\Tiles\\DirtAboveGround");
-            DirtTexture = content.Load<Texture2D>("Textures\\Tiles\\DirtUnderGround");
-            StoneTexture = content.Load<Texture2D>("Textures\\Tiles\\Stone");
             RegularPointTexture = content.Load<Texture2D>("Textures\\Point_1");
+            
 
-            personMoveTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_MoveRight");
-            personShootTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_ShootRight"); ;
-            personIdleTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_Idle"); ;
-            personDeathTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_Dies");
-            personStandStillTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_StandStill");
-
-            ratMoveTexture = content.Load<Texture2D>("Animations\\Rat\\Rat_MoveRight");
-            ratCastTexture = content.Load<Texture2D>("Animations\\Rat\\Rat_Cast_One");
-            ratIdleTexture = content.Load<Texture2D>("Animations\\Rat\\Rat_Idle");
-            ratStandStillTexture = content.Load<Texture2D>("Animations\\Rat\\Rat_StandStill");
-            fontOfScoreLoaded = content.Load<SpriteFont>("Fonts\\Font_Score");
-
-            porcupineMoveTexture = content.Load<Texture2D>("Animations\\Porcupine\\Porcupine_MoveRight");
-            porcupineStandStillTexture = content.Load<Texture2D>("Animations\\Porcupine\\Porcupine_StandStill");
-
-
-            dragonflyMoveTexture = content.Load<Texture2D>("Animations\\DragonFly\\DragonFly_MoveRight");
-
-
-            //Yet to insert
-            glitchDeathTexture = content.Load<Texture2D>("Animations\\Death\\GlitchDeathEffect");
-
-            minotaurMoveTexture = content.Load<Texture2D>("Animations\\Minotaur\\Minotaur_RunRight");
-            minotaurCastTexture = content.Load<Texture2D>("Animations\\Minotaur\\Minotaur_Attack");
-            minotaurIdleTexture = content.Load<Texture2D>("Animations\\Minotaur\\Minotaur_Idle");
-            minotaurStandStillTexture = content.Load<Texture2D>("Animations\\Minotaur\\Minotaur_StandStill");
-
-            playerBullet = content.Load<Texture2D>("Textures\\GoToeBullet");
+            level = new Level1(new Level1BlockFactory());
+            LoadContent(content);
+            InitializeContent();           
 
             Restart();
 
+        }
+
+        public Level GenerateLevel(Level level, int tileSize)
+        {
+            Level newlevel = null;
+
+            if (level is Level1)
+            {
+                newlevel = new Level1(new Level1BlockFactory());
+                newlevel.Generate(newlevel.Map, tileSize);
+            }
+            /*
+            else if (level is Level2)
+            {
+                newlevel = new Level2(new Level2BlockFactory());
+                newlevel.Generate(newlevel.Map, tileSize);
+            }
+            */
+
+
+            return newlevel;
         }
 
         private void Restart()
@@ -133,6 +90,7 @@ namespace GameDevProject_August.States
                 new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture)
                 {
                     Position = new Vector2(500,20),
+                    
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.Down,
@@ -141,6 +99,7 @@ namespace GameDevProject_August.States
                         Right = System.Windows.Forms.Keys.Right,
                         Shoot = System.Windows.Forms.Keys.Space
                     },
+                    
                     Speed = 10f,
                     Bullet = new PlayerBullet(playerBullet),
                     Score = _score
@@ -212,6 +171,8 @@ namespace GameDevProject_August.States
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
+
+            level.Draw(spriteBatch);
 
             /* Empty atm
             foreach (var component in _gameComponents)
@@ -311,5 +272,17 @@ namespace GameDevProject_August.States
                 });
             }
         }
+
+        public override void LoadContent(ContentManager content) 
+        { 
+            base.LoadContent(content); 
+        }
+
+        public /*override*/ void InitializeContent()
+        {
+            level = GenerateLevel(level, 38);
+            //SpriteList = GenerateLevelSpriteList();
+        }
+
     }
 }

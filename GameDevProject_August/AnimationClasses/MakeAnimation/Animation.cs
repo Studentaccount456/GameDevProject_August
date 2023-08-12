@@ -1,19 +1,24 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameDevProject_August.AnimationClasses
 {
+    public enum AnimationType
+    {
+        Idle,
+        Move,
+        Attack,
+        Death
+    }
     public class Animation
     {
         public AnimationFrame CurrentFrame { get; set; }
         public List<AnimationFrame> frames;
         private int counter;
         public int fps = 12;
+        public AnimationType TypeAnimation;
+        public Texture2D SpriteSheetTexture;
 
         public int CurrentFrameIndex
         {
@@ -25,9 +30,11 @@ namespace GameDevProject_August.AnimationClasses
             get { return counter >= frames.Count - 1; }
         }
 
-        public Animation()
+        public Animation(AnimationType animationType, Texture2D spriteSheetTexture)
         {
             frames = new List<AnimationFrame>();
+            TypeAnimation = animationType;
+            SpriteSheetTexture = spriteSheetTexture;
         }
 
         public void AddFrame(AnimationFrame frame)

@@ -10,8 +10,15 @@ namespace GameDevProject_August
 {
     public abstract class Component
     {
-        public abstract void Draw(GameTime gametime, SpriteBatch spriteBatch);
+        public virtual void Draw(GameTime gametime, SpriteBatch spriteBatch) 
+        {
+            
+        }
+        
 
-        public abstract void Update(GameTime gametime);
+        public virtual void Update(GameTime gametime) 
+        { 
+
+        }
     }
 }

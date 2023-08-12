@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameDevProject_August.States
 {
@@ -13,7 +8,7 @@ namespace GameDevProject_August.States
     {
         #region Fields
 
-        protected ContentManager _content;
+        protected Microsoft.Xna.Framework.Content.ContentManager _content;
 
         protected GraphicsDevice _graphicsDevice;
 
@@ -25,9 +20,9 @@ namespace GameDevProject_August.States
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
-        public abstract void PostUpdate(GameTime gameTime);
+        public virtual void PostUpdate(GameTime gameTime) { }
 
-        public State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
+        public State(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content)
         {
             _game = game;
 
@@ -37,6 +32,11 @@ namespace GameDevProject_August.States
         }
             
         public abstract void Update(GameTime gameTime);
+
+        public virtual void LoadContent(ContentManager content)
+        {
+
+        }
 
         #endregion
     }

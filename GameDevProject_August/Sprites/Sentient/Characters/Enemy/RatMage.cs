@@ -73,7 +73,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
             // Standard walks right
             #region MoveAnimation
-            animationMove = new Animation();
+            animationMove = new Animation(AnimationType.Move, moveTexture);
             animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 60, 57)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(96, 0, 57, 57)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(192, 0, 54, 57)));
@@ -86,7 +86,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
             //Height is 48 for each frame
             #region animationCast
-            animationShoot = new Animation();
+            animationShoot = new Animation(AnimationType.Attack, shootTexture);
             animationShoot.fps = 6;
             animationShoot.AddFrame(new AnimationFrame(new Rectangle(0, 0, 60, 48)));
             animationShoot.AddFrame(new AnimationFrame(new Rectangle(96, 0, 51, 48)));
@@ -98,7 +98,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
             //Height is 44 for each frame
             #region Idle
-            animationIdle = new Animation();
+            animationIdle = new Animation(AnimationType.Idle, idleTexture);
             animationIdle.fps = 8;
             animationIdle.AddFrame(new AnimationFrame(new Rectangle(0, 0, 60, 48)));
             animationIdle.AddFrame(new AnimationFrame(new Rectangle(99, 0, 57, 48)));
@@ -111,7 +111,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             #endregion
 
             #region Death
-            animationDeath = new Animation();
+            animationDeath = new Animation(AnimationType.Death, deathTexture);
             animationDeath.fps = 4;
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 0, 64, 64)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 0, 64, 64)));

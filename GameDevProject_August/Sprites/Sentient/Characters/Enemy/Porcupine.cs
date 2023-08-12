@@ -60,7 +60,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
             // Standard walks right
             #region MoveAnimation
-            animationMove = new Animation();
+            animationMove = new Animation(AnimationType.Move, moveTexture);
             animationMove.fps = 8;
             animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 57, 48)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(96, 0, 57, 48)));
@@ -71,7 +71,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
             //Height is 44 for each frame
             #region Death
-            animationDeath = new Animation();
+            animationDeath = new Animation(AnimationType.Death, deathTexture);
             animationDeath.fps = 4;
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 0, 64, 64)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 0, 64, 64)));

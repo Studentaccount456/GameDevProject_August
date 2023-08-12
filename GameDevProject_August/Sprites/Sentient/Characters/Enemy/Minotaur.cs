@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using GameDevProject_August.UI;
 using System;
+using GameDevProject_August.AnimationClasses.AnimationMethods;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 {
@@ -66,6 +67,8 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
         public Rectangle RectangleHitBox;
 
+        public AnimationHandler AnimationHandler_Minotaur;
+
 
         public Minotaur(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture)
             : base(moveTexture)
@@ -75,12 +78,15 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             IdleTexture = idleTexture;
             DeathTexture = deathTexture;
             StandStillTexture = standStillTexture;
+
+            AnimationHandler_Minotaur = new AnimationHandler();
+
             //Move
             RectangleHitBox = new Rectangle((int)Position.X, (int)Position.Y, 54, 51);
             Rectangle2 = new Rectangle((int)Position.X, (int)Position.Y, 0, 0);
 
             #region MoveAnimation
-            animationMove = new Animation();
+            animationMove = new Animation(AnimationType.Move, moveTexture);
             animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 54, 51)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(96, 0, 54, 51)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(192, 0, 54, 51)));
@@ -94,7 +100,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             // Height for standstill without attack is 42
             OffsetAnimation = new Vector2(0, -30);
             #region animationShoot
-            animationShoot = new Animation();
+            animationShoot = new Animation(AnimationType.Attack, shootTexture);
             animationShoot.fps = 1;
             animationShoot.AddFrame(new AnimationFrame(new Rectangle(0, 0, 63, 72)));
             animationShoot.AddFrame(new AnimationFrame(new Rectangle(96, 0, 69, 72)));
@@ -107,7 +113,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             #endregion
 
             #region Idle
-            animationIdle = new Animation();
+            animationIdle = new Animation(AnimationType.Idle, idleTexture);
             animationIdle.fps = 8;
             animationIdle.AddFrame(new AnimationFrame(new Rectangle(0, 0, 63, 42)));
             animationIdle.AddFrame(new AnimationFrame(new Rectangle(96, 0, 63, 42)));
@@ -117,7 +123,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             #endregion
 
             #region Death
-            animationDeath = new Animation();
+            animationDeath = new Animation(AnimationType.Death, deathTexture);
             animationDeath.fps = 4;
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 0, 64, 64)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 0, 64, 64)));
@@ -414,16 +420,19 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             {
                 if (reachedFourthDeathFrame)
                 {
-                    spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                    //AnimationHandler_Minotaur.PlayMoveAnimation(spriteBatch, animationDeath, Position, true);
+                    //spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
                 }
                 else
                 {
-                    spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                    //AnimationHandler_Minotaur.PlayMoveAnimation(spriteBatch, animationDeath, Position, true);
+                    //spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
                     if (animationDeath.IsAnimationComplete)
                     {
                         IsRemoved = true;
                     }
                 }
+                AnimationHandler_Minotaur.DrawAnimation(spriteBatch, animationDeath, Position, true);
             }
             else if (isShootingAnimating)
             {
