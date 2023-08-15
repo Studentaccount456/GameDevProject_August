@@ -11,6 +11,7 @@ using GameDevProject_August.Levels;
 using SharpDX.Direct2D1.Effects;
 using GameDevProject_August.AnimationClasses.AnimationMethods;
 using GameDevProject_August.Models;
+using SharpDX.Direct3D9;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 {
@@ -68,7 +69,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, 34, 50);
+                return new Rectangle((int)Position.X, (int)Position.Y, 34, 44);
             }
         }
 
@@ -137,7 +138,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                                 };
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites)
+        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
             _previousKey = _currentKey;
             _currentKey = Keyboard.GetState();
@@ -240,7 +241,25 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     }
 
                 }
+            }
 
+            foreach (var block in blocks)
+            {
+                if (block is Block)
+                {
+                    if (Velocity.X > 0 && IsTouchingLeftBlock(block) ||
+                        Velocity.X < 0 && IsTouchingRightBlock(block))
+                    {
+                        Velocity.X = 0;
+                    }
+
+                    if (Velocity.Y > 0 && IsTouchingTopBlock(block) ||
+                        Velocity.Y < 0 && IsTouchingBottomBlock(block))
+                    {
+                        Velocity.Y = 0;
+                    }
+
+                }
             }
 
             Position += Velocity;
@@ -322,6 +341,8 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         {
             CharacterDrawer_MC.DrawMainCharacter(spriteBatch, AnimationHandler_MC, animationDictionary, StandStillTexture, Position, isDeathAnimating, isShootingAnimating, facingDirectionIndicator, 
                 isIdling, standStillNoIdle, isMovingLeft, isMovingRight, isMovingUp, isMovingDown);
+
+            spriteBatch.DrawRectangle(Rectangle, Color.Blue);
         }
     }
 }

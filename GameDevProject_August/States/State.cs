@@ -22,7 +22,7 @@ namespace GameDevProject_August.States
 
         public virtual void PostUpdate(GameTime gameTime) { }
 
-        public State(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content)
+        public State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
         {
             _game = game;
 

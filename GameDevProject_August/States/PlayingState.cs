@@ -115,7 +115,7 @@ namespace GameDevProject_August.States
 
 
 
-        private void DrawBackground(Texture2D backgroundTexture, SpriteBatch spriteBatch)
+        public void DrawBackground(Texture2D backgroundTexture, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);

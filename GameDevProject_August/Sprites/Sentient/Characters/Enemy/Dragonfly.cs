@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using GameDevProject_August.UI;
+using GameDevProject_August.Levels;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 {
@@ -80,7 +81,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             #endregion
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites)
+        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
             _previousKey = _currentKey;
             _currentKey = Keyboard.GetState();

@@ -1,4 +1,5 @@
 ﻿using GameDevProject_August.AnimationClasses;
+using GameDevProject_August.Levels;
 using GameDevProject_August.Sprites.NotSentient.Collectibles;
 using GameDevProject_August.Sprites.NotSentient.Projectiles;
 using GameDevProject_August.Sprites.Sentient.Characters.Main;
@@ -129,7 +130,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             #endregion
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites)
+        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
             _previousKey = _currentKey;
             _currentKey = Keyboard.GetState();

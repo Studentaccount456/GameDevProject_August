@@ -1,4 +1,5 @@
-﻿using GameDevProject_August.States;
+﻿using GameDevProject_August.Levels;
+using GameDevProject_August.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
             Speed = GameState.Random.Next(3, 10);
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites)
+        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
             Position.Y += Speed;
 

@@ -1,4 +1,5 @@
-﻿using GameDevProject_August.Models;
+﻿using GameDevProject_August.Levels;
+using GameDevProject_August.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -49,11 +50,16 @@ namespace GameDevProject_August.Sprites
 
 
 
-        public virtual void Update(GameTime gameTime, List<Sprite> sprites)
+        public virtual void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
 
         }
-        
+
+        public virtual void UpdateCollisionBlocks(GameTime gameTime, List<Block> blocks)
+        {
+
+        }
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_texture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
@@ -91,6 +97,43 @@ namespace GameDevProject_August.Sprites
                    this.Rectangle.Bottom > sprite.Rectangle.Bottom &&
                    this.Rectangle.Right > sprite.Rectangle.Left &&
                    this.Rectangle.Left < sprite.Rectangle.Right;
+        }
+
+
+        #endregion
+
+        #region CollisionBlock
+
+        protected bool IsTouchingLeftBlock(Block block)
+        {
+            return this.Rectangle.Right + this.Velocity.X > block.BlockRectangle.Left &&
+                   this.Rectangle.Left < block.BlockRectangle.Left &&
+                   this.Rectangle.Bottom > block.BlockRectangle.Top &&
+                   this.Rectangle.Top < block.BlockRectangle.Bottom;
+        }
+
+        protected bool IsTouchingRightBlock(Block block)
+        {
+            return this.Rectangle.Left + this.Velocity.X < block.BlockRectangle.Right &&
+                   this.Rectangle.Right > block.BlockRectangle.Right &&
+                   this.Rectangle.Bottom > block.BlockRectangle.Top &&
+                   this.Rectangle.Top < block.BlockRectangle.Bottom;
+        }
+
+        protected bool IsTouchingTopBlock(Block block)
+        {
+            return this.Rectangle.Bottom + this.Velocity.Y > block.BlockRectangle.Top &&
+                   this.Rectangle.Top < block.BlockRectangle.Top &&
+                   this.Rectangle.Right > block.BlockRectangle.Left &&
+                   this.Rectangle.Left < block.BlockRectangle.Right;
+        }
+
+        protected bool IsTouchingBottomBlock(Block block)
+        {
+            return this.Rectangle.Top + this.Velocity.Y < block.BlockRectangle.Bottom &&
+                   this.Rectangle.Bottom > block.BlockRectangle.Bottom &&
+                   this.Rectangle.Right > block.BlockRectangle.Left &&
+                   this.Rectangle.Left < block.BlockRectangle.Right;
         }
 
 

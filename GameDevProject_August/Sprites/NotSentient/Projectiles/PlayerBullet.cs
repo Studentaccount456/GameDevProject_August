@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameDevProject_August.Levels;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
 
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites)
+        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             Position += facingDirection * bulletSpeed;

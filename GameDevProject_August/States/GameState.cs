@@ -40,6 +40,9 @@ namespace GameDevProject_August.States
         
         private Texture2D RegularPointTexture;
 
+        private Texture2D backgroundTexture;
+
+
         Level level;
 
         public GameState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
@@ -50,7 +53,7 @@ namespace GameDevProject_August.States
             ScreenHeight = Game1.ScreenHeight;
 
             RegularPointTexture = content.Load<Texture2D>("Textures\\Point_1");
-            
+            backgroundTexture = content.Load<Texture2D>("BackGrounds\\Pixel_Art_Background");
 
             level = new Level1(new Level1BlockFactory());
             LoadContent(content);
@@ -172,6 +175,8 @@ namespace GameDevProject_August.States
         {
             spriteBatch.Begin();
 
+            spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
+
             level.Draw(spriteBatch);
 
             /* Empty atm
@@ -237,7 +242,7 @@ namespace GameDevProject_August.States
 
             foreach (var sprite in _sprites.ToArray())
             {
-                sprite.Update(gameTime, _sprites);
+                sprite.Update(gameTime, _sprites, level.TileList);
             }
 
             //SpawnFallingCode();
