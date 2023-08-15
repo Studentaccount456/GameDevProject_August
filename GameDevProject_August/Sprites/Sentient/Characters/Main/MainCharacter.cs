@@ -231,7 +231,6 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 
                 if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is FallingCode)
                 {
-                    HasDied = true;
                     isDeathAnimating = true;
                     sprite.IsRemoved = true;
                 }

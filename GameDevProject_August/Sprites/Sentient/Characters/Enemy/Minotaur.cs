@@ -325,11 +325,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     if (deathAnimationFrameIndex == 3) // 4th frame
                     {
                         reachedFourthDeathFrame = true;
-                        PieceOfCodeToFall = 1;
                     }
 
                     if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
                     {
+                        PieceOfCodeToFall = 1;
                         IsRemoved = true;
                     }
 

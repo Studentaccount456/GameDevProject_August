@@ -3,6 +3,7 @@ using GameDevProject_August.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace GameDevProject_August.States
@@ -69,6 +70,8 @@ namespace GameDevProject_August.States
 
         public Texture2D BackgroundOfLevel { get; set; }
 
+        public static Texture2D FallingCodeMinotaur { get; private set; }
+
         public PlayingState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
                             : base(game, graphicsDevice, content)
         {
@@ -88,7 +91,9 @@ namespace GameDevProject_August.States
             LoadGlitchDeathEffect(content);
             LoadBlockTextures(content);
             LoadSpriteFonts(content);
+            LoadFallingCodeTextures(content);
         }
+
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -194,6 +199,11 @@ namespace GameDevProject_August.States
         private void LoadSpriteFonts(ContentManager content)
         {
             fontOfScoreLoaded = content.Load<SpriteFont>("Fonts\\Font_Score");
+        }
+
+        private void LoadFallingCodeTextures(ContentManager content)
+        {
+            FallingCodeMinotaur = content.Load<Texture2D>("FallingCode\\FallingCode_Minotaur");
         }
     }
 }

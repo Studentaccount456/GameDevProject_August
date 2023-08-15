@@ -10,12 +10,24 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
     public class FallingCode : Projectile
     {
 
+        private Texture2D _texture;
+
         public FallingCode(Texture2D texture)
             : base(texture)
         {
+            _texture = texture;
             Position = new Vector2(GameState.Random.Next(0, Game1.ScreenWidth - _texture.Width), -_texture.Height);
             Speed = GameState.Random.Next(3, 10);
         }
+
+        public override Rectangle RectangleHitbox
+        {
+            get
+            {
+                 return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
+            }
+        }
+
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {

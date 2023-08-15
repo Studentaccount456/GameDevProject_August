@@ -255,7 +255,7 @@ namespace GameDevProject_August.States
                 switch (sprite.PieceOfCodeToFall)
                 {
                     case 1:
-                        fallingCode.LetCodeFall(_sprites, playerBullet);
+                        fallingCode.LetCodeFall(_sprites, FallingCodeMinotaur);
                         sprite.PieceOfCodeToFall = 0;
                         break;
                     case 2:
