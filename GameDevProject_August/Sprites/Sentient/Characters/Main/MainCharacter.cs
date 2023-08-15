@@ -242,6 +242,12 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     sprite.IsRemoved = true;
                 }
 
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is EnemyBullet)
+                {
+                    isDeathAnimating = true;
+                    sprite.IsRemoved = true;
+                }
+
                 /*
                 if (sprite is Component)
                 {
@@ -394,6 +400,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             {
                 isMovingUp = false;
             }
+            if (isDeathAnimating)
+            {
+                Velocity = Vector2.Zero;
+            }
+
 
             Position = Vector2.Clamp(Position, new Vector2(0, 0 + RectangleHitbox.Height / 4), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height));
         }

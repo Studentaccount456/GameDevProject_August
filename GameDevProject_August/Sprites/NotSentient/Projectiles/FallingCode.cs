@@ -2,12 +2,14 @@
 using GameDevProject_August.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D9;
 using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.NotSentient.Projectiles
 {
     public class FallingCode : Projectile
     {
+
         public FallingCode(Texture2D texture)
             : base(texture)
         {
@@ -24,6 +26,11 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
             {
                 IsRemoved = true;
             }
+        }
+
+        public void LetCodeFall(List<Sprite> _sprites, Texture2D _texture)
+        {
+            _sprites.Add(new FallingCode(_texture));
         }
     }
 }

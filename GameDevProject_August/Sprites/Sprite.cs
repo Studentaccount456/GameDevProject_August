@@ -17,6 +17,10 @@ namespace GameDevProject_August.Sprites
 
         public bool isDeathAnimating;
 
+        public bool HasDied = false;
+
+        public int PieceOfCodeToFall;
+
         public float Speed = 2f;
 
         public Input Input;

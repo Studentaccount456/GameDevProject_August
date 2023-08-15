@@ -42,6 +42,8 @@ namespace GameDevProject_August.States
 
         private Texture2D backgroundTexture;
 
+        private FallingCode fallingCode;
+
 
         Level level;
 
@@ -57,7 +59,8 @@ namespace GameDevProject_August.States
 
             level = new Level1(new Level1BlockFactory());
             LoadContent(content);
-            InitializeContent();           
+            InitializeContent();
+            fallingCode = new FallingCode(playerBullet);
 
             Restart();
 
@@ -121,6 +124,7 @@ namespace GameDevProject_August.States
                     },
                     Speed = 10f,
         },
+                
                 /*
                 new Dragonfly(dragonflyMoveTexture, glitchDeathTexture, dragonflyStandStillTexture)
                 {
@@ -134,7 +138,8 @@ namespace GameDevProject_August.States
                         Shoot = System.Windows.Forms.Keys.Space
                     },
                     Speed = 2f,
-                },*/
+                },
+                */
                 /*
                 new Porcupine(porcupineMoveTexture, glitchDeathTexture,porcupineStandStillTexture)
                 {
@@ -150,6 +155,7 @@ namespace GameDevProject_August.States
                     Speed = 2f,
                 },
                 */
+                
                 /*
                 new RatMage(ratMoveTexture, ratCastTexture, ratIdleTexture, glitchDeathTexture, ratStandStillTexture)
                 {
@@ -165,8 +171,8 @@ namespace GameDevProject_August.States
                     Speed = 10f,
                     Bullet = new EnemyBullet(ratProjectile),
 
-        },
-           */ };
+        },*/
+            };
 
             _hasStarted = false;
             _regularPointTexture = RegularPointTexture;
@@ -245,6 +251,24 @@ namespace GameDevProject_August.States
             foreach (var sprite in _sprites.ToArray())
             {
                 sprite.Update(gameTime, _sprites, level.TileList);
+
+                switch (sprite.PieceOfCodeToFall)
+                {
+                    case 1:
+                        fallingCode.LetCodeFall(_sprites, playerBullet);
+                        sprite.PieceOfCodeToFall = 0;
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    default:
+                        break;
+                }
             }
 
             //SpawnFallingCode();

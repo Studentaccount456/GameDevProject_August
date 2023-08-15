@@ -12,9 +12,11 @@ namespace GameDevProject_August.States
 
         private List<Component> _components;
 
-        private bool isGlitchMode = false;
+        private int levelSelect = 1;
 
         private Button loadGameButton;
+
+        private Texture2D backGroundMainMenu;
 
         #endregion
 
@@ -22,10 +24,11 @@ namespace GameDevProject_August.States
         {
             var buttonTexture = _content.Load<Texture2D>("Controls\\Illustration2");
             var buttonFont = _content.Load<SpriteFont>("Fonts\\ButtonFont");
+            backGroundMainMenu = _content.Load<Texture2D>("BackGrounds\\Start_Screen");
 
             var newGameButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 175),
+                Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 250),
                 TextButton = "New Game", 
             };
 
@@ -33,15 +36,15 @@ namespace GameDevProject_August.States
 
             loadGameButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 250),
-                TextButton = "Mode: Normal",
+                Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 325),
+                TextButton = "Level: Level 1",
             };
 
             loadGameButton.Click += LoadGameButton_Click;
 
             var quitGameButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 325),
+                Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 400),
                 TextButton = "Quit",
             };
 
@@ -62,9 +65,22 @@ namespace GameDevProject_August.States
 
         private void LoadGameButton_Click(object sender, EventArgs e)
         {
-            isGlitchMode = !isGlitchMode;
-
-            loadGameButton.TextButton = isGlitchMode ? "Mode: Glitch" : "Mode: Normal";
+            levelSelect++;
+            switch (levelSelect)
+            {
+                case 1:
+                    loadGameButton.TextButton =  "Level: Level 1";
+                    break;
+                case 2:
+                    loadGameButton.TextButton = "Level: Level 2";
+                    break;
+                case 3:
+                    loadGameButton.TextButton = "Level: Level 3";
+                    levelSelect = 0;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void QuitGameButton_Click(object sender, EventArgs e)
@@ -76,6 +92,8 @@ namespace GameDevProject_August.States
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
+
+            spriteBatch.Draw(backGroundMainMenu, new Vector2(0, 0), Color.White);
 
             foreach (var component in _components)
             {

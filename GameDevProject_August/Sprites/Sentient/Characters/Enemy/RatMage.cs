@@ -429,7 +429,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 spriteBatch.Draw(StandStillTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
 
-            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
+            //spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
         }
 

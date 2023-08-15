@@ -11,6 +11,7 @@ using GameDevProject_August.UI;
 using System;
 using GameDevProject_August.AnimationClasses.AnimationMethods;
 using GameDevProject_August.Levels;
+using GameDevProject_August.States;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 {
@@ -39,7 +40,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
         private float shootingCooldownTimer = 0f;
 
         private bool isIdling = false;
-        private const float IdleTimeoutDuration = 3.0f;
+        private const float IdleTimeoutDuration = 5.0f;
         private float idleTimer = 0f;
         private bool standStillNoIdle = false;
 
@@ -324,6 +325,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     if (deathAnimationFrameIndex == 3) // 4th frame
                     {
                         reachedFourthDeathFrame = true;
+                        PieceOfCodeToFall = 1;
                     }
 
                     if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
@@ -331,11 +333,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                         IsRemoved = true;
                     }
 
-                    if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
+                    /*if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
                     {
-                        sprite.isDeathAnimating = true;
+                        sprite.HasDied = true;
                     }
-
+                    */
                     if (deathAnimationFrameIndex > 6)
                     {
                         DeathRectangle.Width = 0;
