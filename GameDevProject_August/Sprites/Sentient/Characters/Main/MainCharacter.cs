@@ -156,6 +156,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             _previousKey = _currentKey;
             _currentKey = Keyboard.GetState();
             Velocity.Y += GravityAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            PieceOfCodeToFall = 0;
 
 
             bool keyPressed = Keyboard.GetState().IsKeyDown((Keys)Input.Left) || Keyboard.GetState().IsKeyDown((Keys)Input.Right) ||
@@ -238,6 +239,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                 if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Regular_Point)
                 {
                     Score.MainScore++;
+                    PieceOfCodeToFall = 5;
                     sprite.IsRemoved = true;
                 }
 

@@ -253,6 +253,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
                     if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
                     {
+                        PieceOfCodeToFall = 4;
                         IsRemoved = true;
                     }
 

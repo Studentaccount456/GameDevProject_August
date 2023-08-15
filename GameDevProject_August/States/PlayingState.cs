@@ -70,7 +70,12 @@ namespace GameDevProject_August.States
 
         public Texture2D BackgroundOfLevel { get; set; }
 
-        public static Texture2D FallingCodeMinotaur { get; private set; }
+        public Texture2D FallingCodeMinotaur { get; private set; }
+        public Texture2D FallingCodeDragonFly { get; private set; }
+        public Texture2D FallingCodePorcupine { get; private set; }
+        public Texture2D FallingCodeRatMage { get; private set; }
+        public Texture2D FallingCodePoint { get; private set; }
+
 
         public PlayingState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
                             : base(game, graphicsDevice, content)
@@ -204,6 +209,10 @@ namespace GameDevProject_August.States
         private void LoadFallingCodeTextures(ContentManager content)
         {
             FallingCodeMinotaur = content.Load<Texture2D>("FallingCode\\FallingCode_Minotaur");
+            FallingCodeDragonFly = content.Load<Texture2D>("FallingCode\\FallingCode_DragonFly");
+            FallingCodePorcupine = content.Load<Texture2D>("FallingCode\\FallingCode_Porcupine");
+            FallingCodeRatMage = content.Load<Texture2D>("FallingCode\\FallingCode_RatMage");
+            FallingCodePoint = content.Load<Texture2D>("FallingCode\\FallingCode_Point");
         }
     }
 }

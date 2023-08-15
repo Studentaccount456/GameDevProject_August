@@ -277,6 +277,18 @@
 /processorParam:TextureFormat=Color
 /build:Controls/Illustration2.png
 
+#begin FallingCode/FallingCode_DragonFly.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:FallingCode/FallingCode_DragonFly.png
+
 #begin FallingCode/FallingCode_Minotaur.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -288,6 +300,42 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:FallingCode/FallingCode_Minotaur.png
+
+#begin FallingCode/FallingCode_Point.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:FallingCode/FallingCode_Point.png
+
+#begin FallingCode/FallingCode_Porcupine.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:FallingCode/FallingCode_Porcupine.png
+
+#begin FallingCode/FallingCode_RatMage.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:FallingCode/FallingCode_RatMage.png
 
 #begin Fonts/ButtonFont.spritefont
 /importer:FontDescriptionImporter

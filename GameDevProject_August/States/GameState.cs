@@ -95,7 +95,7 @@ namespace GameDevProject_August.States
             {
                 new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture)
                 {
-                    Position = new Vector2(20,600),
+                    Position = new Vector2(20,30),
 
                     Input = new Input()
                     {
@@ -110,7 +110,7 @@ namespace GameDevProject_August.States
                     Bullet = new PlayerBullet(playerBullet),
                     Score = _score
                 },
-                
+                /*
                   new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture, minotaurStandStillTexture)
                 {
                     Position = new Vector2(500,10),
@@ -256,15 +256,18 @@ namespace GameDevProject_August.States
                 {
                     case 1:
                         fallingCode.LetCodeFall(_sprites, FallingCodeMinotaur);
-                        sprite.PieceOfCodeToFall = 0;
                         break;
                     case 2:
+                        fallingCode.LetCodeFall(_sprites, FallingCodeDragonFly);
                         break;
                     case 3:
+                        fallingCode.LetCodeFall(_sprites, FallingCodePorcupine);
                         break;
                     case 4:
+                        fallingCode.LetCodeFall(_sprites, FallingCodeRatMage);
                         break;
                     case 5:
+                        fallingCode.LetCodeFall(_sprites, FallingCodePoint);
                         break;
                     default:
                         break;
