@@ -1,5 +1,6 @@
 ﻿using GameDevProject_August.Levels;
 using GameDevProject_August.Sprites;
+using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,6 +28,8 @@ namespace GameDevProject_August.States
             get { return spriteList; }
             set { spriteList = value; }
         }
+
+        public static Score PlayerScore;
 
 
 
@@ -86,6 +89,8 @@ namespace GameDevProject_August.States
 
         public override void LoadContent(ContentManager content)
         {
+            PlayerScore = new Score(fontOfScoreLoaded, Game1.ScreenWidth, Game1.ScreenHeight);
+
             LoadMain_Character(content);
             LoadMinotaur(content);
             LoadRatMage(content);

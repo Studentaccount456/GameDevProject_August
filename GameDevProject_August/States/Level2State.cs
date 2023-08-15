@@ -1,22 +1,23 @@
-﻿using GameDevProject_August.Levels;
-using GameDevProject_August.Levels.Level1;
+﻿using GameDevProject_August.Levels.Level1;
+using GameDevProject_August.Levels;
 using GameDevProject_August.Models;
-using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.NotSentient.Collectibles;
 using GameDevProject_August.Sprites.NotSentient.Projectiles;
-using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
 using GameDevProject_August.Sprites.Sentient.Characters.Main;
-using GameDevProject_August.UI;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using GameDevProject_August.Sprites;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameDevProject_August.States
 {
-    public class GameState : PlayingState
+    public class Level2State : PlayingState
     {
         public static Random Random;
 
@@ -29,29 +30,29 @@ namespace GameDevProject_August.States
 
         private bool _hasStarted = false;
 
-        private Score _score;
-
         private Color _backgroundColour = Color.CornflowerBlue;
 
         private List<Component> _gameComponents;
 
         private Texture2D _regularPointTexture;
 
-        
+
         private Texture2D RegularPointTexture;
 
         private Texture2D backgroundTexture;
 
         private FallingCode fallingCode;
 
+        public static bool isNextLevelTrigger;
+
 
         Level level;
 
-        public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
+        public Level2State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
             content.RootDirectory = "Content";
             Random = new Random();
-            ScreenWidth = Game1.ScreenWidth; 
+            ScreenWidth = Game1.ScreenWidth;
             ScreenHeight = Game1.ScreenHeight;
 
             RegularPointTexture = content.Load<Texture2D>("Textures\\Point_1");
@@ -89,7 +90,7 @@ namespace GameDevProject_August.States
 
         private void Restart()
         {
-            _score = new Score(fontOfScoreLoaded, ScreenWidth, ScreenHeight);
+            //PlayerScore = new Score(fontOfScoreLoaded, ScreenWidth, ScreenHeight);
 
             _sprites = new List<Sprite>()
             {
@@ -108,7 +109,7 @@ namespace GameDevProject_August.States
 
                     Speed = 10f,
                     Bullet = new PlayerBullet(playerBullet),
-                    Score = _score
+                    Score = PlayerScore
                 },
                 /*
                   new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture, minotaurStandStillTexture)
@@ -198,7 +199,7 @@ namespace GameDevProject_August.States
                 sprite.Draw(spriteBatch);
             }
 
-            _score.Draw(spriteBatch);
+            PlayerScore.Draw(spriteBatch);
 
             spriteBatch.End();
         }
@@ -279,6 +280,12 @@ namespace GameDevProject_August.States
             //SpawnRegularPoint();
 
             PostUpdate(gameTime);
+            /*
+            if (isNextLevelTrigger)
+            {
+                _game.ChangeState(new Level2State(_game, _graphicsDevice, _content));
+            }
+            */
         }
 
         private void SpawnFallingCode()
@@ -307,9 +314,9 @@ namespace GameDevProject_August.States
             }
         }
 
-        public override void LoadContent(ContentManager content) 
-        { 
-            base.LoadContent(content); 
+        public override void LoadContent(ContentManager content)
+        {
+            base.LoadContent(content);
         }
 
         public /*override*/ void InitializeContent()
@@ -317,6 +324,5 @@ namespace GameDevProject_August.States
             level = GenerateLevel(level, 38);
             //SpriteList = GenerateLevelSpriteList();
         }
-
     }
 }

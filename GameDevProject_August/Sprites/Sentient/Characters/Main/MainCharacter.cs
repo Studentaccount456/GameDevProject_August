@@ -14,6 +14,9 @@ using GameDevProject_August.Models;
 using SharpDX.Direct3D9;
 using System.Runtime.CompilerServices;
 using System;
+using System.Security.Cryptography.X509Certificates;
+using GameDevProject_August.States;
+using GameDevProject_August.Levels.BlockTypes;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 {
@@ -287,6 +290,15 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     if (IsTouchingTopBlock(block) || IsTouchingBottomBlock(block))
                     {
                         hasJumped = false;
+                    }
+
+                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && block is ThreePointsType && PlayingState.PlayerScore.MainScore == 3)
+                    {
+                        Level1State.isNextLevelTrigger = true;
+                    }
+                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && block is ThreePointsType && PlayingState.PlayerScore.MainScore == 6)
+                    {
+                        Level2State.isNextLevelTrigger = true;
                     }
 
                 }

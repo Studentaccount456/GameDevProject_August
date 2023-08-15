@@ -20,7 +20,7 @@ namespace GameDevProject_August.Levels.Level1
             }
             else if (number == 3)
             {
-                block = new Stone(rectangle);
+                block = new ThreePointsType(rectangle);
             }
             return block;
         }
