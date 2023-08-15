@@ -49,6 +49,7 @@ namespace GameDevProject_August.States
 
 
         public Texture2D dragonflyMoveTexture { get; private set; }
+        public Texture2D dragonflyStandStillTexture { get; private set; }
 
 
         public Texture2D glitchDeathTexture { get; private set; }
@@ -165,6 +166,7 @@ namespace GameDevProject_August.States
         private void LoadDragonfly(ContentManager content)
         {
             dragonflyMoveTexture = content.Load<Texture2D>("Animations\\DragonFly\\DragonFly_MoveRight");
+            dragonflyStandStillTexture = content.Load<Texture2D>("Animations\\DragonFly\\DragonFly_StandStill");
         }
 
         private void LoadProjectiles(ContentManager content)

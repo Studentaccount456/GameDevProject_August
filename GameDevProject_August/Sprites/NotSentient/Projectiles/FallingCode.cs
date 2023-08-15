@@ -20,7 +20,7 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
             Position.Y += Speed;
 
             // When the bottom of the window is hit
-            if (Rectangle.Bottom >= Game1.ScreenHeight)
+            if (RectangleHitbox.Bottom >= Game1.ScreenHeight)
             {
                 IsRemoved = true;
             }

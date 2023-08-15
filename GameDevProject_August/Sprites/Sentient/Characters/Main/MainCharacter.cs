@@ -12,6 +12,8 @@ using SharpDX.Direct2D1.Effects;
 using GameDevProject_August.AnimationClasses.AnimationMethods;
 using GameDevProject_August.Models;
 using SharpDX.Direct3D9;
+using System.Runtime.CompilerServices;
+using System;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 {
@@ -37,7 +39,6 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 
         private bool canMove = true;
 
-        private bool isDeathAnimating = false;
         private bool isShootingAnimating = false;
 
         private bool isShootingCooldown = false;
@@ -65,13 +66,20 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         //public Input MainCharacterInput;
 
 
-        public override Rectangle Rectangle
+        public override Rectangle RectangleHitbox
         {
             get
             {
                 return new Rectangle((int)Position.X, (int)Position.Y, 34, 44);
             }
         }
+
+        bool hasJumped;
+
+        private const float GravityAcceleration = 125;
+
+
+
 
         public MainCharacter(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture)
             : base(moveTexture)
@@ -81,6 +89,10 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             CharacterDrawer_MC = new CharacterDrawer(AnimationHandler_MC);
 
             StandStillTexture = standStillTexture;
+
+            hasJumped = true;
+
+            isDeathAnimating = false;
 
             // Standard walks right
             #region MoveAnimation
@@ -122,6 +134,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             //Height is 44 for each frame
             #region DeathAnimation
             animationDeath = new Animation(AnimationType.Death, deathTexture);
+            animationDeath.fps = 8;
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 0, 32, 44)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 0, 42, 44)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(260, 0, 50, 44)));
@@ -142,10 +155,12 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         {
             _previousKey = _currentKey;
             _currentKey = Keyboard.GetState();
+            Velocity.Y += GravityAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            bool keyPressed = _currentKey.IsKeyDown(Keys.Left) || _currentKey.IsKeyDown(Keys.Right) ||
-                  _currentKey.IsKeyDown(Keys.Up) || _currentKey.IsKeyDown(Keys.Down) ||
-                  _currentKey.IsKeyDown(Keys.Space) && isShootingAnimating;
+
+            bool keyPressed = Keyboard.GetState().IsKeyDown((Keys)Input.Left) || Keyboard.GetState().IsKeyDown((Keys)Input.Right) ||
+                  Keyboard.GetState().IsKeyDown((Keys)Input.Up) || Keyboard.GetState().IsKeyDown((Keys)Input.Down) ||
+                  Keyboard.GetState().IsKeyDown((Keys)Input.Shoot) && isShootingAnimating;
 
             if (keyPressed)
             {
@@ -191,7 +206,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                 if (canMove)
                 {
                     //manualMovementController.Move(Position, Rectangle, Velocity, Speed, facingDirection, facingDirectionIndicator);
-                    Move();
+                    Move(gameTime, blocks);
                     animationMove.Update(gameTime);
 
                 }
@@ -206,6 +221,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                 shootingCooldownTimer = 0f;
             }
 
+
             foreach (var sprite in sprites)
             {
                 if (sprite is MainCharacter)
@@ -213,19 +229,20 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     continue;
                 }
 
-                if (sprite.Rectangle.Intersects(Rectangle) && sprite is FallingCode)
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is FallingCode)
                 {
                     HasDied = true;
                     isDeathAnimating = true;
                     sprite.IsRemoved = true;
                 }
 
-                if (sprite.Rectangle.Intersects(Rectangle) && sprite is Regular_Point)
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Regular_Point)
                 {
                     Score.MainScore++;
                     sprite.IsRemoved = true;
                 }
 
+                /*
                 if (sprite is Component)
                 {
                     if (Velocity.X > 0 && IsTouchingLeft(sprite) ||
@@ -241,41 +258,49 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     }
 
                 }
+                */
             }
 
             foreach (var block in blocks)
             {
                 if (block is Block)
                 {
-                    if (Velocity.X > 0 && IsTouchingLeftBlock(block) ||
-                        Velocity.X < 0 && IsTouchingRightBlock(block))
+                    if ((Velocity.X > 0 && IsTouchingLeftBlock(block) && !hasJumped) ||
+                        Velocity.X < 0 && IsTouchingRightBlock(block) && !hasJumped)
                     {
                         Velocity.X = 0;
                     }
 
-                    if (Velocity.Y > 0 && IsTouchingTopBlock(block) ||
+                    if ((Velocity.Y > 0 && IsTouchingTopBlock(block) && !hasJumped) ||
                         Velocity.Y < 0 && IsTouchingBottomBlock(block))
                     {
                         Velocity.Y = 0;
                     }
 
+                    if (IsTouchingTopBlock(block) || IsTouchingBottomBlock(block))
+                    {
+                        hasJumped = false;
+                    }
+
                 }
             }
-
             Position += Velocity;
 
-            Velocity = Vector2.Zero;
+            if (!hasJumped)
+            {
+                Velocity = Vector2.Zero;
+            }
+            //Velocity = Vector2.Zero;
             animationShoot.Update(gameTime);
             if (!isShootingAnimating)
             {
-                    animationIdle.Update(gameTime);
+                animationIdle.Update(gameTime);
             }
             if (isDeathAnimating == true) 
             {
                 animationDeath.Update(gameTime);
             }
         }
-
 
         private void AddBullet(List<Sprite> sprites)
         {
@@ -289,29 +314,65 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             sprites.Add(bullet);
         }
 
-        private void Move()
+        private void Move(GameTime gameTime, List<Block> blocks)
         {
             if (Input == null)
                 return;
 
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Up))
             {
-                Velocity.Y -= Speed;
                 isMovingUp = true;
+            }
+
+            if (Keyboard.GetState().IsKeyDown((Keys)Input.Up) && !hasJumped)
+            {
+                hasJumped = true;
+                isMovingUp = true;
+
+                if (hasJumped)
+                {
+                    Velocity.Y = -20f;
+                    if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
+                    {
+                        Velocity.X = Speed;
+                    }
+                    if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
+                    {
+                        Velocity.X = -Speed;
+                    }
+                }
+                /*if (!hasJumped)
+                {
+                    float i = 3;
+                    Velocity.Y -= 0.45f * i;
+                }*/
+
+                //Position.Y -= 10f;
+                //Velocity.Y = -62f;
+            }
+            if (hasJumped)
+            {
+                foreach (var block in blocks)
+            {
+                if (IsTouchingTopBlock(block))
+                {
+                    hasJumped = true;
+                }
+            }
             }
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
             {
-                Velocity.Y += Speed;
+                //Velocity.Y += Speed;
                 isMovingDown = true;
             }
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
+            if (Keyboard.GetState().IsKeyDown((Keys)Input.Left) && !hasJumped)
             {
                 Velocity.X -= Speed;
                 facingDirection = -Vector2.UnitX;
                 facingDirectionIndicator = false;
                 isMovingLeft = true;
             }
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
+            if (Keyboard.GetState().IsKeyDown((Keys)Input.Right) && !hasJumped)
             {
                 Velocity.X += Speed;
                 facingDirection = Vector2.UnitX;
@@ -334,15 +395,28 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                 isMovingUp = false;
             }
 
-            Position = Vector2.Clamp(Position, new Vector2(0, 0 + Rectangle.Height / 4), new Vector2(Game1.ScreenWidth - Rectangle.Width, Game1.ScreenHeight - Rectangle.Height));
+            Position = Vector2.Clamp(Position, new Vector2(0, 0 + RectangleHitbox.Height / 4), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height));
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            CharacterDrawer_MC.DrawMainCharacter(spriteBatch, AnimationHandler_MC, animationDictionary, StandStillTexture, Position, isDeathAnimating, isShootingAnimating, facingDirectionIndicator, 
-                isIdling, standStillNoIdle, isMovingLeft, isMovingRight, isMovingUp, isMovingDown);
+            if (isDeathAnimating)
+            {
+                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, true);
+                if (animationDictionary["DeathAnimation"].IsAnimationComplete)
+                {
+                    HasDied = true;
+                    isDeathAnimating = false; // Stop death animation
+                    IsRemoved = true;
+                }
+            }
+            else
+            {
+                CharacterDrawer_MC.DrawMainCharacter(spriteBatch, AnimationHandler_MC, animationDictionary, StandStillTexture, Position, isDeathAnimating, isShootingAnimating, facingDirectionIndicator,
+                isIdling, standStillNoIdle, isMovingLeft, isMovingRight, isMovingUp, isMovingDown, IsRemoved);
+            }
 
-            spriteBatch.DrawRectangle(Rectangle, Color.Blue);
+            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
         }
     }
 }

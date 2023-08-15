@@ -6,76 +6,61 @@ using System.Collections.Generic;
 
 namespace GameDevProject_August.States
 {
-    public class MenuState : State
+    internal class GameOverState : State
     {
         #region Fields
 
         private List<Component> _components;
 
-        private bool isGlitchMode = false;
-
-        private Button loadGameButton;
+        private Texture2D backGroundGameOverState;
 
         #endregion
 
-        public MenuState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
+        public GameOverState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
         {
             var buttonTexture = _content.Load<Texture2D>("Controls\\Illustration2");
+            backGroundGameOverState = _content.Load<Texture2D>("BackGrounds\\Game_Over");
             var buttonFont = _content.Load<SpriteFont>("Fonts\\ButtonFont");
 
-            var newGameButton = new Button(buttonTexture, buttonFont)
+            var replayButton = new Button(buttonTexture, buttonFont)
             {
                 Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 175),
-                TextButton = "New Game", 
+                TextButton = "Replay",
             };
 
-            newGameButton.Click += NewGameButton_Click;
+            replayButton.Click += replayButton_Click;
 
-            loadGameButton = new Button(buttonTexture, buttonFont)
+            var mainMenuButton = new Button(buttonTexture, buttonFont)
             {
                 Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 250),
-                TextButton = "Mode: Normal",
+                TextButton = "Main menu",
             };
 
-            loadGameButton.Click += LoadGameButton_Click;
-
-            var quitGameButton = new Button(buttonTexture, buttonFont)
-            {
-                Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 325),
-                TextButton = "Quit",
-            };
-
-            quitGameButton.Click += QuitGameButton_Click;
+            mainMenuButton.Click += mainMenuButton_Click;
 
             _components = new List<Component>()
             {
-                newGameButton,
-                loadGameButton,
-                quitGameButton
+                replayButton,
+                mainMenuButton
             };
         }
 
-        private void NewGameButton_Click(object sender, EventArgs e)
+        private void replayButton_Click(object sender, EventArgs e)
         {
             _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
         }
 
-        private void LoadGameButton_Click(object sender, EventArgs e)
+        private void mainMenuButton_Click(object sender, EventArgs e)
         {
-            isGlitchMode = !isGlitchMode;
-
-            loadGameButton.TextButton = isGlitchMode ? "Mode: Glitch" : "Mode: Normal";
-        }
-
-        private void QuitGameButton_Click(object sender, EventArgs e)
-        {
-            _game.Exit();
+            _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
         }
 
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
+
+            spriteBatch.Draw(backGroundGameOverState, new Vector2(0,0), Color.White);
 
             foreach (var component in _components)
             {
@@ -99,3 +84,4 @@ namespace GameDevProject_August.States
         }
     }
 }
+

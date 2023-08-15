@@ -34,22 +34,25 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
         private bool reachedFourthDeathFrame = false;
 
 
-        public override Rectangle Rectangle
+
+        public override Rectangle RectangleHitbox 
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, 34, 50);
+                return new Rectangle((int)Position.X, (int)Position.Y, 51, 39);
             }
         }
+        
 
         public Rectangle DeathRectangle;
 
 
-        public Dragonfly(Texture2D moveTexture, Texture2D deathTexture)
+        public Dragonfly(Texture2D moveTexture, Texture2D deathTexture, Texture2D standStillTexture)
             : base(moveTexture)
         {
             _texture = moveTexture;
             DeathTexture = deathTexture;
+            StandStillTexture = standStillTexture;
 
             // Standard walks right
             #region MoveAnimation
@@ -103,13 +106,13 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     continue;
                 }
 
-                if (sprite.Rectangle.Intersects(Rectangle) && sprite is MainCharacter)
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is MainCharacter)
                 {
                     HasDied = true;
                     sprite.IsRemoved = true;
                 }
 
-                if (sprite.Rectangle.Intersects(Rectangle) && sprite is PlayerBullet)
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet)
                 {
                     HasDied = true;
                     isDeathAnimating = true;
@@ -134,7 +137,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                         IsRemoved = true;
                     }
 
-                    if (sprite.Rectangle.Intersects(DeathRectangle) && sprite is MainCharacter)
+                    if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
                     {
                         sprite.IsRemoved = true;
                     }
@@ -147,7 +150,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
                 }
 
-                if (sprite.Rectangle.Intersects(Rectangle) && sprite is Regular_Point)
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Regular_Point)
                 {
                     sprite.IsRemoved = true;
                 }
@@ -205,7 +208,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 facingDirectionIndicator = true;
             }
 
-            Position = Vector2.Clamp(Position, new Vector2(0 - Rectangle.Width, 0 + Rectangle.Height / 2), new Vector2(Game1.ScreenWidth - Rectangle.Width, Game1.ScreenHeight - Rectangle.Height / 2));
+            Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
         }
 
 
@@ -235,6 +238,17 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             {
                 spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
+            else if (facingDirectionIndicator == true && !Keyboard.GetState().IsKeyDown((Keys)Input.Right))
+            {
+                spriteBatch.Draw(StandStillTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+            }
+            else if (facingDirectionIndicator == false && !Keyboard.GetState().IsKeyDown((Keys)Input.Right))
+            {
+                spriteBatch.Draw(StandStillTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+            }
+
+            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
+            spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
         }
 
     }

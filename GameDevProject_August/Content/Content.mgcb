@@ -37,6 +37,18 @@
 /processorParam:TextureFormat=Color
 /build:Animations/DragonFly/DragonFly_MoveRight.png
 
+#begin Animations/DragonFly/DragonFly_StandStill.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Animations/DragonFly/DragonFly_StandStill.png
+
 #begin Animations/MainCharacter/MC_Dies.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -217,7 +229,7 @@
 /processorParam:TextureFormat=Color
 /build:Animations/Rat/Rat_StandStill.png
 
-#begin BackGrounds/Pixel_Art_Background.jpg
+#begin BackGrounds/BackGround_Standard.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -227,7 +239,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BackGrounds/Pixel_Art_Background.jpg
+/build:BackGrounds/BackGround_Standard.png
+
+#begin BackGrounds/Game_Over.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BackGrounds/Game_Over.png
 
 #begin Controls/Illustration2.png
 /importer:TextureImporter

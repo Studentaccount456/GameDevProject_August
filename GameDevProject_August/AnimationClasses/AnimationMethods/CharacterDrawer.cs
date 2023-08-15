@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameDevProject_August.Sprites;
+using GameDevProject_August.Sprites.Sentient.Characters.Main;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -48,18 +50,21 @@ namespace GameDevProject_August.AnimationClasses.AnimationMethods
                                        Dictionary<string, Animation> animations,
                                        Texture2D standStillTexture, Vector2 Position, bool isDeathAnimating,
                                        bool isShootingAnimating, bool facingDirectionIndicator, bool isIdling,
-                                       bool standStillNoIdle, bool isMovingleft, bool isMovingRight, bool isMovingUp, bool isMovingDown)
+                                       bool standStillNoIdle, bool isMovingleft, bool isMovingRight, bool isMovingUp, bool isMovingDown, bool isRemoved)
         {
             // TODO MainCharacter facing side deathAnimation
+            /*
             if (isDeathAnimating)
             {
                 animationHandler.DrawAnimation(spriteBatch, animations["DeathAnimation"], Position, true);
                 if (animations["DeathAnimation"].IsAnimationComplete)
-                {
+                {                    
                     isDeathAnimating = false; // Stop death animation
+                    isRemoved = true;
                 }
             }
-            else if (isShootingAnimating)
+            */
+            /*else*/if (isShootingAnimating)
             {
                 if (facingDirectionIndicator == true)
                 {

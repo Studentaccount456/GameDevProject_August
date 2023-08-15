@@ -45,7 +45,7 @@ namespace GameDevProject_August.States
 
         Level level;
 
-        public GameState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
+        public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
             content.RootDirectory = "Content";
             Random = new Random();
@@ -53,7 +53,7 @@ namespace GameDevProject_August.States
             ScreenHeight = Game1.ScreenHeight;
 
             RegularPointTexture = content.Load<Texture2D>("Textures\\Point_1");
-            backgroundTexture = content.Load<Texture2D>("BackGrounds\\Pixel_Art_Background");
+            backgroundTexture = content.Load<Texture2D>("BackGrounds\\BackGround_Standard");
 
             level = new Level1(new Level1BlockFactory());
             LoadContent(content);
@@ -92,8 +92,8 @@ namespace GameDevProject_August.States
             {
                 new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture)
                 {
-                    Position = new Vector2(500,20),
-                    
+                    Position = new Vector2(20,600),
+
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.Down,
@@ -102,27 +102,27 @@ namespace GameDevProject_August.States
                         Right = System.Windows.Forms.Keys.Right,
                         Shoot = System.Windows.Forms.Keys.Space
                     },
-                    
+
                     Speed = 10f,
                     Bullet = new PlayerBullet(playerBullet),
                     Score = _score
                 },
-
+                
                   new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture, minotaurStandStillTexture)
                 {
-                    Position = new Vector2(10,10),
+                    Position = new Vector2(500,10),
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.S,
                         Up = System.Windows.Forms.Keys.Z,
                         Left = System.Windows.Forms.Keys.Q,
                         Right = System.Windows.Forms.Keys.D,
-                        Shoot = System.Windows.Forms.Keys.Space
+                        Shoot = System.Windows.Forms.Keys.M
                     },
                     Speed = 10f,
         },
                 /*
-                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture)
+                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture, dragonflyStandStillTexture)
                 {
                     Position = new Vector2((ScreenWidth / 2) - (ratMoveTexture.Width / 2) + 5, ScreenHeight - ratMoveTexture.Height + 6),
                     Input = new Input()
@@ -134,8 +134,8 @@ namespace GameDevProject_August.States
                         Shoot = System.Windows.Forms.Keys.Space
                     },
                     Speed = 2f,
-                }
-                
+                },*/
+                /*
                 new Porcupine(porcupineMoveTexture, glitchDeathTexture,porcupineStandStillTexture)
                 {
                     Position = new Vector2((ScreenWidth / 2) - (ratMoveTexture.Width / 2) + 5, ScreenHeight - ratMoveTexture.Height + 6),
@@ -149,10 +149,11 @@ namespace GameDevProject_August.States
                     },
                     Speed = 2f,
                 },
+                */
                 /*
                 new RatMage(ratMoveTexture, ratCastTexture, ratIdleTexture, glitchDeathTexture, ratStandStillTexture)
                 {
-                    Position = new Vector2((ScreenWidth / 2) - (ratMoveTexture.Width / 2) + 5, ScreenHeight - ratMoveTexture.Height + 6),
+                    Position = new Vector2(100,100),
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.S,
@@ -162,10 +163,10 @@ namespace GameDevProject_August.States
                         Shoot = System.Windows.Forms.Keys.Space
                     },
                     Speed = 10f,
-                    Bullet = new EnemyBullet(Content.Load<Texture2D>("Textures\\RatArrow")),
+                    Bullet = new EnemyBullet(ratProjectile),
 
-        },*/
-            };
+        },
+           */ };
 
             _hasStarted = false;
             _regularPointTexture = RegularPointTexture;
@@ -213,7 +214,8 @@ namespace GameDevProject_August.States
                     var player = sprite_1 as MainCharacter;
                     if (player.HasDied)
                     {
-                        Restart();
+                        _game.ChangeState(new GameOverState(_game, _graphicsDevice, _content));
+                        //Restart();
                     }
                 }
             }
@@ -247,7 +249,7 @@ namespace GameDevProject_August.States
 
             //SpawnFallingCode();
 
-            SpawnRegularPoint();
+            //SpawnRegularPoint();
 
             PostUpdate(gameTime);
         }

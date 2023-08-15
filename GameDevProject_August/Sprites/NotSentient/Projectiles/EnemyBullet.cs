@@ -20,6 +20,14 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
 
         }
 
+        public override Rectangle RectangleHitbox
+        {
+            get
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
+            }
+        }
+
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
