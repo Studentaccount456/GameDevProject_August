@@ -175,7 +175,7 @@ namespace GameDevProject_August.States
         {
             spriteBatch.Begin();
 
-            spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
+            DrawBackground(backgroundTexture, spriteBatch);
 
             level.Draw(spriteBatch);
 
