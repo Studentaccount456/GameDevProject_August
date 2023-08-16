@@ -21,6 +21,7 @@
     <Folder Include="Content\Animations\Porcupine\" />
     <Folder Include="Content\Animations\Rat\" />
     <Folder Include="Content\FallingCode\" />
+    <Folder Include="Content\Textures\Terminal\" />
     <Folder Include="Sprites\Sentient\Characters\Enemy\Active\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">

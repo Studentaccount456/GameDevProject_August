@@ -155,7 +155,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             _currentKey = Keyboard.GetState();
             if (!isDeathAnimating)
             {
-                Velocity.Y += GravityAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                //Velocity.Y += GravityAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
             PositionXRectangleHitbox = (int)Position.X;
             PositionYRectangleHitbox = (int)Position.Y;

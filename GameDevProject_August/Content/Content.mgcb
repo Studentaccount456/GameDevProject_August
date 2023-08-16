@@ -277,6 +277,18 @@
 /processorParam:TextureFormat=Color
 /build:BackGrounds/Start_Screen.png
 
+#begin BackGrounds/Victory_Screen.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BackGrounds/Victory_Screen.png
+
 #begin Controls/Illustration2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -398,6 +410,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/RatArrow.png
+
+#begin Textures/Terminal/Terminal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Terminal/Terminal.png
 
 #begin Textures/Tiles/DirtAboveGround.png
 /importer:TextureImporter

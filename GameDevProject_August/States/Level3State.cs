@@ -1,22 +1,25 @@
-﻿using GameDevProject_August.Levels;
-using GameDevProject_August.Levels.Level1;
+﻿using GameDevProject_August.Levels.Level2;
+using GameDevProject_August.Levels;
 using GameDevProject_August.Models;
-using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.NotSentient.Collectibles;
 using GameDevProject_August.Sprites.NotSentient.Projectiles;
-using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
 using GameDevProject_August.Sprites.Sentient.Characters.Main;
-using GameDevProject_August.UI;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using GameDevProject_August.Sprites;
+using Microsoft.Xna.Framework.Input;
+using GameDevProject_August.Levels.Level3;
+using GameDevProject_August.Sprites.NotSentient.Terminal;
 
 namespace GameDevProject_August.States
 {
-    public class Level1State : PlayingState
+    public class Level3State : PlayingState
     {
         public static int ScreenWidth;
         public static int ScreenHeight;
@@ -24,10 +27,6 @@ namespace GameDevProject_August.States
         private List<Sprite> _sprites;
 
         private float _timer;
-
-        private bool _hasStarted = false;
-
-        private Color _backgroundColour = Color.CornflowerBlue;
 
         private List<Component> _gameComponents;
 
@@ -39,10 +38,9 @@ namespace GameDevProject_August.States
 
         public static bool isNextLevelTrigger;
 
-
         Level level;
 
-        public Level1State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
+        public Level3State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
             content.RootDirectory = "Content";
             ScreenWidth = Game1.ScreenWidth;
@@ -50,7 +48,7 @@ namespace GameDevProject_August.States
 
             backgroundTexture = content.Load<Texture2D>("BackGrounds\\BackGround_Standard");
 
-            level = new Level1(new Level1BlockFactory());
+            level = new Level3(new Level3BlockFactory());
             LoadContent(content);
             InitializeContent();
             fallingCode = new FallingCode(playerBullet);
@@ -63,9 +61,9 @@ namespace GameDevProject_August.States
         {
             Level newlevel = null;
 
-            if (level is Level1)
+            if (level is Level3)
             {
-                newlevel = new Level1(new Level1BlockFactory());
+                newlevel = new Level3(new Level3BlockFactory());
                 newlevel.Generate(newlevel.Map, tileSize);
             }
             /*
@@ -88,8 +86,8 @@ namespace GameDevProject_August.States
             {
                 new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture)
                 {
-                    Position = new Vector2(10,564),
-
+                    Position = new Vector2(1200,600),
+                    facingDirectionIndicator = false,
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.Down,
@@ -103,38 +101,11 @@ namespace GameDevProject_August.States
                     Bullet = new PlayerBullet(playerBullet),
                     Score = PlayerScore
                 },
-
-                  new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture, minotaurStandStillTexture)
+                new FinalTerminal(finalTerminalTexture)
                 {
-                    Position = new Vector2(900,566),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.S,
-                        Up = System.Windows.Forms.Keys.Z,
-                        Left = System.Windows.Forms.Keys.Q,
-                        Right = System.Windows.Forms.Keys.D,
-                        Shoot = System.Windows.Forms.Keys.M
-                    },
-                    Speed = 8f,
-        },
-
-                  
-                   new Porcupine(porcupineMoveTexture, glitchDeathTexture,porcupineStandStillTexture)
-                {
-                    Position = new Vector2(210,600),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.M,
-                        Up = System.Windows.Forms.Keys.P,
-                        Left = System.Windows.Forms.Keys.I,
-                        Right = System.Windows.Forms.Keys.O,
-                    },
-                    Speed = 2f,
-                },
-               
+                    Position = new Vector2(500, 465)
+                }
             };
-
-            _hasStarted = false;
             _regularPointTexture = RegularPointTexture;
         }
 
@@ -175,13 +146,12 @@ namespace GameDevProject_August.States
                     i--;
                 }
 
-                if (sprite_1 is MainCharacter)
+                if (sprite_1 is FinalTerminal)
                 {
-                    var player = sprite_1 as MainCharacter;
-                    if (player.HasDied)
+                    var finalTerminal = sprite_1 as FinalTerminal;
+                    if (finalTerminal.HasDied)
                     {
-                        _game.ChangeState(new GameOverState(_game, _graphicsDevice, _content));
-                        //Restart();
+                        _game.ChangeState(new VictoryState(_game, _graphicsDevice, _content));
                     }
                 }
             }
@@ -195,16 +165,6 @@ namespace GameDevProject_August.States
                 component.Update(gameTime);
             }
             */
-
-            if (Keyboard.GetState().IsKeyDown(Keys.C))
-            {
-                _hasStarted = true;
-            }
-
-            if (!_hasStarted)
-            {
-                return;
-            }
 
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -234,42 +194,7 @@ namespace GameDevProject_August.States
                 }
             }
 
-            //SpawnFallingCode();
-
-            SpawnRegularPoint();
-
             PostUpdate(gameTime);
-
-            if (isNextLevelTrigger)
-            {
-                _game.ChangeState(new Level2State(_game, _graphicsDevice, _content));
-            }
-        }
-
-        private void SpawnFallingCode()
-        {
-            if (_timer > 0.25f)
-            {
-                _timer = 0;
-                _sprites.Add(new FallingCode(playerBullet));
-            }
-        }
-
-        private void SpawnRegularPoint()
-        {
-            if (_timer > 1)
-            {
-                _timer = 0;
-
-                var xPos = Random.Next(0, ScreenWidth - _regularPointTexture.Width);
-                var yPos = Random.Next(0, ScreenHeight - _regularPointTexture.Height);
-
-                _sprites.Add(new Regular_Point(_regularPointTexture)
-                {
-                    Position = new Vector2(xPos, yPos)
-
-                });
-            }
         }
 
         public override void LoadContent(ContentManager content)
@@ -282,6 +207,5 @@ namespace GameDevProject_August.States
             level = GenerateLevel(level, 38);
             //SpriteList = GenerateLevelSpriteList();
         }
-
     }
 }

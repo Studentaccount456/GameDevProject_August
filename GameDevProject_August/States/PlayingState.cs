@@ -65,6 +65,8 @@ namespace GameDevProject_August.States
         public Texture2D minotaurIdleTexture { get; private set; }
         public Texture2D minotaurStandStillTexture { get; private set; }
 
+        public Texture2D finalTerminalTexture { get; private set; }
+
         public Texture2D playerBullet { get; private set; }
 
         public Texture2D ratProjectile { get; private set; }
@@ -111,6 +113,7 @@ namespace GameDevProject_August.States
             LoadBlockTextures(content);
             LoadSpriteFonts(content);
             LoadFallingCodeTextures(content);
+            LoadFinalTerminalTexture(content);
         }
 
 
@@ -231,6 +234,11 @@ namespace GameDevProject_August.States
             FallingCodePorcupine = content.Load<Texture2D>("FallingCode\\FallingCode_Porcupine");
             FallingCodeRatMage = content.Load<Texture2D>("FallingCode\\FallingCode_RatMage");
             FallingCodePoint = content.Load<Texture2D>("FallingCode\\FallingCode_Point");
+        }
+
+        private void LoadFinalTerminalTexture(ContentManager content)
+        {
+            finalTerminalTexture = content.Load<Texture2D>("Textures\\Terminal\\Terminal");
         }
     }
 }

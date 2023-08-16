@@ -142,7 +142,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             _currentKey = Keyboard.GetState();
             if (!isDeathAnimating)
             {
-                Velocity.Y += GravityAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                //Velocity.Y += GravityAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
             PositionXRectangleHitbox = (int)Position.X;
             PositionYRectangleHitbox = (int)Position.Y;
@@ -404,11 +404,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             }
             else if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
             {
-                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(_texture, Position + new Vector2(0,-4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
             else if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
             {
-                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(_texture, Position + new Vector2(0,-4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
             else if (isIdling)
             {

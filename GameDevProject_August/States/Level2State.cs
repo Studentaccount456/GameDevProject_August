@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using GameDevProject_August.Sprites;
 using Microsoft.Xna.Framework.Input;
 using GameDevProject_August.Levels.Level2;
+using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
 
 namespace GameDevProject_August.States
 {
@@ -34,9 +35,6 @@ namespace GameDevProject_August.States
         private List<Component> _gameComponents;
 
         private Texture2D _regularPointTexture;
-
-
-        private Texture2D RegularPointTexture;
 
         private Texture2D backgroundTexture;
 
@@ -93,7 +91,7 @@ namespace GameDevProject_August.States
             {
                 new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture)
                 {
-                    Position = new Vector2(20,30),
+                    Position = new Vector2(10,600),
 
                     Input = new Input()
                     {
@@ -108,25 +106,10 @@ namespace GameDevProject_August.States
                     Bullet = new PlayerBullet(playerBullet),
                     Score = PlayerScore
                 },
-                /*
-                  new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture, minotaurStandStillTexture)
-                {
-                    Position = new Vector2(500,10),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.S,
-                        Up = System.Windows.Forms.Keys.Z,
-                        Left = System.Windows.Forms.Keys.Q,
-                        Right = System.Windows.Forms.Keys.D,
-                        Shoot = System.Windows.Forms.Keys.M
-                    },
-                    Speed = 10f,
-        },
-                
-                /*
+
                 new Dragonfly(dragonflyMoveTexture, glitchDeathTexture, dragonflyStandStillTexture)
                 {
-                    Position = new Vector2((ScreenWidth / 2) - (ratMoveTexture.Width / 2) + 5, ScreenHeight - ratMoveTexture.Height + 6),
+                    Position = new Vector2(250, 595),
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.S,
@@ -137,11 +120,9 @@ namespace GameDevProject_August.States
                     },
                     Speed = 2f,
                 },
-                */
-                /*
-                new Porcupine(porcupineMoveTexture, glitchDeathTexture,porcupineStandStillTexture)
+                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture, dragonflyStandStillTexture)
                 {
-                    Position = new Vector2((ScreenWidth / 2) - (ratMoveTexture.Width / 2) + 5, ScreenHeight - ratMoveTexture.Height + 6),
+                    Position = new Vector2(650,570),
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.S,
@@ -152,12 +133,9 @@ namespace GameDevProject_August.States
                     },
                     Speed = 2f,
                 },
-                */
-                
-                /*
                 new RatMage(ratMoveTexture, ratCastTexture, ratIdleTexture, glitchDeathTexture, ratStandStillTexture)
                 {
-                    Position = new Vector2(100,100),
+                    Position = new Vector2(225, 408),
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.S,
@@ -168,8 +146,7 @@ namespace GameDevProject_August.States
                     },
                     Speed = 10f,
                     Bullet = new EnemyBullet(ratProjectile),
-
-        },*/
+        },
             };
 
             _hasStarted = false;

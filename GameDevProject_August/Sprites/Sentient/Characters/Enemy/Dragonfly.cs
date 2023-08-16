@@ -53,6 +53,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             _texture = moveTexture;
             DeathTexture = deathTexture;
             StandStillTexture = standStillTexture;
+            facingDirectionIndicator = false;
 
             // Standard walks right
             #region MoveAnimation
@@ -109,7 +110,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is MainCharacter)
                 {
                     HasDied = true;
-                    sprite.IsRemoved = true;
+                    sprite.isDeathAnimating = true;
                 }
 
                 if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet)
@@ -140,6 +141,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
                     if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
                     {
+                        HasDied = true;
                         sprite.IsRemoved = true;
                     }
 

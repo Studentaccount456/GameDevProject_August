@@ -69,7 +69,7 @@ namespace GameDevProject_August.States
                     _game.ChangeState(new Level2State(_game, _graphicsDevice, _content));
                     break;
                 case 3:
-                    _game.ChangeState(new Level2State(_game, _graphicsDevice, _content));
+                    _game.ChangeState(new Level3State(_game, _graphicsDevice, _content));
                     break;
                 default:
                     break;
@@ -89,7 +89,10 @@ namespace GameDevProject_August.States
                     break;
                 case 3:
                     loadGameButton.TextButton = "Level: Level 3";
-                    levelSelect = 0;
+                    break;
+                case 4:
+                    loadGameButton.TextButton = "Level: Level 1";
+                    levelSelect = 1;
                     break;
                 default:
                     break;
