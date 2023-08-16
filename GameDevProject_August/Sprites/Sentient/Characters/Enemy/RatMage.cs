@@ -1,19 +1,10 @@
 ﻿using GameDevProject_August.AnimationClasses;
-using GameDevProject_August.AnimationClasses.AnimationMethods;
 using GameDevProject_August.Levels;
-using GameDevProject_August.Models;
-using GameDevProject_August.Sprites.NotSentient.Collectibles;
 using GameDevProject_August.Sprites.NotSentient.Projectiles;
 using GameDevProject_August.Sprites.Sentient.Characters.Main;
-using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 {
@@ -193,7 +184,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 shootDelay = 0f;
             }
 
-            if (enemySpotted && !isShootingCooldown && !isShootingCooldown)
+            if (enemySpotted && !isShootingCooldown)
             {
                 shootDelay += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 isShootingAnimating = true;

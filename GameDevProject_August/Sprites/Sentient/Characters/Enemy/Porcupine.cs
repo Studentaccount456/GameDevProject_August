@@ -1,20 +1,10 @@
 ﻿using GameDevProject_August.AnimationClasses;
-using GameDevProject_August.Models;
-using GameDevProject_August.Sprites.NotSentient.Collectibles;
+using GameDevProject_August.Levels;
 using GameDevProject_August.Sprites.NotSentient.Projectiles;
 using GameDevProject_August.Sprites.Sentient.Characters.Main;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Input;
-using GameDevProject_August.UI;
-using SharpDX.Direct3D9;
-using GameDevProject_August.Levels;
-using System.DirectoryServices.ActiveDirectory;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 {

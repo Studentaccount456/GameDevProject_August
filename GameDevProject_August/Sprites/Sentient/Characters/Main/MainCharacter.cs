@@ -1,23 +1,16 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework.Input;
-using GameDevProject_August.UI;
-using GameDevProject_August.AnimationClasses;
-using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
-using GameDevProject_August.Sprites.NotSentient.Projectiles;
-using GameDevProject_August.Sprites.NotSentient.Collectibles;
-using GameDevProject_August.Levels;
-using SharpDX.Direct2D1.Effects;
+﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.AnimationClasses.AnimationMethods;
-using GameDevProject_August.Models;
-using SharpDX.Direct3D9;
-using System.Runtime.CompilerServices;
-using System;
-using System.Security.Cryptography.X509Certificates;
+using GameDevProject_August.Levels;
 using GameDevProject_August.Levels.BlockTypes;
-using GameDevProject_August.States.LevelStates;
+using GameDevProject_August.Models;
+using GameDevProject_August.Sprites.NotSentient.Collectibles;
+using GameDevProject_August.Sprites.NotSentient.Projectiles;
 using GameDevProject_August.States;
+using GameDevProject_August.UI;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 {

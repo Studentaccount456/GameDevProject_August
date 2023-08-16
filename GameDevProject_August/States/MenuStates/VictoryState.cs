@@ -1,12 +1,9 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using GameDevProject_August.States.LevelStates;
+using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameDevProject_August.Controls;
-using GameDevProject_August.States.LevelStates;
 
 namespace GameDevProject_August.States.MenuStates
 {

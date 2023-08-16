@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
-namespace GameDevProject_August.Controls
+namespace GameDevProject_August.UI
 {
     public class Button : Component
     {
@@ -66,8 +66,8 @@ namespace GameDevProject_August.Controls
 
             if (!string.IsNullOrEmpty(TextButton))
             {
-                var x = (RectangleButton.X + (RectangleButton.Width / 2)) - (_font.MeasureString(TextButton).X / 2);
-                var y = (RectangleButton.Y + (RectangleButton.Height / 2)) - (_font.MeasureString(TextButton).Y / 2);
+                var x = RectangleButton.X + RectangleButton.Width / 2 - _font.MeasureString(TextButton).X / 2;
+                var y = RectangleButton.Y + RectangleButton.Height / 2 - _font.MeasureString(TextButton).Y / 2;
 
                 spriteBatch.DrawString(_font, TextButton, new Vector2(x, y), PenColour);
             }

@@ -1,9 +1,5 @@
-﻿using GameDevProject_August.Sprites;
-using GameDevProject_August.Sprites.Sentient.Characters.Main;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 
 namespace GameDevProject_August.AnimationClasses.AnimationMethods
 {

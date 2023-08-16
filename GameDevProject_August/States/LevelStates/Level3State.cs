@@ -1,23 +1,15 @@
-﻿using GameDevProject_August.Levels.Level2;
-using GameDevProject_August.Levels;
+﻿using GameDevProject_August.Levels;
+using GameDevProject_August.Levels.Level3;
 using GameDevProject_August.Models;
-using GameDevProject_August.Sprites.NotSentient.Collectibles;
+using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.NotSentient.Projectiles;
+using GameDevProject_August.Sprites.NotSentient.Terminal;
 using GameDevProject_August.Sprites.Sentient.Characters.Main;
+using GameDevProject_August.States.MenuStates;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameDevProject_August.Sprites;
-using Microsoft.Xna.Framework.Input;
-using GameDevProject_August.Levels.Level3;
-using GameDevProject_August.Sprites.NotSentient.Terminal;
-using GameDevProject_August.UI;
-using GameDevProject_August.States.MenuStates;
 
 namespace GameDevProject_August.States.LevelStates
 {
