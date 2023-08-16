@@ -60,7 +60,20 @@ namespace GameDevProject_August.States
 
         private void NewGameButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
+            switch (levelSelect)
+            {
+                case 1:
+                    _game.ChangeState(new Level1State(_game, _graphicsDevice, _content));
+                    break;
+                case 2:
+                    _game.ChangeState(new Level2State(_game, _graphicsDevice, _content));
+                    break;
+                case 3:
+                    _game.ChangeState(new Level2State(_game, _graphicsDevice, _content));
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void LoadGameButton_Click(object sender, EventArgs e)

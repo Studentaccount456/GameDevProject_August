@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GameDevProject_August.Levels.BlockTypes;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,25 @@ using System.Threading.Tasks;
 
 namespace GameDevProject_August.Levels.Level2
 {
-    internal class Level2BlockFactory
+    internal class Level2BlockFactory : IBlockFactory
     {
+        public Block CreateBlock(int number, Rectangle rectangle)
+        {
+            Block block = null;
+
+            if (number == 1)
+            {
+                block = new Stone(rectangle);
+            }
+            else if (number == 2)
+            {
+                block = new Dirt(rectangle);
+            }
+            else if (number == 3)
+            {
+                block = new SixPointsType(rectangle);
+            }
+            return block;
+        }
     }
 }

@@ -155,7 +155,7 @@ namespace GameDevProject_August.Sprites
 
         protected bool IsTouchingLeftBlock(Block block)
         {
-            return this.RectangleHitbox.Right + this.Velocity.X > block.BlockRectangle.Left &&
+            return this.RectangleHitbox.Right + this.Velocity.X * 2 > block.BlockRectangle.Left &&
                    this.RectangleHitbox.Left < block.BlockRectangle.Left &&
                    this.RectangleHitbox.Bottom > block.BlockRectangle.Top &&
                    this.RectangleHitbox.Top < block.BlockRectangle.Bottom;
@@ -171,7 +171,7 @@ namespace GameDevProject_August.Sprites
 
         protected bool IsTouchingTopBlock(Block block)
         {
-            return this.RectangleHitbox.Bottom + this.Velocity.Y * 1.5 > block.BlockRectangle.Top &&
+            return this.RectangleHitbox.Bottom + this.Velocity.Y * 2 > block.BlockRectangle.Top &&
                    this.RectangleHitbox.Top < block.BlockRectangle.Top &&
                    this.RectangleHitbox.Right > block.BlockRectangle.Left &&
                    this.RectangleHitbox.Left < block.BlockRectangle.Right;

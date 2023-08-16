@@ -14,13 +14,12 @@ using System.Text;
 using System.Threading.Tasks;
 using GameDevProject_August.Sprites;
 using Microsoft.Xna.Framework.Input;
+using GameDevProject_August.Levels.Level2;
 
 namespace GameDevProject_August.States
 {
     public class Level2State : PlayingState
     {
-        public static Random Random;
-
         public static int ScreenWidth;
         public static int ScreenHeight;
 
@@ -51,14 +50,12 @@ namespace GameDevProject_August.States
         public Level2State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
             content.RootDirectory = "Content";
-            Random = new Random();
             ScreenWidth = Game1.ScreenWidth;
             ScreenHeight = Game1.ScreenHeight;
 
-            RegularPointTexture = content.Load<Texture2D>("Textures\\Point_1");
             backgroundTexture = content.Load<Texture2D>("BackGrounds\\BackGround_Standard");
 
-            level = new Level1(new Level1BlockFactory());
+            level = new Level2(new Level2BlockFactory());
             LoadContent(content);
             InitializeContent();
             fallingCode = new FallingCode(playerBullet);
@@ -71,9 +68,9 @@ namespace GameDevProject_August.States
         {
             Level newlevel = null;
 
-            if (level is Level1)
+            if (level is Level2)
             {
-                newlevel = new Level1(new Level1BlockFactory());
+                newlevel = new Level2(new Level2BlockFactory());
                 newlevel.Generate(newlevel.Map, tileSize);
             }
             /*
@@ -94,7 +91,7 @@ namespace GameDevProject_August.States
 
             _sprites = new List<Sprite>()
             {
-                new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture)
+                new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture)
                 {
                     Position = new Vector2(20,30),
 
@@ -107,7 +104,7 @@ namespace GameDevProject_August.States
                         Shoot = System.Windows.Forms.Keys.Space
                     },
 
-                    Speed = 10f,
+                    Speed = 7f,
                     Bullet = new PlayerBullet(playerBullet),
                     Score = PlayerScore
                 },

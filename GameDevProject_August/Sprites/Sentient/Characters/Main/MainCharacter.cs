@@ -32,6 +32,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         private Animation animationDeath;
         private Animation animationIdle;
         private Animation animationShoot;
+        private Animation animationJump;
 
         public Dictionary<string, Animation> animationDictionary;
 
@@ -39,6 +40,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         public Texture2D IdleTexture;
         public Texture2D DeathTexture;
         public Texture2D StandStillTexture;
+        public Texture2D JumpTexture;
 
         private bool canMove = true;
 
@@ -84,7 +86,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 
 
 
-        public MainCharacter(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture)
+        public MainCharacter(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture, Texture2D jumpTexture)
             : base(moveTexture)
         {
             AnimationHandler_MC = new AnimationHandler();
@@ -92,6 +94,8 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             CharacterDrawer_MC = new CharacterDrawer(AnimationHandler_MC);
 
             StandStillTexture = standStillTexture;
+
+            JumpTexture = jumpTexture;
 
             hasJumped = true;
 
@@ -109,7 +113,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             animationMove.AddFrame(new AnimationFrame(new Rectangle(768, 0, 34, 50)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(896, 0, 34, 50)));
             #endregion
-            
+
             //Height is 48 for each frame
             #region animationShoot
             animationShoot = new Animation(AnimationType.Attack, shootTexture);
@@ -145,12 +149,25 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(516, 0, 50, 44)));
             #endregion
 
+            #region JumpAnimation
+            animationJump = new Animation(AnimationType.Jump, jumpTexture);
+            animationJump.AddFrame(new AnimationFrame(new Rectangle(0, 0, 30, 44)));
+            animationJump.AddFrame(new AnimationFrame(new Rectangle(128, 0, 28, 44)));
+            animationJump.AddFrame(new AnimationFrame(new Rectangle(256, 0, 28, 44)));
+            animationJump.AddFrame(new AnimationFrame(new Rectangle(384, 0, 28, 44)));
+            animationJump.AddFrame(new AnimationFrame(new Rectangle(510, 0, 28, 44)));
+            animationJump.AddFrame(new AnimationFrame(new Rectangle(640, 0, 28, 44)));
+            animationJump.AddFrame(new AnimationFrame(new Rectangle(768, 0, 28, 44)));
+            animationJump.AddFrame(new AnimationFrame(new Rectangle(896, 0, 30, 44)));
+            #endregion
+
             animationDictionary = new Dictionary<string, Animation>
 {
                                 { "MoveAnimation", animationMove },
                                 { "AttackAnimation", animationShoot },
                                 { "DeathAnimation", animationDeath },
-                                { "IdleAnimation", animationIdle }
+                                { "IdleAnimation", animationIdle },
+                                { "JumpAnimation", animationJump }
                                 };
         }
 
@@ -180,7 +197,8 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                 {
                     isIdling = true;
                     standStillNoIdle = false;
-                } else
+                }
+                else
                 {
                     standStillNoIdle = true;
                 }
@@ -219,7 +237,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             if (_currentKey.IsKeyDown(Keys.Space) && _previousKey.IsKeyUp(Keys.Space) && !isShootingCooldown && !isShootingAnimating)
             {
                 AddBullet(sprites);
-                isShootingAnimating = true; 
+                isShootingAnimating = true;
 
                 isShootingCooldown = true;
                 shootingCooldownTimer = 0f;
@@ -287,7 +305,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                         Velocity.Y = 0;
                     }
 
-                    if (IsTouchingTopBlock(block) || IsTouchingBottomBlock(block))
+                    if (IsTouchingTopBlock(block))
                     {
                         hasJumped = false;
                     }
@@ -296,7 +314,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     {
                         Level1State.isNextLevelTrigger = true;
                     }
-                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && block is ThreePointsType && PlayingState.PlayerScore.MainScore == 6)
+                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && block is SixPointsType && PlayingState.PlayerScore.MainScore == 6)
                     {
                         Level2State.isNextLevelTrigger = true;
                     }
@@ -309,13 +327,12 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             {
                 Velocity = Vector2.Zero;
             }
-            //Velocity = Vector2.Zero;
             animationShoot.Update(gameTime);
             if (!isShootingAnimating)
             {
                 animationIdle.Update(gameTime);
             }
-            if (isDeathAnimating == true) 
+            if (isDeathAnimating == true)
             {
                 animationDeath.Update(gameTime);
             }
@@ -372,12 +389,12 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             if (hasJumped)
             {
                 foreach (var block in blocks)
-            {
-                if (IsTouchingTopBlock(block))
                 {
-                    hasJumped = true;
+                    if (IsTouchingTopBlock(block))
+                    {
+                        hasJumped = true;
+                    }
                 }
-            }
             }
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
             {
@@ -395,14 +412,16 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             {
                 Velocity.X += Speed;
                 facingDirection = Vector2.UnitX;
-                facingDirectionIndicator = true; 
+                facingDirectionIndicator = true;
                 isMovingRight = true;
 
             }
-            if (!Keyboard.GetState().IsKeyDown((Keys)Input.Left)) {
+            if (!Keyboard.GetState().IsKeyDown((Keys)Input.Left))
+            {
                 isMovingLeft = false;
             }
-            if (!Keyboard.GetState().IsKeyDown((Keys)Input.Right)) {
+            if (!Keyboard.GetState().IsKeyDown((Keys)Input.Right))
+            {
                 isMovingRight = false;
             }
             if (!Keyboard.GetState().IsKeyDown((Keys)Input.Down))
@@ -434,13 +453,73 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     IsRemoved = true;
                 }
             }
-            else
-            {
-                CharacterDrawer_MC.DrawMainCharacter(spriteBatch, AnimationHandler_MC, animationDictionary, StandStillTexture, Position, isDeathAnimating, isShootingAnimating, facingDirectionIndicator,
-                isIdling, standStillNoIdle, isMovingLeft, isMovingRight, isMovingUp, isMovingDown, IsRemoved);
-            }
 
+            // TODO MainCharacter facing side deathAnimation
+            /*
+            if (isDeathAnimating)
+            {
+                animationHandler.DrawAnimation(spriteBatch, animations["DeathAnimation"], Position, true);
+                if (animations["DeathAnimation"].IsAnimationComplete)
+                {                    
+                    isDeathAnimating = false; // Stop death animation
+                    isRemoved = true;
+                }
+            }
+            */
+            /*else*/
+            else if (isShootingAnimating)
+            {
+                if (facingDirectionIndicator == true)
+                {
+                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, true);
+                }
+                else if (facingDirectionIndicator == false)
+                {
+                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, false);
+                }
+                if (animationDictionary["AttackAnimation"].IsAnimationComplete)
+                {
+                    isShootingAnimating = false;
+                }
+            }
+            else if (hasJumped && facingDirectionIndicator == true)
+            {
+                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, true);
+            }
+            else if (hasJumped && facingDirectionIndicator == false)
+            {
+                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, false);
+            }
+            else if (isMovingLeft)
+            {
+                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, false);
+            }
+            else if (isMovingRight)
+            {
+                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, true);
+            }
+            else if (isIdling)
+            {
+                if (facingDirectionIndicator == true)
+                {
+                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, true);
+                }
+                else if (facingDirectionIndicator == false)
+                {
+                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, false);
+                }
+            }
+            else if (facingDirectionIndicator == true && standStillNoIdle == true && !isShootingAnimating || (facingDirectionIndicator == true && !isShootingAnimating && isMovingDown) || (facingDirectionIndicator == true && !isShootingAnimating && isMovingUp))
+            {
+                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, true);
+            }
+            else if (facingDirectionIndicator == false && standStillNoIdle == true && !isShootingAnimating || (facingDirectionIndicator == false && !isShootingAnimating && isMovingUp) || (facingDirectionIndicator == false && !isShootingAnimating && isMovingDown))
+            {
+                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, false);
+            }
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
+
         }
     }
 }
+

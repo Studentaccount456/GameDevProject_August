@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace GameDevProject_August.Levels.BlockTypes
 {
-    internal class ThreePointsType : Block
+    internal class Marmer : Block
     {
-        public ThreePointsType(Rectangle newrectangle) : base(newrectangle)
+        public Marmer(Rectangle newrectangle) : base(newrectangle)
         {
-            this.isNextLevel = true;
-            blockTexture = PlayingState.ThreePointsTexture;
+            this.isNextLevel = false;
+            blockTexture = PlayingState.MarmerTexture;
             this.BlockRectangle = newrectangle;
         }
     }

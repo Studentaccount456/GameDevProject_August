@@ -10,8 +10,6 @@ namespace GameDevProject_August.Levels.BlockTypes
             this.isNextLevel = false;
             blockTexture = PlayingState.StoneTexture;
             this.BlockRectangle = newrectangle;
-
-
         }
     }
 }

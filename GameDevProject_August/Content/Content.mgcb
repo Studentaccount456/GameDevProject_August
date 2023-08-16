@@ -73,6 +73,18 @@
 /processorParam:TextureFormat=Color
 /build:Animations/MainCharacter/MC_Idle.png
 
+#begin Animations/MainCharacter/MC_Jump.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Animations/MainCharacter/MC_Jump.png
+
 #begin Animations/MainCharacter/MC_MoveRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -411,6 +423,30 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Tiles/DirtUnderGround.png
 
+#begin Textures/Tiles/Marmer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Tiles/Marmer.png
+
+#begin Textures/Tiles/SixPointsTexture.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Tiles/SixPointsTexture.png
+
 #begin Textures/Tiles/Stone.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -423,7 +459,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Tiles/Stone.png
 
-#begin Textures/Widthlook.png
+#begin Textures/Tiles/ThreePointsTexture.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -433,5 +469,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/Widthlook.png
+/build:Textures/Tiles/ThreePointsTexture.png
 

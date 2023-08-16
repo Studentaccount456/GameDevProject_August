@@ -9,7 +9,8 @@ namespace GameDevProject_August.AnimationClasses
         Idle,
         Move,
         Attack,
-        Death
+        Death,
+        Jump
     }
     public class Animation
     {

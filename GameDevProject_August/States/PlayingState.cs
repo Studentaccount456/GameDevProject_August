@@ -40,6 +40,8 @@ namespace GameDevProject_August.States
         public Texture2D personIdleTexture { get; private set; }
         public Texture2D personDeathTexture { get; private set; }
         public Texture2D personStandStillTexture { get; private set; }
+        public Texture2D personJumpTexture { get; private set; }
+
 
         public Texture2D ratMoveTexture { get; private set; }
         public Texture2D ratCastTexture { get; private set; }
@@ -70,6 +72,10 @@ namespace GameDevProject_August.States
         public static Texture2D GrassTexture { get; private set; }
         public static Texture2D DirtTexture { get; private set; }
         public static Texture2D StoneTexture { get; private set; }
+        public static Texture2D MarmerTexture { get; private set; }
+        public static Texture2D ThreePointsTexture { get; private set; }
+        public static Texture2D SixPointsTexture { get; private set; }
+
 
         public Texture2D BackgroundOfLevel { get; set; }
 
@@ -79,10 +85,13 @@ namespace GameDevProject_August.States
         public Texture2D FallingCodeRatMage { get; private set; }
         public Texture2D FallingCodePoint { get; private set; }
 
+        public static Random Random;
+
 
         public PlayingState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
                             : base(game, graphicsDevice, content)
         {
+            Random = new Random();
             LoadContent(content);
         }
 
@@ -153,6 +162,7 @@ namespace GameDevProject_August.States
             personIdleTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_Idle"); ;
             personDeathTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_Dies");
             personStandStillTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_StandStill");
+            personJumpTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_Jump");
 
         }
 
@@ -204,6 +214,9 @@ namespace GameDevProject_August.States
             GrassTexture = content.Load<Texture2D>("Textures\\Tiles\\DirtAboveGround");
             DirtTexture = content.Load<Texture2D>("Textures\\Tiles\\DirtUnderGround");
             StoneTexture = content.Load<Texture2D>("Textures\\Tiles\\Stone");
+            MarmerTexture = content.Load<Texture2D>("Textures\\Tiles\\Marmer");
+            ThreePointsTexture = content.Load<Texture2D>("Textures\\Tiles\\ThreePointsTexture");
+            SixPointsTexture = content.Load<Texture2D>("Textures\\Tiles\\SixPointsTexture");
         }
 
         private void LoadSpriteFonts(ContentManager content)

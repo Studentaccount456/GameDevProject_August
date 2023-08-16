@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace GameDevProject_August.Levels.BlockTypes
 {
-    internal class ThreePointsType : Block
+    public class SixPointsType : Block
     {
-        public ThreePointsType(Rectangle newrectangle) : base(newrectangle)
+        public SixPointsType(Rectangle newrectangle) : base(newrectangle)
         {
             this.isNextLevel = true;
-            blockTexture = PlayingState.ThreePointsTexture;
+            blockTexture = PlayingState.SixPointsTexture;
             this.BlockRectangle = newrectangle;
         }
     }
