@@ -311,11 +311,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     }
                 } else if (block is ThreePointsType || block is SevenPointsType)
                 {
-                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && PlayingState.PlayerScore.MainScore >= 3)
+                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && Game1.PlayerScore.MainScore >= 3)
                     {
                         Level1State.isNextLevelTrigger = true;
                     }
-                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && PlayingState.PlayerScore.MainScore >= 7)
+                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && Game1.PlayerScore.MainScore >= 7)
                     {
                         Level2State.isNextLevelTrigger = true;
                     }

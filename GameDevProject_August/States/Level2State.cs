@@ -1,21 +1,18 @@
-﻿using GameDevProject_August.Levels.Level1;
-using GameDevProject_August.Levels;
+﻿using GameDevProject_August.Levels;
+using GameDevProject_August.Levels.Level2;
 using GameDevProject_August.Models;
+using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.NotSentient.Collectibles;
 using GameDevProject_August.Sprites.NotSentient.Projectiles;
+using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
 using GameDevProject_August.Sprites.Sentient.Characters.Main;
+using GameDevProject_August.UI;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameDevProject_August.Sprites;
-using Microsoft.Xna.Framework.Input;
-using GameDevProject_August.Levels.Level2;
-using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
 
 namespace GameDevProject_August.States
 {
@@ -42,20 +39,28 @@ namespace GameDevProject_August.States
 
         public static bool isNextLevelTrigger;
 
+        private bool _isFromMainMenu;
+
 
         Level level;
 
-        public Level2State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
+        public Level2State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool isFromMainMenu) : base(game, graphicsDevice, content)
         {
             content.RootDirectory = "Content";
             ScreenWidth = Game1.ScreenWidth;
             ScreenHeight = Game1.ScreenHeight;
+
+            _isFromMainMenu = isFromMainMenu;
+
+
+            isNextLevelTrigger = false;
 
             backgroundTexture = content.Load<Texture2D>("BackGrounds\\BackGround_Standard");
 
             level = new Level2(new Level2BlockFactory());
             LoadContent(content);
             InitializeContent();
+            InitializeScore(2, isFromMainMenu);
             fallingCode = new FallingCode(playerBullet);
 
             Restart();
@@ -104,7 +109,7 @@ namespace GameDevProject_August.States
 
                     Speed = 7f,
                     Bullet = new PlayerBullet(playerBullet),
-                    Score = PlayerScore
+                    Score = Game1.PlayerScore
                 },
 
                 new Dragonfly(dragonflyMoveTexture, glitchDeathTexture, dragonflyStandStillTexture)
@@ -173,7 +178,7 @@ namespace GameDevProject_August.States
                 sprite.Draw(spriteBatch);
             }
 
-            PlayerScore.Draw(spriteBatch);
+            Game1.PlayerScore.Draw(spriteBatch);
 
             spriteBatch.End();
         }
@@ -254,12 +259,11 @@ namespace GameDevProject_August.States
             //SpawnRegularPoint();
 
             PostUpdate(gameTime);
-            /*
+
             if (isNextLevelTrigger)
             {
-                _game.ChangeState(new Level2State(_game, _graphicsDevice, _content));
+                _game.ChangeState(new Level3State(_game, _graphicsDevice, _content, false));
             }
-            */
         }
 
         private void SpawnFallingCode()

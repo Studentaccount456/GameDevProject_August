@@ -19,6 +19,8 @@ namespace GameDevProject_August
         private State _currentState;
         private State _nextState;
 
+        public static Score PlayerScore;
+
         public void ChangeState(State state)
         {
             _nextState = state;

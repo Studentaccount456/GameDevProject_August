@@ -47,7 +47,7 @@ namespace GameDevProject_August.States
 
         private void replayButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new Level1State(_game, _graphicsDevice, _content));
+            _game.ChangeState(new Level1State(_game, _graphicsDevice, _content, true));
         }
 
         private void mainMenuButton_Click(object sender, EventArgs e)

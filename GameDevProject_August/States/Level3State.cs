@@ -16,6 +16,7 @@ using GameDevProject_August.Sprites;
 using Microsoft.Xna.Framework.Input;
 using GameDevProject_August.Levels.Level3;
 using GameDevProject_August.Sprites.NotSentient.Terminal;
+using GameDevProject_August.UI;
 
 namespace GameDevProject_August.States
 {
@@ -40,17 +41,23 @@ namespace GameDevProject_August.States
 
         Level level;
 
-        public Level3State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
+        private bool _isFromMainMenu;
+
+        public Level3State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool isFromMainMenu) : base(game, graphicsDevice, content)
         {
             content.RootDirectory = "Content";
             ScreenWidth = Game1.ScreenWidth;
             ScreenHeight = Game1.ScreenHeight;
+
+            _isFromMainMenu = isFromMainMenu;
+
 
             backgroundTexture = content.Load<Texture2D>("BackGrounds\\BackGround_Standard");
 
             level = new Level3(new Level3BlockFactory());
             LoadContent(content);
             InitializeContent();
+            InitializeScore(3, isFromMainMenu);
             fallingCode = new FallingCode(playerBullet);
 
             Restart();
@@ -99,7 +106,7 @@ namespace GameDevProject_August.States
 
                     Speed = 7f,
                     Bullet = new PlayerBullet(playerBullet),
-                    Score = PlayerScore
+                    Score = Game1.PlayerScore
                 },
                 new FinalTerminal(finalTerminalTexture)
                 {
@@ -129,7 +136,7 @@ namespace GameDevProject_August.States
                 sprite.Draw(spriteBatch);
             }
 
-            PlayerScore.Draw(spriteBatch);
+            Game1.PlayerScore.Draw(spriteBatch);
 
             spriteBatch.End();
         }

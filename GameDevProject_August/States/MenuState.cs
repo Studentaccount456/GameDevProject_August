@@ -63,13 +63,13 @@ namespace GameDevProject_August.States
             switch (levelSelect)
             {
                 case 1:
-                    _game.ChangeState(new Level1State(_game, _graphicsDevice, _content));
+                    _game.ChangeState(new Level1State(_game, _graphicsDevice, _content, true));
                     break;
                 case 2:
-                    _game.ChangeState(new Level2State(_game, _graphicsDevice, _content));
+                    _game.ChangeState(new Level2State(_game, _graphicsDevice, _content, true));
                     break;
                 case 3:
-                    _game.ChangeState(new Level3State(_game, _graphicsDevice, _content));
+                    _game.ChangeState(new Level3State(_game, _graphicsDevice, _content, true));
                     break;
                 default:
                     break;

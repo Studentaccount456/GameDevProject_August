@@ -39,20 +39,25 @@ namespace GameDevProject_August.States
 
         public static bool isNextLevelTrigger;
 
+        private bool _isFromMainMenu;
+
 
         Level level;
 
-        public Level1State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
+        public Level1State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool isFromMainMenu) : base(game, graphicsDevice, content)
         {
             content.RootDirectory = "Content";
             ScreenWidth = Game1.ScreenWidth;
             ScreenHeight = Game1.ScreenHeight;
+
+            _isFromMainMenu = isFromMainMenu;
 
             backgroundTexture = content.Load<Texture2D>("BackGrounds\\BackGround_Standard");
 
             level = new Level1(new Level1BlockFactory());
             LoadContent(content);
             InitializeContent();
+            InitializeScore(1, isFromMainMenu);
             fallingCode = new FallingCode(playerBullet);
 
             Restart();
@@ -101,7 +106,7 @@ namespace GameDevProject_August.States
 
                     Speed = 7f,
                     Bullet = new PlayerBullet(playerBullet),
-                    Score = PlayerScore
+                    Score = Game1.PlayerScore
                 },
 
                   new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture, minotaurStandStillTexture)
@@ -158,7 +163,7 @@ namespace GameDevProject_August.States
                 sprite.Draw(spriteBatch);
             }
 
-            PlayerScore.Draw(spriteBatch);
+            Game1.PlayerScore.Draw(spriteBatch);
 
             spriteBatch.End();
         }
@@ -242,7 +247,7 @@ namespace GameDevProject_August.States
 
             if (isNextLevelTrigger)
             {
-                _game.ChangeState(new Level2State(_game, _graphicsDevice, _content));
+                _game.ChangeState(new Level2State(_game, _graphicsDevice, _content, false));
             }
         }
 

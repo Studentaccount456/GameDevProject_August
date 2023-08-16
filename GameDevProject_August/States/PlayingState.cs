@@ -29,10 +29,6 @@ namespace GameDevProject_August.States
             set { spriteList = value; }
         }
 
-        public static Score PlayerScore;
-
-
-
         public Texture2D RegularPointTexture { get; private set; }
 
         public Texture2D personMoveTexture { get; private set; }
@@ -100,8 +96,6 @@ namespace GameDevProject_August.States
 
         public override void LoadContent(ContentManager content)
         {
-            PlayerScore = new Score(fontOfScoreLoaded, Game1.ScreenWidth, Game1.ScreenHeight);
-
             LoadMain_Character(content);
             LoadMinotaur(content);
             LoadRatMage(content);
@@ -146,6 +140,26 @@ namespace GameDevProject_August.States
         public void DrawBackground(Texture2D backgroundTexture, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
+        }
+
+        public void InitializeScore(int levelIndicator, bool isFromMainMenu)
+        {
+            if (isFromMainMenu)
+            {
+                Game1.PlayerScore = new Score(fontOfScoreLoaded, Game1.ScreenWidth, Game1.ScreenHeight);
+                switch (levelIndicator)
+                {
+                    case 2:
+                        Game1.PlayerScore.MainScore = 3;
+                        break;
+                    case 3:
+                        Game1.PlayerScore.MainScore = 7;
+                        break;
+                    default:
+                        Game1.PlayerScore.MainScore = 0;
+                        break;
+                }
+            }
         }
 
         private void DrawSprites(List<Sprite> spriteList, SpriteBatch spriteBatch)
