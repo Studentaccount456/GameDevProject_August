@@ -19,9 +19,9 @@ namespace GameDevProject_August.States.MenuStates
 
         public GameOverState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
         {
-            var buttonTexture = _content.Load<Texture2D>("Controls\\Illustration2");
-            backGroundGameOverState = _content.Load<Texture2D>("BackGrounds\\Game_Over");
-            var buttonFont = _content.Load<SpriteFont>("Fonts\\ButtonFont");
+            var buttonTexture = _content.Load<Texture2D>("MenuTextures\\Buttons\\Classic_Button");
+            backGroundGameOverState = _content.Load<Texture2D>("LevelTextures\\BackGrounds\\MenuScreens\\Game_Over");
+            var buttonFont = _content.Load<SpriteFont>("MenuTextures\\Fonts\\ButtonFont");
 
             var replayButton = new Button(buttonTexture, buttonFont)
             {

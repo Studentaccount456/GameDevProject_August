@@ -23,9 +23,9 @@ namespace GameDevProject_August.States.MenuStates
 
         public MainMenuState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
         {
-            var buttonTexture = _content.Load<Texture2D>("Controls\\Illustration2");
-            var buttonFont = _content.Load<SpriteFont>("Fonts\\ButtonFont");
-            backGroundMainMenu = _content.Load<Texture2D>("BackGrounds\\Start_Screen");
+            var buttonTexture = _content.Load<Texture2D>("MenuTextures\\Buttons\\Classic_Button");
+            var buttonFont = _content.Load<SpriteFont>("MenuTextures\\Fonts\\ButtonFont");
+            backGroundMainMenu = _content.Load<Texture2D>("LevelTextures\\BackGrounds\\MenuScreens\\Start_Screen");
 
             var newGameButton = new Button(buttonTexture, buttonFont)
             {

@@ -19,9 +19,9 @@ namespace GameDevProject_August.States.MenuStates
 
         public VictoryState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
         {
-            var buttonTexture = _content.Load<Texture2D>("Controls\\Illustration2");
-            backgroundVictoryState = _content.Load<Texture2D>("BackGrounds\\Victory_Screen");
-            var buttonFont = _content.Load<SpriteFont>("Fonts\\ButtonFont");
+            var buttonTexture = _content.Load<Texture2D>("MenuTextures\\Buttons\\Classic_Button");
+            backgroundVictoryState = _content.Load<Texture2D>("LevelTextures\\BackGrounds\\MenuScreens\\Victory_Screen");
+            var buttonFont = _content.Load<SpriteFont>("MenuTextures\\Fonts\\ButtonFont");
 
             var replayButton = new Button(buttonTexture, buttonFont)
             {

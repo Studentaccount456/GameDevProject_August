@@ -42,8 +42,6 @@ namespace GameDevProject_August.States.LevelStates
 
             _isFromMainMenu = isFromMainMenu;
 
-            backgroundTexture = content.Load<Texture2D>("BackGrounds\\BackGround_Standard");
-
             level = new Level3(new Level3BlockFactory());
             LoadContent(content);
             InitializeContent();

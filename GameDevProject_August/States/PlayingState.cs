@@ -215,99 +215,97 @@ namespace GameDevProject_August.States
 
         private void LoadMain_Character(ContentManager content)
         {
-
-            personMoveTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_MoveRight");
-            personShootTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_ShootRight"); ;
-            personIdleTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_Idle"); ;
-            personDeathTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_Dies");
-            personStandStillTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_StandStill");
-            personJumpTexture = content.Load<Texture2D>("Animations\\MainCharacter\\MC_Jump");
-
+            personMoveTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\MainCharacter\\MC_MoveRight");
+            personShootTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\MainCharacter\\MC_ShootRight"); ;
+            personIdleTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\MainCharacter\\MC_Idle"); ;
+            personDeathTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\MainCharacter\\MC_Dies");
+            personJumpTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\MainCharacter\\MC_Jump");
+            personStandStillTexture = content.Load<Texture2D>("LivingEntityTextures\\SpritesStationaryTextures\\MC_StandStill");
         }
 
         private void LoadMinotaur(ContentManager content)
         {
-            minotaurMoveTexture = content.Load<Texture2D>("Animations\\Minotaur\\Minotaur_RunRight");
-            minotaurCastTexture = content.Load<Texture2D>("Animations\\Minotaur\\Minotaur_Attack");
-            minotaurIdleTexture = content.Load<Texture2D>("Animations\\Minotaur\\Minotaur_Idle");
-            minotaurStandStillTexture = content.Load<Texture2D>("Animations\\Minotaur\\Minotaur_StandStill");
+            minotaurMoveTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\Minotaur\\Minotaur_RunRight");
+            minotaurCastTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\Minotaur\\Minotaur_Attack");
+            minotaurIdleTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\Minotaur\\Minotaur_Idle");
+            minotaurStandStillTexture = content.Load<Texture2D>("LivingEntityTextures\\SpritesStationaryTextures\\Minotaur_StandStill");
         }
 
         private void LoadRatMage(ContentManager content)
         {
-            ratMoveTexture = content.Load<Texture2D>("Animations\\Rat\\Rat_MoveRight");
-            ratCastTexture = content.Load<Texture2D>("Animations\\Rat\\Rat_Cast_One");
-            ratIdleTexture = content.Load<Texture2D>("Animations\\Rat\\Rat_Idle");
-            ratStandStillTexture = content.Load<Texture2D>("Animations\\Rat\\Rat_StandStill");
+            ratMoveTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\RatMage\\Rat_MoveRight");
+            ratCastTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\RatMage\\Rat_Cast_One");
+            ratIdleTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\RatMage\\Rat_Idle");
+            ratStandStillTexture = content.Load<Texture2D>("LivingEntityTextures\\SpritesStationaryTextures\\Rat_StandStill");
         }
 
         private void LoadPorcupine(ContentManager content)
         {
-            porcupineMoveTexture = content.Load<Texture2D>("Animations\\Porcupine\\Porcupine_MoveRight");
-            porcupineStandStillTexture = content.Load<Texture2D>("Animations\\Porcupine\\Porcupine_StandStill");
+            porcupineMoveTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\Porcupine\\Porcupine_MoveRight");
+            porcupineStandStillTexture = content.Load<Texture2D>("LivingEntityTextures\\SpritesStationaryTextures\\Porcupine_StandStill");
         }
 
         private void LoadDragonfly(ContentManager content)
         {
-            dragonflyMoveTexture = content.Load<Texture2D>("Animations\\DragonFly\\DragonFly_MoveRight");
-            dragonflyStandStillTexture = content.Load<Texture2D>("Animations\\DragonFly\\DragonFly_StandStill");
-        }
-
-        private void LoadProjectiles(ContentManager content)
-        {
-            playerBullet = content.Load<Texture2D>("Textures\\GoToeBullet");
-            ratProjectile = content.Load<Texture2D>("Textures\\RatArrow");
-        }
-        private void LoadPoints(ContentManager content)
-        {
-            RegularPointTexture = content.Load<Texture2D>("Textures\\Point_1");
+            dragonflyMoveTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\DragonFly\\DragonFly_MoveRight");
+            dragonflyStandStillTexture = content.Load<Texture2D>("LivingEntityTextures\\SpritesStationaryTextures\\DragonFly_StandStill");
         }
 
         private void LoadGlitchDeathEffect(ContentManager content)
         {
-            glitchDeathTexture = content.Load<Texture2D>("Animations\\Death\\GlitchDeathEffect");
+            glitchDeathTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\Death\\GlitchDeathEffect");
+        }
+
+        private void LoadProjectiles(ContentManager content)
+        {
+            playerBullet = content.Load<Texture2D>("InvokedEntities\\Projectiles\\GoToeBullet");
+            ratProjectile = content.Load<Texture2D>("InvokedEntities\\Projectiles\\RatArrow");
+        }
+        private void LoadPoints(ContentManager content)
+        {
+            RegularPointTexture = content.Load<Texture2D>("LevelTextures\\Collectibles\\Point_Plus1");
         }
 
         private void LoadBlockTextures(ContentManager content)
         {
-            GrassTexture = content.Load<Texture2D>("Textures\\Tiles\\DirtAboveGround");
-            DirtTexture = content.Load<Texture2D>("Textures\\Tiles\\DirtUnderGround");
-            StoneTexture = content.Load<Texture2D>("Textures\\Tiles\\Stone");
-            MarmerTexture = content.Load<Texture2D>("Textures\\Tiles\\Marmer");
-            ThreePointsTexture = content.Load<Texture2D>("Textures\\Tiles\\ThreePointsTexture");
-            SevenPointsTexture = content.Load<Texture2D>("Textures\\Tiles\\SevenPointsTexture");
+            GrassTexture = content.Load<Texture2D>("LevelTextures\\Tiles\\DirtAboveGround");
+            DirtTexture = content.Load<Texture2D>("LevelTextures\\Tiles\\DirtUnderGround");
+            StoneTexture = content.Load<Texture2D>("LevelTextures\\Tiles\\Stone");
+            MarmerTexture = content.Load<Texture2D>("LevelTextures\\Tiles\\Marmer");
+            ThreePointsTexture = content.Load<Texture2D>("LevelTextures\\Tiles\\ThreePointsTexture");
+            SevenPointsTexture = content.Load<Texture2D>("LevelTextures\\Tiles\\SevenPointsTexture");
         }
 
         private void LoadSpriteFonts(ContentManager content)
         {
-            fontOfScoreLoaded = content.Load<SpriteFont>("Fonts\\Font_Score");
+            fontOfScoreLoaded = content.Load<SpriteFont>("MenuTextures\\Fonts\\Font_Score");
         }
 
         private void LoadFallingCodeTextures(ContentManager content)
         {
-            FallingCodeMinotaur = content.Load<Texture2D>("FallingCode\\FallingCode_Minotaur");
-            FallingCodeDragonFly = content.Load<Texture2D>("FallingCode\\FallingCode_DragonFly");
-            FallingCodePorcupine = content.Load<Texture2D>("FallingCode\\FallingCode_Porcupine");
-            FallingCodeRatMage = content.Load<Texture2D>("FallingCode\\FallingCode_RatMage");
-            FallingCodePoint = content.Load<Texture2D>("FallingCode\\FallingCode_Point");
+            FallingCodeMinotaur = content.Load<Texture2D>("InvokedEntities\\FallingCode\\FallingCode_Minotaur");
+            FallingCodeDragonFly = content.Load<Texture2D>("InvokedEntities\\FallingCode\\FallingCode_DragonFly");
+            FallingCodePorcupine = content.Load<Texture2D>("InvokedEntities\\FallingCode\\FallingCode_Porcupine");
+            FallingCodeRatMage = content.Load<Texture2D>("InvokedEntities\\FallingCode\\FallingCode_RatMage");
+            FallingCodePoint = content.Load<Texture2D>("InvokedEntities\\FallingCode\\FallingCode_Point");
         }
 
         private void LoadFinalTerminalTexture(ContentManager content)
         {
-            finalTerminalTexture = content.Load<Texture2D>("Textures\\Terminal\\Terminal");
+            finalTerminalTexture = content.Load<Texture2D>("LivingEntityTextures\\SpritesStationaryTextures\\Terminal");
         }
 
         private void LoadBackGrounds(ContentManager content)
         {
-            BackgroundStandardTexture = content.Load<Texture2D>("BackGrounds\\BackGround_Standard");
-            BackgroundGlitchScore_0_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_0");
-            BackgroundGlitchScore_1_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_1");
-            BackgroundGlitchScore_2_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_2");
-            BackgroundGlitchScore_3_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_3");
-            BackgroundGlitchScore_4_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_4");
-            BackgroundGlitchScore_5_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_5");
-            BackgroundGlitchScore_6_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_6");
-            BackgroundGlitchScore_7_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_7");
+            BackgroundStandardTexture = content.Load<Texture2D>("LevelTextures\\BackGrounds\\GlitchBackground\\BackGround_Standard");
+            BackgroundGlitchScore_0_Texture = content.Load<Texture2D>("LevelTextures\\BackGrounds\\GlitchBackground\\BackgroundScore_0");
+            BackgroundGlitchScore_1_Texture = content.Load<Texture2D>("LevelTextures\\BackGrounds\\GlitchBackground\\BackgroundScore_1");
+            BackgroundGlitchScore_2_Texture = content.Load<Texture2D>("LevelTextures\\BackGrounds\\GlitchBackground\\BackgroundScore_2");
+            BackgroundGlitchScore_3_Texture = content.Load<Texture2D>("LevelTextures\\BackGrounds\\GlitchBackground\\BackgroundScore_3");
+            BackgroundGlitchScore_4_Texture = content.Load<Texture2D>("LevelTextures\\BackGrounds\\GlitchBackground\\BackgroundScore_4");
+            BackgroundGlitchScore_5_Texture = content.Load<Texture2D>("LevelTextures\\BackGrounds\\GlitchBackground\\BackgroundScore_5");
+            BackgroundGlitchScore_6_Texture = content.Load<Texture2D>("LevelTextures\\BackGrounds\\GlitchBackground\\BackgroundScore_6");
+            BackgroundGlitchScore_7_Texture = content.Load<Texture2D>("LevelTextures\\BackGrounds\\GlitchBackground\\BackgroundScore_7");
         }
     }
 }

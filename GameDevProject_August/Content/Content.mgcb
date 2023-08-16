@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Animations/Death/GlitchDeathEffect.png
+#begin InvokedEntities/FallingCode/FallingCode_DragonFly.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,9 +23,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/Death/GlitchDeathEffect.png
+/build:InvokedEntities/FallingCode/FallingCode_DragonFly.png
 
-#begin Animations/DragonFly/DragonFly_MoveRight.png
+#begin InvokedEntities/FallingCode/FallingCode_Minotaur.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,9 +35,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/DragonFly/DragonFly_MoveRight.png
+/build:InvokedEntities/FallingCode/FallingCode_Minotaur.png
 
-#begin Animations/DragonFly/DragonFly_StandStill.png
+#begin InvokedEntities/FallingCode/FallingCode_Point.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -47,9 +47,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/DragonFly/DragonFly_StandStill.png
+/build:InvokedEntities/FallingCode/FallingCode_Point.png
 
-#begin Animations/MainCharacter/MC_Dies.png
+#begin InvokedEntities/FallingCode/FallingCode_Porcupine.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -59,9 +59,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/MainCharacter/MC_Dies.png
+/build:InvokedEntities/FallingCode/FallingCode_Porcupine.png
 
-#begin Animations/MainCharacter/MC_Idle.png
+#begin InvokedEntities/FallingCode/FallingCode_RatMage.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -71,9 +71,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/MainCharacter/MC_Idle.png
+/build:InvokedEntities/FallingCode/FallingCode_RatMage.png
 
-#begin Animations/MainCharacter/MC_Jump.png
+#begin InvokedEntities/Projectiles/GoToeBullet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -83,9 +83,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/MainCharacter/MC_Jump.png
+/build:InvokedEntities/Projectiles/GoToeBullet.png
 
-#begin Animations/MainCharacter/MC_MoveRight.png
+#begin InvokedEntities/Projectiles/RatArrow.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -95,9 +95,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/MainCharacter/MC_MoveRight.png
+/build:InvokedEntities/Projectiles/RatArrow.png
 
-#begin Animations/MainCharacter/MC_ShootRight.png
+#begin LevelTextures/BackGrounds/GlitchBackground/BackGround_Standard.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -107,9 +107,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/MainCharacter/MC_ShootRight.png
+/build:LevelTextures/BackGrounds/GlitchBackground/BackGround_Standard.png
 
-#begin Animations/MainCharacter/MC_StandStill.png
+#begin LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -119,9 +119,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/MainCharacter/MC_StandStill.png
+/build:LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_0.png
 
-#begin Animations/Minotaur/Minotaur_Attack.png
+#begin LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -131,9 +131,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/Minotaur/Minotaur_Attack.png
+/build:LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_1.png
 
-#begin Animations/Minotaur/Minotaur_Idle.png
+#begin LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -143,9 +143,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/Minotaur/Minotaur_Idle.png
+/build:LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_2.png
 
-#begin Animations/Minotaur/Minotaur_RunRight.png
+#begin LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -155,9 +155,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/Minotaur/Minotaur_RunRight.png
+/build:LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_3.png
 
-#begin Animations/Minotaur/Minotaur_StandStill.png
+#begin LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -167,9 +167,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/Minotaur/Minotaur_StandStill.png
+/build:LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_4.png
 
-#begin Animations/Porcupine/Porcupine_MoveRight.png
+#begin LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_5.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -179,9 +179,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/Porcupine/Porcupine_MoveRight.png
+/build:LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_5.png
 
-#begin Animations/Porcupine/Porcupine_StandStill.png
+#begin LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_6.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -191,9 +191,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/Porcupine/Porcupine_StandStill.png
+/build:LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_6.png
 
-#begin Animations/Rat/Rat_Cast_One.png
+#begin LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_7.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -203,9 +203,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/Rat/Rat_Cast_One.png
+/build:LevelTextures/BackGrounds/GlitchBackground/BackgroundScore_7.png
 
-#begin Animations/Rat/Rat_Idle.png
+#begin LevelTextures/BackGrounds/MenuScreens/Game_Over.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -215,9 +215,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/Rat/Rat_Idle.png
+/build:LevelTextures/BackGrounds/MenuScreens/Game_Over.png
 
-#begin Animations/Rat/Rat_MoveRight.png
+#begin LevelTextures/BackGrounds/MenuScreens/Start_Screen.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -227,9 +227,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/Rat/Rat_MoveRight.png
+/build:LevelTextures/BackGrounds/MenuScreens/Start_Screen.png
 
-#begin Animations/Rat/Rat_StandStill.png
+#begin LevelTextures/BackGrounds/MenuScreens/Victory_Screen.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -239,9 +239,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Animations/Rat/Rat_StandStill.png
+/build:LevelTextures/BackGrounds/MenuScreens/Victory_Screen.png
 
-#begin BackGrounds/BackGround_Standard.png
+#begin LevelTextures/Collectibles/Point_Plus1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -251,9 +251,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BackGrounds/BackGround_Standard.png
+/build:LevelTextures/Collectibles/Point_Plus1.png
 
-#begin BackGrounds/Game_Over.png
+#begin LevelTextures/Tiles/DirtAboveGround.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -263,9 +263,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BackGrounds/Game_Over.png
+/build:LevelTextures/Tiles/DirtAboveGround.png
 
-#begin BackGrounds/GlitchBackground/BackgroundScore_0.png
+#begin LevelTextures/Tiles/DirtUnderGround.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -275,9 +275,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BackGrounds/GlitchBackground/BackgroundScore_0.png
+/build:LevelTextures/Tiles/DirtUnderGround.png
 
-#begin BackGrounds/GlitchBackground/BackgroundScore_1.png
+#begin LevelTextures/Tiles/Marmer.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -287,9 +287,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BackGrounds/GlitchBackground/BackgroundScore_1.png
+/build:LevelTextures/Tiles/Marmer.png
 
-#begin BackGrounds/GlitchBackground/BackgroundScore_2.png
+#begin LevelTextures/Tiles/SevenPointsTexture.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -299,9 +299,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BackGrounds/GlitchBackground/BackgroundScore_2.png
+/build:LevelTextures/Tiles/SevenPointsTexture.png
 
-#begin BackGrounds/GlitchBackground/BackgroundScore_3.png
+#begin LevelTextures/Tiles/Stone.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -311,9 +311,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BackGrounds/GlitchBackground/BackgroundScore_3.png
+/build:LevelTextures/Tiles/Stone.png
 
-#begin BackGrounds/GlitchBackground/BackgroundScore_4.png
+#begin LevelTextures/Tiles/ThreePointsTexture.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -323,9 +323,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BackGrounds/GlitchBackground/BackgroundScore_4.png
+/build:LevelTextures/Tiles/ThreePointsTexture.png
 
-#begin BackGrounds/GlitchBackground/BackgroundScore_5.png
+#begin LivingEntityTextures/AnimationTextures/Death/GlitchDeathEffect.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -335,9 +335,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BackGrounds/GlitchBackground/BackgroundScore_5.png
+/build:LivingEntityTextures/AnimationTextures/Death/GlitchDeathEffect.png
 
-#begin BackGrounds/GlitchBackground/BackgroundScore_6.png
+#begin LivingEntityTextures/AnimationTextures/DragonFly/DragonFly_MoveRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -347,9 +347,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BackGrounds/GlitchBackground/BackgroundScore_6.png
+/build:LivingEntityTextures/AnimationTextures/DragonFly/DragonFly_MoveRight.png
 
-#begin BackGrounds/GlitchBackground/BackgroundScore_7.png
+#begin LivingEntityTextures/AnimationTextures/MainCharacter/MC_Dies.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -359,9 +359,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BackGrounds/GlitchBackground/BackgroundScore_7.png
+/build:LivingEntityTextures/AnimationTextures/MainCharacter/MC_Dies.png
 
-#begin BackGrounds/Start_Screen.png
+#begin LivingEntityTextures/AnimationTextures/MainCharacter/MC_Idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -371,9 +371,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BackGrounds/Start_Screen.png
+/build:LivingEntityTextures/AnimationTextures/MainCharacter/MC_Idle.png
 
-#begin BackGrounds/Victory_Screen.png
+#begin LivingEntityTextures/AnimationTextures/MainCharacter/MC_Jump.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -383,9 +383,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BackGrounds/Victory_Screen.png
+/build:LivingEntityTextures/AnimationTextures/MainCharacter/MC_Jump.png
 
-#begin Controls/Illustration2.png
+#begin LivingEntityTextures/AnimationTextures/MainCharacter/MC_MoveRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -395,9 +395,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Controls/Illustration2.png
+/build:LivingEntityTextures/AnimationTextures/MainCharacter/MC_MoveRight.png
 
-#begin FallingCode/FallingCode_DragonFly.png
+#begin LivingEntityTextures/AnimationTextures/MainCharacter/MC_ShootRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -407,9 +407,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:FallingCode/FallingCode_DragonFly.png
+/build:LivingEntityTextures/AnimationTextures/MainCharacter/MC_ShootRight.png
 
-#begin FallingCode/FallingCode_Minotaur.png
+#begin LivingEntityTextures/AnimationTextures/Minotaur/Minotaur_Attack.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -419,9 +419,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:FallingCode/FallingCode_Minotaur.png
+/build:LivingEntityTextures/AnimationTextures/Minotaur/Minotaur_Attack.png
 
-#begin FallingCode/FallingCode_Point.png
+#begin LivingEntityTextures/AnimationTextures/Minotaur/Minotaur_Idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -431,9 +431,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:FallingCode/FallingCode_Point.png
+/build:LivingEntityTextures/AnimationTextures/Minotaur/Minotaur_Idle.png
 
-#begin FallingCode/FallingCode_Porcupine.png
+#begin LivingEntityTextures/AnimationTextures/Minotaur/Minotaur_RunRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -443,9 +443,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:FallingCode/FallingCode_Porcupine.png
+/build:LivingEntityTextures/AnimationTextures/Minotaur/Minotaur_RunRight.png
 
-#begin FallingCode/FallingCode_RatMage.png
+#begin LivingEntityTextures/AnimationTextures/Porcupine/Porcupine_MoveRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -455,139 +455,139 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:FallingCode/FallingCode_RatMage.png
+/build:LivingEntityTextures/AnimationTextures/Porcupine/Porcupine_MoveRight.png
 
-#begin Fonts/ButtonFont.spritefont
+#begin LivingEntityTextures/AnimationTextures/RatMage/Rat_Cast_One.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LivingEntityTextures/AnimationTextures/RatMage/Rat_Cast_One.png
+
+#begin LivingEntityTextures/AnimationTextures/RatMage/Rat_Idle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LivingEntityTextures/AnimationTextures/RatMage/Rat_Idle.png
+
+#begin LivingEntityTextures/AnimationTextures/RatMage/Rat_MoveRight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LivingEntityTextures/AnimationTextures/RatMage/Rat_MoveRight.png
+
+#begin LivingEntityTextures/SpritesStationaryTextures/DragonFly_StandStill.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LivingEntityTextures/SpritesStationaryTextures/DragonFly_StandStill.png
+
+#begin LivingEntityTextures/SpritesStationaryTextures/MC_StandStill.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LivingEntityTextures/SpritesStationaryTextures/MC_StandStill.png
+
+#begin LivingEntityTextures/SpritesStationaryTextures/Minotaur_StandStill.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LivingEntityTextures/SpritesStationaryTextures/Minotaur_StandStill.png
+
+#begin LivingEntityTextures/SpritesStationaryTextures/Porcupine_StandStill.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LivingEntityTextures/SpritesStationaryTextures/Porcupine_StandStill.png
+
+#begin LivingEntityTextures/SpritesStationaryTextures/Rat_StandStill.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LivingEntityTextures/SpritesStationaryTextures/Rat_StandStill.png
+
+#begin LivingEntityTextures/SpritesStationaryTextures/Terminal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LivingEntityTextures/SpritesStationaryTextures/Terminal.png
+
+#begin MenuTextures/Buttons/Classic_Button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MenuTextures/Buttons/Classic_Button.png
+
+#begin MenuTextures/Fonts/ButtonFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/ButtonFont.spritefont
+/build:MenuTextures/Fonts/ButtonFont.spritefont
 
-#begin Fonts/Font_Score.spritefont
+#begin MenuTextures/Fonts/Font_Score.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/Font_Score.spritefont
-
-#begin Textures/GoToeBullet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/GoToeBullet.png
-
-#begin Textures/Point_1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Point_1.png
-
-#begin Textures/RatArrow.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/RatArrow.png
-
-#begin Textures/Terminal/Terminal.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Terminal/Terminal.png
-
-#begin Textures/Tiles/DirtAboveGround.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Tiles/DirtAboveGround.png
-
-#begin Textures/Tiles/DirtUnderGround.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Tiles/DirtUnderGround.png
-
-#begin Textures/Tiles/Marmer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Tiles/Marmer.png
-
-#begin Textures/Tiles/SevenPointsTexture.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Tiles/SevenPointsTexture.png
-
-#begin Textures/Tiles/Stone.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Tiles/Stone.png
-
-#begin Textures/Tiles/ThreePointsTexture.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Tiles/ThreePointsTexture.png
+/build:MenuTextures/Fonts/Font_Score.spritefont
 
