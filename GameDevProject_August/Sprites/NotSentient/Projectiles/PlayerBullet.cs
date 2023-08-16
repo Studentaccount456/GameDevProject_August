@@ -36,6 +36,13 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             Position += facingDirection * bulletSpeed;
 
+            foreach (var block in blocks)
+            {
+                if(IsTouchingBottomBlock(block) || IsTouchingRightBlock(block) || IsTouchingLeftBlock(block))
+                {
+                    IsRemoved = true;
+                }
+            }
 
             if (_timer > Lifespan)
             {

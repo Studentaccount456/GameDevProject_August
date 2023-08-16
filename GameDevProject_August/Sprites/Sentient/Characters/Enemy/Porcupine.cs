@@ -119,6 +119,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
                 if (sprite.RectangleHitbox.Intersects(Rectangle2) && sprite is PlayerBullet)
                 {
+                    Game1.PlayerScore.MainScore++;
                     HasDied = true;
                     isDeathAnimating = true;
                     sprite.IsRemoved = true;

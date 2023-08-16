@@ -17,7 +17,7 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
         {
             _texture = texture;
             Position = new Vector2(PlayingState.Random.Next(0, Game1.ScreenWidth - _texture.Width), -_texture.Height);
-            Speed = PlayingState.Random.Next(3, 10);
+            Speed = PlayingState.Random.Next(4, 10);
         }
 
         public override Rectangle RectangleHitbox

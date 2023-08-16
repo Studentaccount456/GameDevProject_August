@@ -25,15 +25,11 @@ namespace GameDevProject_August.States
 
         private float _timer;
 
-        private bool _hasStarted = false;
-
         private Color _backgroundColour = Color.CornflowerBlue;
 
         private List<Component> _gameComponents;
 
         private Texture2D _regularPointTexture;
-
-        private Texture2D backgroundTexture;
 
         private FallingCode fallingCode;
 
@@ -54,8 +50,6 @@ namespace GameDevProject_August.States
 
 
             isNextLevelTrigger = false;
-
-            backgroundTexture = content.Load<Texture2D>("BackGrounds\\BackGround_Standard");
 
             level = new Level2(new Level2BlockFactory());
             LoadContent(content);
@@ -90,8 +84,6 @@ namespace GameDevProject_August.States
 
         private void Restart()
         {
-            //PlayerScore = new Score(fontOfScoreLoaded, ScreenWidth, ScreenHeight);
-
             _sprites = new List<Sprite>()
             {
                 new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture)
@@ -152,17 +144,18 @@ namespace GameDevProject_August.States
                     Speed = 10f,
                     Bullet = new EnemyBullet(ratProjectile),
         },
+                new Regular_Point(RegularPointTexture)
+                {
+                    Position = new Vector2(865 ,400)
+                }
             };
-
-            _hasStarted = false;
-            _regularPointTexture = RegularPointTexture;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
 
-            DrawBackground(backgroundTexture, spriteBatch);
+            DrawBackground(spriteBatch);
 
             level.Draw(spriteBatch);
 
@@ -216,16 +209,6 @@ namespace GameDevProject_August.States
             }
             */
 
-            if (Keyboard.GetState().IsKeyDown(Keys.C))
-            {
-                _hasStarted = true;
-            }
-
-            if (!_hasStarted)
-            {
-                return;
-            }
-
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             foreach (var sprite in _sprites.ToArray())
@@ -254,41 +237,11 @@ namespace GameDevProject_August.States
                 }
             }
 
-            //SpawnFallingCode();
-
-            //SpawnRegularPoint();
-
             PostUpdate(gameTime);
 
             if (isNextLevelTrigger)
             {
                 _game.ChangeState(new Level3State(_game, _graphicsDevice, _content, false));
-            }
-        }
-
-        private void SpawnFallingCode()
-        {
-            if (_timer > 0.25f)
-            {
-                _timer = 0;
-                _sprites.Add(new FallingCode(playerBullet));
-            }
-        }
-
-        private void SpawnRegularPoint()
-        {
-            if (_timer > 1)
-            {
-                _timer = 0;
-
-                var xPos = Random.Next(0, ScreenWidth - _regularPointTexture.Width);
-                var yPos = Random.Next(0, ScreenHeight - _regularPointTexture.Height);
-
-                _sprites.Add(new Regular_Point(_regularPointTexture)
-                {
-                    Position = new Vector2(xPos, yPos)
-
-                });
             }
         }
 

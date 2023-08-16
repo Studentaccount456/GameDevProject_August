@@ -87,8 +87,6 @@ namespace GameDevProject_August.States
 
         private void Restart()
         {
-            //PlayerScore = new Score(fontOfScoreLoaded, ScreenWidth, ScreenHeight);
-
             _sprites = new List<Sprite>()
             {
                 new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture)
@@ -120,7 +118,7 @@ namespace GameDevProject_August.States
         {
             spriteBatch.Begin();
 
-            DrawBackground(backgroundTexture, spriteBatch);
+            DrawBackground(spriteBatch);
 
             level.Draw(spriteBatch);
 

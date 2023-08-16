@@ -83,6 +83,19 @@ namespace GameDevProject_August.States
         public Texture2D FallingCodeRatMage { get; private set; }
         public Texture2D FallingCodePoint { get; private set; }
 
+        public Texture2D BackgroundStandardTexture { get; private set; }
+        public Texture2D BackgroundGlitchScore_0_Texture { get; private set; }
+        public Texture2D BackgroundGlitchScore_1_Texture { get; private set; }
+        public Texture2D BackgroundGlitchScore_2_Texture { get; private set; }
+        public Texture2D BackgroundGlitchScore_3_Texture { get; private set; }
+        public Texture2D BackgroundGlitchScore_4_Texture { get; private set; }
+        public Texture2D BackgroundGlitchScore_5_Texture { get; private set; }
+        public Texture2D BackgroundGlitchScore_6_Texture { get; private set; }
+        public Texture2D BackgroundGlitchScore_7_Texture { get; private set; }
+
+
+
+
         public static Random Random;
 
 
@@ -108,12 +121,13 @@ namespace GameDevProject_August.States
             LoadSpriteFonts(content);
             LoadFallingCodeTextures(content);
             LoadFinalTerminalTexture(content);
+            LoadBackGrounds(content);
         }
 
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            DrawBackground(BackgroundOfLevel, spriteBatch);
+            DrawBackground(spriteBatch);
 
             spriteBatch.Begin();
 
@@ -137,9 +151,38 @@ namespace GameDevProject_August.States
 
 
 
-        public void DrawBackground(Texture2D backgroundTexture, SpriteBatch spriteBatch)
+        public void DrawBackground(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
+            switch (Game1.PlayerScore.MainScore)
+            {
+                case 0:
+                    spriteBatch.Draw(BackgroundGlitchScore_0_Texture, new Vector2(0, 0), Color.White);
+                    break;
+                case 1:
+                    spriteBatch.Draw(BackgroundGlitchScore_1_Texture, new Vector2(0, 0), Color.White);
+                    break;
+                case 2:
+                    spriteBatch.Draw(BackgroundGlitchScore_2_Texture, new Vector2(0, 0), Color.White);
+                    break;
+                case 3:
+                    spriteBatch.Draw(BackgroundGlitchScore_3_Texture, new Vector2(0, 0), Color.White);
+                    break;
+                case 4:
+                    spriteBatch.Draw(BackgroundGlitchScore_4_Texture, new Vector2(0, 0), Color.White);
+                    break;
+                case 5:
+                    spriteBatch.Draw(BackgroundGlitchScore_5_Texture, new Vector2(0, 0), Color.White);
+                    break;
+                case 6:
+                    spriteBatch.Draw(BackgroundGlitchScore_6_Texture, new Vector2(0, 0), Color.White);
+                    break;
+                case 7:
+                    spriteBatch.Draw(BackgroundGlitchScore_7_Texture, new Vector2(0, 0), Color.White);
+                    break;
+                default:
+                    spriteBatch.Draw(BackgroundStandardTexture, new Vector2(0, 0), Color.White);
+                    break;
+            }
         }
 
         public void InitializeScore(int levelIndicator, bool isFromMainMenu)
@@ -253,6 +296,19 @@ namespace GameDevProject_August.States
         private void LoadFinalTerminalTexture(ContentManager content)
         {
             finalTerminalTexture = content.Load<Texture2D>("Textures\\Terminal\\Terminal");
+        }
+
+        private void LoadBackGrounds(ContentManager content)
+        {
+            BackgroundStandardTexture = content.Load<Texture2D>("BackGrounds\\BackGround_Standard");
+            BackgroundGlitchScore_0_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_0");
+            BackgroundGlitchScore_1_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_1");
+            BackgroundGlitchScore_2_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_2");
+            BackgroundGlitchScore_3_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_3");
+            BackgroundGlitchScore_4_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_4");
+            BackgroundGlitchScore_5_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_5");
+            BackgroundGlitchScore_6_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_6");
+            BackgroundGlitchScore_7_Texture = content.Load<Texture2D>("BackGrounds\\GlitchBackground\\BackgroundScore_7");
         }
     }
 }
