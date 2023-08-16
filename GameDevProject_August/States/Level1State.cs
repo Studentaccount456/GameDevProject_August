@@ -25,8 +25,6 @@ namespace GameDevProject_August.States
 
         private float _timer;
 
-        private bool _hasStarted = false;
-
         private Color _backgroundColour = Color.CornflowerBlue;
 
         private List<Component> _gameComponents;
@@ -134,8 +132,6 @@ namespace GameDevProject_August.States
                    }
                
             };
-
-            _hasStarted = false;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -195,16 +191,6 @@ namespace GameDevProject_August.States
                 component.Update(gameTime);
             }
             */
-
-            if (Keyboard.GetState().IsKeyDown(Keys.C))
-            {
-                _hasStarted = true;
-            }
-
-            if (!_hasStarted)
-            {
-                return;
-            }
 
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 

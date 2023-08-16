@@ -104,7 +104,7 @@ namespace GameDevProject_August.States
                     Score = Game1.PlayerScore
                 },
 
-                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture, dragonflyStandStillTexture)
+                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture)
                 {
                     Position = new Vector2(250, 595),
                     Input = new Input()
@@ -117,7 +117,7 @@ namespace GameDevProject_August.States
                     },
                     Speed = 2f,
                 },
-                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture, dragonflyStandStillTexture)
+                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture)
                 {
                     Position = new Vector2(650,570),
                     Input = new Input()

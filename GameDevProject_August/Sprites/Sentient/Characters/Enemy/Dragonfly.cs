@@ -23,15 +23,14 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
         private Animation animationDeath;
 
         public Texture2D DeathTexture;
-        public Texture2D StandStillTexture;
-
-        private bool canMove = true;
 
         private bool isDeathAnimating = false;
 
         private int deathAnimationFrameIndex = 0;
 
         private bool reachedFourthDeathFrame = false;
+
+        private bool isMovingUp = true;
 
 
 
@@ -46,13 +45,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
         public Rectangle DeathRectangle;
 
-
-        public Dragonfly(Texture2D moveTexture, Texture2D deathTexture, Texture2D standStillTexture)
+        public Dragonfly(Texture2D moveTexture, Texture2D deathTexture)
             : base(moveTexture)
         {
             _texture = moveTexture;
             DeathTexture = deathTexture;
-            StandStillTexture = standStillTexture;
             facingDirectionIndicator = false;
 
             // Standard walks right
@@ -87,14 +84,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
-            _previousKey = _currentKey;
-            _currentKey = Keyboard.GetState();
-
-            bool keyPressed = _currentKey.IsKeyDown(Keys.Left) || _currentKey.IsKeyDown(Keys.Right) ||
-                  _currentKey.IsKeyDown(Keys.Up) || _currentKey.IsKeyDown(Keys.Down);
-
-
-            if (canMove && !isDeathAnimating)
+            if (!isDeathAnimating)
             {
                 Move();
                 animationMove.Update(gameTime);
@@ -142,8 +132,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
                     if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
                     {
-                        HasDied = true;
-                        sprite.IsRemoved = true;
+                        sprite.isDeathAnimating = true;
                     }
 
                     if (deathAnimationFrameIndex > 6)
@@ -154,62 +143,33 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
                 }
 
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Regular_Point)
+                Position += Velocity;
+
+                Velocity = Vector2.Zero;
+                if (isDeathAnimating == true)
                 {
-                    sprite.IsRemoved = true;
+                    animationDeath.Update(gameTime);
                 }
-
-                if (sprite is not Dragonfly)
-                {
-                    if (Velocity.X > 0 && IsTouchingLeft(sprite) ||
-                        Velocity.X < 0 && IsTouchingRight(sprite))
-                    {
-                        Velocity.X = 0;
-                    }
-
-                    if (Velocity.Y > 0 && IsTouchingTop(sprite) ||
-                        Velocity.Y < 0 && IsTouchingBottom(sprite))
-                    {
-                        Velocity.Y = 0;
-                    }
-
-                }
-
             }
 
-            Position += Velocity;
-
-            Velocity = Vector2.Zero;
-            if (isDeathAnimating == true)
+            foreach (var block in blocks)
             {
-                animationDeath.Update(gameTime);
+                if (block.BlockRectangle.Intersects(RectangleHitbox) && block.EnemyBehavior == true)
+                {
+                    isMovingUp = !isMovingUp;
+                }
             }
         }
 
         private void Move()
         {
-            if (Input == null)
-                return;
-
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Up))
+            if (isMovingUp)
             {
                 Velocity.Y -= Speed;
             }
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
+            if (!isMovingUp)
             {
                 Velocity.Y += Speed;
-            }
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
-            {
-                Velocity.X -= Speed;
-                facingDirection = -Vector2.UnitX;
-                facingDirectionIndicator = false;
-            }
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
-            {
-                Velocity.X += Speed;
-                facingDirection = Vector2.UnitX;
-                facingDirectionIndicator = true;
             }
 
             Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
@@ -234,21 +194,9 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     }
                 }
             }
-            else if (Keyboard.GetState().IsKeyDown((Keys)Input.Up))
+            else if (isMovingUp || !isMovingUp)
             {
                 spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
-            }
-            else if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
-            {
-                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
-            }
-            else if (facingDirectionIndicator == true && !Keyboard.GetState().IsKeyDown((Keys)Input.Right))
-            {
-                spriteBatch.Draw(StandStillTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-            }
-            else if (facingDirectionIndicator == false && !Keyboard.GetState().IsKeyDown((Keys)Input.Right))
-            {
-                spriteBatch.Draw(StandStillTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
 
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);

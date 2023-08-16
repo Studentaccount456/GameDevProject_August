@@ -357,6 +357,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     sprite.IsRemoved = true;
                 }
 
+                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
+                {
+                    sprite.isDeathAnimating = true;
+                }
+
                 //TODO CHANGE IF SPRITE IS ENEMY
                 /*
                 if (sprite is not Minotaur)
