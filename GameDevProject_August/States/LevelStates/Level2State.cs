@@ -106,40 +106,16 @@ namespace GameDevProject_August.States.LevelStates
                 new Dragonfly(dragonflyMoveTexture, glitchDeathTexture)
                 {
                     Position = new Vector2(250, 595),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.S,
-                        Up = System.Windows.Forms.Keys.Z,
-                        Left = System.Windows.Forms.Keys.Q,
-                        Right = System.Windows.Forms.Keys.D,
-                        Shoot = System.Windows.Forms.Keys.Space
-                    },
                     Speed = 2f,
                 },
                 new Dragonfly(dragonflyMoveTexture, glitchDeathTexture)
                 {
                     Position = new Vector2(650,570),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.S,
-                        Up = System.Windows.Forms.Keys.Z,
-                        Left = System.Windows.Forms.Keys.Q,
-                        Right = System.Windows.Forms.Keys.D,
-                        Shoot = System.Windows.Forms.Keys.Space
-                    },
                     Speed = 2f,
                 },
-                new RatMageFix(ratMoveTexture, ratCastTexture, ratIdleTexture, glitchDeathTexture)
+                new RatMage(ratMoveTexture, ratCastTexture, ratIdleTexture, glitchDeathTexture)
                 {
                     Position = new Vector2(225, 408),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.S,
-                        Up = System.Windows.Forms.Keys.Z,
-                        Left = System.Windows.Forms.Keys.Q,
-                        Right = System.Windows.Forms.Keys.D,
-                        Shoot = System.Windows.Forms.Keys.Space
-                    },
                     Speed = 2f,
                     Bullet = new EnemyBullet(ratProjectile),
         },

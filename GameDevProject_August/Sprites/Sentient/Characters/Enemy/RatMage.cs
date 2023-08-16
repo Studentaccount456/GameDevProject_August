@@ -31,19 +31,16 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
         public Texture2D ShootTexture;
         public Texture2D IdleTexture;
         public Texture2D DeathTexture;
-        public Texture2D StandStillTexture;
-
-        private bool canMove = true;
 
         private bool isDeathAnimating = false;
         private bool isShootingAnimating = false;
 
         private bool isShootingCooldown = false;
-        private const float ShootingCooldownDuration = 0.5f;
+        private const float ShootingCooldownDuration = 1f;
         private float shootingCooldownTimer = 0f;
 
         private bool isIdling = false;
-        private const float IdleTimeoutDuration = 3.0f;
+        private const float IdleTimeoutDuration = 5.0f;
         private float idleTimer = 0f;
         private bool standStillNoIdle = false;
 
@@ -52,31 +49,26 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
         private bool reachedFourthDeathFrame = false;
 
-
-        /*
-        public override Rectangle Rectangle
-        {
-            get
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, 34, 50);
-            }
-        }
-        */
-
         public Rectangle DeathRectangle;
 
-        private const float GravityAcceleration = 9.81f;
+        private bool enemySpotted;
 
+        public Rectangle EnemySpotter;
 
+        public Vector2 EnemyPosition;
 
-        public RatMage(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture)
+        private float shootDelay;
+
+        public RatMage(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture)
             : base(moveTexture)
         {
             _texture = moveTexture;
             ShootTexture = shootTexture;
             IdleTexture = idleTexture;
             DeathTexture = deathTexture;
-            StandStillTexture = standStillTexture;
+
+            EnemyPosition = new Vector2(0, 0);
+            OriginBullet = new Vector2(60, _texture.Height / 2);
 
             // Standard walks right
             #region MoveAnimation
@@ -106,7 +98,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             //Height is 44 for each frame
             #region Idle
             animationIdle = new Animation(AnimationType.Idle, idleTexture);
-            animationIdle.fps = 8;
+            animationIdle.fps = 10;
             animationIdle.AddFrame(new AnimationFrame(new Rectangle(0, 0, 60, 48)));
             animationIdle.AddFrame(new AnimationFrame(new Rectangle(99, 0, 57, 48)));
             animationIdle.AddFrame(new AnimationFrame(new Rectangle(195, 0, 57, 48)));
@@ -116,6 +108,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             animationIdle.AddFrame(new AnimationFrame(new Rectangle(579, 0, 57, 48)));
             animationIdle.AddFrame(new AnimationFrame(new Rectangle(672, 0, 60, 48)));
             #endregion
+
 
             #region Death
             animationDeath = new Animation(AnimationType.Death, deathTexture);
@@ -138,55 +131,43 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
-            _previousKey = _currentKey;
-            _currentKey = Keyboard.GetState();
-            if (!isDeathAnimating)
-            {
-                //Velocity.Y += GravityAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
             PositionXRectangleHitbox = (int)Position.X;
             PositionYRectangleHitbox = (int)Position.Y;
+            EnemySpotter = new Rectangle((int)Position.X - 300, (int)Position.Y - 71, 600, 120);
 
-            bool keyPressed = Keyboard.GetState().IsKeyDown((Keys)Input.Left) || Keyboard.GetState().IsKeyDown((Keys)Input.Right) ||
-                  Keyboard.GetState().IsKeyDown((Keys)Input.Up) || Keyboard.GetState().IsKeyDown((Keys)Input.Down) ||
-                  Keyboard.GetState().IsKeyDown((Keys)Input.Shoot) && isShootingAnimating;
 
-            bool isMoving = Keyboard.GetState().IsKeyDown((Keys)Input.Left) || Keyboard.GetState().IsKeyDown((Keys)Input.Right) ||
-                            Keyboard.GetState().IsKeyDown((Keys)Input.Up) || Keyboard.GetState().IsKeyDown((Keys)Input.Down);
+            idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (isMoving)
+            if (idleTimer >= IdleTimeoutDuration + 1f && !isShootingAnimating)
+            {
+                standStillNoIdle = true;
+                isIdling = false;
+                idleTimer = 0;
+            }
+            else if (idleTimer >= IdleTimeoutDuration && !isShootingAnimating)
+            {
+                isIdling = true;
+                standStillNoIdle = false;
+                animationIdle.Update(gameTime);
+            }
+
+            if (!isDeathAnimating && !isIdling && !isShootingAnimating)
+            {
+                Move();
+                animationMove.Update(gameTime);
+            }
+
+            if (facingDirectionIndicator || !facingDirectionIndicator && !isShootingAnimating)
             {
                 WidthRectangleHitbox = 60;
-                HeightRectangleHitbox = 48;
+                HeightRectangleHitbox = 49;
                 PositionYRectangleHitbox = (int)Position.Y;
             }
             else
             {
                 WidthRectangleHitbox = 60;
-                HeightRectangleHitbox = 48;
+                HeightRectangleHitbox = 49;
             }
-
-            if (keyPressed)
-            {
-                idleTimer = 0f;
-                isIdling = false;
-                standStillNoIdle = false;
-
-            }
-            else
-            {
-                idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (idleTimer >= IdleTimeoutDuration)
-                {
-                    isIdling = true;
-                    standStillNoIdle = false;
-                }
-                else
-                {
-                    standStillNoIdle = true;
-                }
-            }
-
 
             // Shooting cooldown
             if (isShootingCooldown)
@@ -201,34 +182,56 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             if (isShootingAnimating)
             {
                 animationShoot.Update(gameTime);
-                if (animationShoot.IsAnimationComplete)
+                if (animationShoot.IsAnimationComplete && enemySpotted == false)
                 {
                     isShootingAnimating = false;
                 }
             }
-            else
+
+            if (!enemySpotted)
             {
-                if (canMove && !isDeathAnimating)
-                {
-                    Move();
-                    animationMove.Update(gameTime);
-                }
+                shootDelay = 0f;
             }
 
-            if (_currentKey.IsKeyDown(Keys.M) && _previousKey.IsKeyUp(Keys.M) && !isShootingCooldown && !isShootingAnimating)
+            if (enemySpotted && !isShootingCooldown && !isShootingCooldown)
             {
-                AddBullet(sprites);
+                shootDelay += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 isShootingAnimating = true;
+                if (EnemyPosition.X > Position.X)
+                {
+                    facingDirectionIndicator = true;
+                    facingDirection = Vector2.UnitX;
+                }
+                else if (EnemyPosition.X < Position.X)
+                {
+                    facingDirectionIndicator = false;
+                    facingDirection = -Vector2.UnitX;
+                }
+                if (shootDelay > 0.75f)
+                {
+                    AddBullet(sprites);
+                    isShootingCooldown = true;
+                    shootingCooldownTimer = 0f;
+                }
 
-                isShootingCooldown = true;
-                shootingCooldownTimer = 0f;
             }
+
 
             foreach (var sprite in sprites)
             {
-                if (sprite is MainCharacter)
+                if (sprite is RatMage)
                 {
                     continue;
+                }
+
+                if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is MainCharacter)
+                {
+                    enemySpotted = true;
+                    EnemyPosition.X = sprite.Position.X;
+                }
+                if (!sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is MainCharacter)
+                {
+                    enemySpotted = false;
                 }
 
                 if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet)
@@ -237,6 +240,12 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     HasDied = true;
                     isDeathAnimating = true;
                     sprite.IsRemoved = true;
+                }
+
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is MainCharacter)
+                {
+                    HasDied = true;
+                    sprite.isDeathAnimating = true;
                 }
 
                 if (isDeathAnimating)
@@ -270,63 +279,45 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     }
 
                 }
-
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Regular_Point)
-                {
-                    sprite.IsRemoved = true;
-                }
-
-                if (sprite is not RatMage)
-                {
-                    if (Velocity.X > 0 && IsTouchingLeft(sprite) ||
-                        Velocity.X < 0 && IsTouchingRight(sprite))
-                    {
-                        Velocity.X = 0;
-                    }
-
-                    if (Velocity.Y > 0 && IsTouchingTop(sprite) ||
-                        Velocity.Y < 0 && IsTouchingBottom(sprite))
-                    {
-                        Velocity.Y = 0;
-                    }
-
-                }
-
             }
 
             foreach (var block in blocks)
             {
-                if (block is Block)
+                if (IsTouchingLeftBlock(block) && block.EnemyBehavior_2 == true)
                 {
-                    if (Velocity.X > 0 && IsTouchingLeftBlock(block) ||
-                        Velocity.X < 0 && IsTouchingRightBlock(block))
-                    {
-                        Velocity.X = 0;
-                    }
-
-                    if (Velocity.Y > 0 && IsTouchingTopBlock(block) ||
-                        Velocity.Y < 0 && IsTouchingBottomBlock(block))
-                    {
-                        Velocity.Y = 0;
-                    }
-
+                    facingDirectionIndicator = false;
+                }
+                else if (IsTouchingRightBlock(block) && block.EnemyBehavior_2 == true)
+                {
+                    facingDirectionIndicator = true;
                 }
             }
 
             Position += Velocity;
 
             Velocity = Vector2.Zero;
-            animationShoot.Update(gameTime);
-            if (!isShootingAnimating)
-            {
-                animationIdle.Update(gameTime);
-            }
+
             if (isDeathAnimating == true)
             {
                 animationDeath.Update(gameTime);
             }
         }
 
+        private void Move()
+        {
+            if (!facingDirectionIndicator)
+            {
+                Velocity.X -= Speed;
+                facingDirection = -Vector2.UnitX;
+            }
+            if (facingDirectionIndicator)
+            {
+                Velocity.X += Speed;
+                facingDirection = Vector2.UnitX;
+            }
+
+            Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
+        }
 
         private void AddBullet(List<Sprite> sprites)
         {
@@ -338,35 +329,6 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             bullet.Parent = this;
 
             sprites.Add(bullet);
-        }
-
-        private void Move()
-        {
-            if (Input == null)
-                return;
-
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Up))
-            {
-                Velocity.Y -= Speed;
-            }
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
-            {
-                Velocity.Y += Speed;
-            }
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
-            {
-                Velocity.X -= Speed;
-                facingDirection = -Vector2.UnitX;
-                facingDirectionIndicator = false;
-            }
-            if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
-            {
-                Velocity.X += Speed;
-                facingDirection = Vector2.UnitX;
-                facingDirectionIndicator = true;
-            }
-
-            Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
         }
 
 
@@ -398,18 +360,6 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 {
                     spriteBatch.Draw(ShootTexture, Position, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
                 }
-                if (animationShoot.IsAnimationComplete)
-                {
-                    isShootingAnimating = false;
-                }
-            }
-            else if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
-            {
-                spriteBatch.Draw(_texture, Position + new Vector2(0,-4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-            }
-            else if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
-            {
-                spriteBatch.Draw(_texture, Position + new Vector2(0,-4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
             else if (isIdling)
             {
@@ -422,18 +372,19 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     spriteBatch.Draw(IdleTexture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
                 }
             }
-            else if (facingDirectionIndicator == true && standStillNoIdle == true && !isShootingAnimating)
+            else if (facingDirectionIndicator == true && !isIdling)
             {
-                spriteBatch.Draw(StandStillTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(_texture, Position + new Vector2(0, -4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
-            else if (facingDirectionIndicator == false && standStillNoIdle == true && !isShootingAnimating)
+            else if (facingDirectionIndicator == false && !isIdling)
             {
-                spriteBatch.Draw(StandStillTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(_texture, Position + new Vector2(0, -4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
 
-            //spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
+            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
+            spriteBatch.DrawRectangle(EnemySpotter, Color.Red);
         }
-
+        
     }
 }
