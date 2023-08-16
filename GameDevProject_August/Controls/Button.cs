@@ -31,12 +31,12 @@ namespace GameDevProject_August.Controls
 
         public Vector2 Position { get; set; }
 
-        public Rectangle RectangleButton 
+        public Rectangle RectangleButton
         {
-            get 
-            { 
+            get
+            {
                 return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
-            } 
+            }
         }
 
         public string TextButton { get; set; }
@@ -45,7 +45,7 @@ namespace GameDevProject_August.Controls
 
         #region Methods
 
-        public Button(Texture2D texture,SpriteFont font)
+        public Button(Texture2D texture, SpriteFont font)
         {
             _texture = texture;
             _font = font;
@@ -57,19 +57,19 @@ namespace GameDevProject_August.Controls
         {
             var colour = Color.White;
 
-            if(_isHovering )
+            if (_isHovering)
             {
                 colour = Color.Gray;
             }
 
             spriteBatch.Draw(_texture, RectangleButton, colour);
 
-            if(!string.IsNullOrEmpty(TextButton))
+            if (!string.IsNullOrEmpty(TextButton))
             {
                 var x = (RectangleButton.X + (RectangleButton.Width / 2)) - (_font.MeasureString(TextButton).X / 2);
                 var y = (RectangleButton.Y + (RectangleButton.Height / 2)) - (_font.MeasureString(TextButton).Y / 2);
 
-                spriteBatch.DrawString(_font, TextButton, new Vector2(x,y), PenColour);
+                spriteBatch.DrawString(_font, TextButton, new Vector2(x, y), PenColour);
             }
         }
 
@@ -82,11 +82,11 @@ namespace GameDevProject_August.Controls
 
             _isHovering = false;
 
-            if(mouseRectangle.Intersects(RectangleButton))
+            if (mouseRectangle.Intersects(RectangleButton))
             {
                 _isHovering = true;
 
-                if(_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
+                if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
                 {
                     Click?.Invoke(this, new EventArgs());
                 }

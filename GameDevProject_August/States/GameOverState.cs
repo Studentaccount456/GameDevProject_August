@@ -60,7 +60,7 @@ namespace GameDevProject_August.States
         {
             spriteBatch.Begin();
 
-            spriteBatch.Draw(backGroundGameOverState, new Vector2(0,0), Color.White);
+            spriteBatch.Draw(backGroundGameOverState, new Vector2(0, 0), Color.White);
 
             foreach (var component in _components)
             {

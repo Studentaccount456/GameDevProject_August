@@ -99,10 +99,10 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                   _currentKey.IsKeyDown(Keys.Up) || _currentKey.IsKeyDown(Keys.Down);
 
             if (canMove && !isDeathAnimating)
-                {
-                    Move();
-                    animationMove.Update(gameTime);
-                }
+            {
+                Move();
+                animationMove.Update(gameTime);
+            }
 
             foreach (var sprite in sprites)
             {
@@ -257,7 +257,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                         IsRemoved = true;
                     }
                 }
-            }         
+            }
             else if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
             {
                 spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);

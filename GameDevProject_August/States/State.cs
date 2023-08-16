@@ -30,7 +30,7 @@ namespace GameDevProject_August.States
 
             _content = content;
         }
-            
+
         public abstract void Update(GameTime gameTime);
 
         public virtual void LoadContent(ContentManager content)

@@ -153,7 +153,8 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
         {
             _previousKey = _currentKey;
             _currentKey = Keyboard.GetState();
-            if (!isDeathAnimating){
+            if (!isDeathAnimating)
+            {
                 Velocity.Y += GravityAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
             PositionXRectangleHitbox = (int)Position.X;
@@ -167,12 +168,13 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             bool isMoving = Keyboard.GetState().IsKeyDown((Keys)Input.Left) || Keyboard.GetState().IsKeyDown((Keys)Input.Right) ||
                   Keyboard.GetState().IsKeyDown((Keys)Input.Up) || Keyboard.GetState().IsKeyDown((Keys)Input.Down);
 
-            if(isMoving)
+            if (isMoving)
             {
                 WidthRectangleHitbox = 54;
                 HeightRectangleHitbox = 42;
                 PositionYRectangleHitbox = (int)Position.Y;
-            } else
+            }
+            else
             {
                 WidthRectangleHitbox = 63;
                 HeightRectangleHitbox = 42;
@@ -234,10 +236,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     WidthRectangleHitbox = 54;
                     HeightRectangleHitbox = 42;
                     //Tongue
-                    if(facingDirectionIndicator)
+                    if (facingDirectionIndicator)
                     {
                         Rectangle2.X = (int)Position.X + 45;
-                    } else
+                    }
+                    else
                     {
                         Rectangle2.X = (int)Position.X;
                     }
@@ -250,10 +253,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     WidthRectangleHitbox = 69;
                     HeightRectangleHitbox = 42;
                     //Tongue
-                    if(facingDirectionIndicator)
+                    if (facingDirectionIndicator)
                     {
                         Rectangle2.X = (int)Position.X + 63;
-                    } else
+                    }
+                    else
                     {
                         Rectangle2.X = (int)Position.X;
                     }
@@ -477,11 +481,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             }
             else if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
             {
-                spriteBatch.Draw(_texture, Position + new Vector2(0,-8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(_texture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
             else if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
             {
-                spriteBatch.Draw(_texture, Position + new Vector2(0,-8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(_texture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
             else if (isIdling)
             {

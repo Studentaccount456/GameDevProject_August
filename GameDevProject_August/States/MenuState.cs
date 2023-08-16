@@ -29,7 +29,7 @@ namespace GameDevProject_August.States
             var newGameButton = new Button(buttonTexture, buttonFont)
             {
                 Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 250),
-                TextButton = "New Game", 
+                TextButton = "New Game",
             };
 
             newGameButton.Click += NewGameButton_Click;
@@ -82,7 +82,7 @@ namespace GameDevProject_August.States
             switch (levelSelect)
             {
                 case 1:
-                    loadGameButton.TextButton =  "Level: Level 1";
+                    loadGameButton.TextButton = "Level: Level 1";
                     break;
                 case 2:
                     loadGameButton.TextButton = "Level: Level 2";

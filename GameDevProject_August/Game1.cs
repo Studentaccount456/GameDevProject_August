@@ -58,7 +58,7 @@ namespace GameDevProject_August
 
         protected override void Update(GameTime gameTime)
         {
-            if(_nextState != null)
+            if (_nextState != null)
             {
                 _currentState = _nextState;
 

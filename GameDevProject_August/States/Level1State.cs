@@ -45,7 +45,7 @@ namespace GameDevProject_August.States
         public Level1State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
             content.RootDirectory = "Content";
-            ScreenWidth = Game1.ScreenWidth; 
+            ScreenWidth = Game1.ScreenWidth;
             ScreenHeight = Game1.ScreenHeight;
 
             backgroundTexture = content.Load<Texture2D>("BackGrounds\\BackGround_Standard");
@@ -273,7 +273,7 @@ namespace GameDevProject_August.States
 
             PostUpdate(gameTime);
 
-            if(isNextLevelTrigger)
+            if (isNextLevelTrigger)
             {
                 _game.ChangeState(new Level2State(_game, _graphicsDevice, _content));
             }
@@ -305,9 +305,9 @@ namespace GameDevProject_August.States
             }
         }
 
-        public override void LoadContent(ContentManager content) 
-        { 
-            base.LoadContent(content); 
+        public override void LoadContent(ContentManager content)
+        {
+            base.LoadContent(content);
         }
 
         public /*override*/ void InitializeContent()

@@ -23,7 +23,7 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
                 return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
             }
         }
-        
+
 
         public PlayerBullet(Texture2D texture)
             : base(texture)

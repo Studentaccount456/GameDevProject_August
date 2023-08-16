@@ -24,8 +24,8 @@ namespace GameDevProject_August.AnimationClasses.AnimationMethods
 
 
 
-        public CharacterDrawer(AnimationHandler animationHandler/*, CharacterType characterType*/) 
-        { 
+        public CharacterDrawer(AnimationHandler animationHandler/*, CharacterType characterType*/)
+        {
             //_characterType = characterType;
             _animationHandler = animationHandler;
         }
@@ -48,7 +48,7 @@ namespace GameDevProject_August.AnimationClasses.AnimationMethods
 
 
 
-    private void DrawEnemyFullMoveset(SpriteBatch spriteBatch)
+        private void DrawEnemyFullMoveset(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
         }
@@ -58,5 +58,5 @@ namespace GameDevProject_August.AnimationClasses.AnimationMethods
             throw new NotImplementedException();
         }
     }
-    
+
 }

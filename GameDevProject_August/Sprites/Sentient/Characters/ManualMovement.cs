@@ -13,12 +13,12 @@ namespace GameDevProject_August.Sprites.Sentient.Characters
     {
         public Input InputSprite = new Input()
         {
-                Down = System.Windows.Forms.Keys.Down,
-                Up = System.Windows.Forms.Keys.Up,
-                Left = System.Windows.Forms.Keys.Left,
-                Right = System.Windows.Forms.Keys.Right,
-                Shoot = System.Windows.Forms.Keys.Space
-            };
+            Down = System.Windows.Forms.Keys.Down,
+            Up = System.Windows.Forms.Keys.Up,
+            Left = System.Windows.Forms.Keys.Left,
+            Right = System.Windows.Forms.Keys.Right,
+            Shoot = System.Windows.Forms.Keys.Space
+        };
 
 
         public DirectionMove DirectionOfMovement;

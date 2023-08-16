@@ -35,14 +35,14 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
 
 
-        public override Rectangle RectangleHitbox 
+        public override Rectangle RectangleHitbox
         {
             get
             {
                 return new Rectangle((int)Position.X, (int)Position.Y, 51, 39);
             }
         }
-        
+
 
         public Rectangle DeathRectangle;
 
