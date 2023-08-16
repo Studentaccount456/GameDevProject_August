@@ -1,4 +1,5 @@
 ﻿using GameDevProject_August.States;
+using GameDevProject_August.States.MenuStates;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -54,7 +55,7 @@ namespace GameDevProject_August
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
+            _currentState = new MainMenuState(this, _graphics.GraphicsDevice, Content);
 
         }
 

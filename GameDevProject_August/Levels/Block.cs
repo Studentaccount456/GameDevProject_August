@@ -16,6 +16,8 @@ namespace GameDevProject_August.Levels
 
         public bool EnemyBehavior = false;
 
+        public bool EnemyBehavior_2 = false;
+
         #endregion
 
         #region Properties

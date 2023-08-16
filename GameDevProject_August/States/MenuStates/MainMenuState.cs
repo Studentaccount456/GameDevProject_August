@@ -1,26 +1,27 @@
 ﻿using GameDevProject_August.Controls;
+using GameDevProject_August.States.LevelStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.States
+namespace GameDevProject_August.States.MenuStates
 {
-    public class MenuState : State
+    public class MainMenuState : State
     {
         #region Fields
 
         private List<Component> _components;
 
-        private int levelSelect = 1;
-
         private Button loadGameButton;
 
         private Texture2D backGroundMainMenu;
 
+        private int levelSelect = 1;
+
         #endregion
 
-        public MenuState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
+        public MainMenuState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
         {
             var buttonTexture = _content.Load<Texture2D>("Controls\\Illustration2");
             var buttonFont = _content.Load<SpriteFont>("Fonts\\ButtonFont");
@@ -28,7 +29,7 @@ namespace GameDevProject_August.States
 
             var newGameButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 250),
+                Position = new Vector2(Game1.ScreenWidth / 2 - buttonTexture.Width / 2, 250),
                 TextButton = "New Game",
             };
 
@@ -36,7 +37,7 @@ namespace GameDevProject_August.States
 
             loadGameButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 325),
+                Position = new Vector2(Game1.ScreenWidth / 2 - buttonTexture.Width / 2, 325),
                 TextButton = "Level: Level 1",
             };
 
@@ -44,7 +45,7 @@ namespace GameDevProject_August.States
 
             var quitGameButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 400),
+                Position = new Vector2(Game1.ScreenWidth / 2 - buttonTexture.Width / 2, 400),
                 TextButton = "Quit",
             };
 

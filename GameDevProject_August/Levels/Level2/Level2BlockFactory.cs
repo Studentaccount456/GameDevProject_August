@@ -25,6 +25,10 @@ namespace GameDevProject_August.Levels.Level2
             {
                 block = new Stone(rectangle);
                 block.EnemyBehavior = true;
+            } else if (number == 4)
+            {
+                block = new Stone(rectangle);
+                block.EnemyBehavior_2 = true;
             }
             return block;
         }

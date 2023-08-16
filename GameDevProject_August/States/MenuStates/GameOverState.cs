@@ -1,33 +1,31 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using GameDevProject_August.Controls;
+using GameDevProject_August.States.LevelStates;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameDevProject_August.Controls;
 
-namespace GameDevProject_August.States
+namespace GameDevProject_August.States.MenuStates
 {
-    internal class VictoryState : State
+    internal class GameOverState : State
     {
         #region Fields
 
         private List<Component> _components;
 
-        private Texture2D backgroundVictoryState;
+        private Texture2D backGroundGameOverState;
 
         #endregion
 
-        public VictoryState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
+        public GameOverState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
         {
             var buttonTexture = _content.Load<Texture2D>("Controls\\Illustration2");
-            backgroundVictoryState = _content.Load<Texture2D>("BackGrounds\\Victory_Screen");
+            backGroundGameOverState = _content.Load<Texture2D>("BackGrounds\\Game_Over");
             var buttonFont = _content.Load<SpriteFont>("Fonts\\ButtonFont");
 
             var replayButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 300),
+                Position = new Vector2(Game1.ScreenWidth / 2 - buttonTexture.Width / 2, 175),
                 TextButton = "Replay",
             };
 
@@ -35,7 +33,7 @@ namespace GameDevProject_August.States
 
             var mainMenuButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2((Game1.ScreenWidth / 2) - (buttonTexture.Width / 2), 375),
+                Position = new Vector2(Game1.ScreenWidth / 2 - buttonTexture.Width / 2, 250),
                 TextButton = "Main menu",
             };
 
@@ -55,7 +53,7 @@ namespace GameDevProject_August.States
 
         private void mainMenuButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
+            _game.ChangeState(new MainMenuState(_game, _graphicsDevice, _content));
         }
 
 
@@ -63,7 +61,7 @@ namespace GameDevProject_August.States
         {
             spriteBatch.Begin();
 
-            spriteBatch.Draw(backgroundVictoryState, new Vector2(0, 0), Color.White);
+            spriteBatch.Draw(backGroundGameOverState, new Vector2(0, 0), Color.White);
 
             foreach (var component in _components)
             {

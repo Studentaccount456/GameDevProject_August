@@ -1,22 +1,27 @@
-﻿using GameDevProject_August.Levels;
-using GameDevProject_August.Levels.Level2;
+﻿using GameDevProject_August.Levels.Level2;
+using GameDevProject_August.Levels;
 using GameDevProject_August.Models;
-using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.NotSentient.Collectibles;
 using GameDevProject_August.Sprites.NotSentient.Projectiles;
-using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
 using GameDevProject_August.Sprites.Sentient.Characters.Main;
-using GameDevProject_August.UI;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using GameDevProject_August.Sprites;
+using Microsoft.Xna.Framework.Input;
+using GameDevProject_August.Levels.Level3;
+using GameDevProject_August.Sprites.NotSentient.Terminal;
+using GameDevProject_August.UI;
+using GameDevProject_August.States.MenuStates;
 
-namespace GameDevProject_August.States
+namespace GameDevProject_August.States.LevelStates
 {
-    public class Level2State : PlayingState
+    public class Level3State : PlayingState
     {
         public static int ScreenWidth;
         public static int ScreenHeight;
@@ -25,22 +30,19 @@ namespace GameDevProject_August.States
 
         private float _timer;
 
-        private Color _backgroundColour = Color.CornflowerBlue;
-
         private List<Component> _gameComponents;
 
         private Texture2D _regularPointTexture;
 
+        private Texture2D backgroundTexture;
+
         private FallingCode fallingCode;
-
-        public static bool isNextLevelTrigger;
-
-        private bool _isFromMainMenu;
-
 
         Level level;
 
-        public Level2State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool isFromMainMenu) : base(game, graphicsDevice, content)
+        private bool _isFromMainMenu;
+
+        public Level3State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool isFromMainMenu) : base(game, graphicsDevice, content)
         {
             content.RootDirectory = "Content";
             ScreenWidth = Game1.ScreenWidth;
@@ -48,13 +50,12 @@ namespace GameDevProject_August.States
 
             _isFromMainMenu = isFromMainMenu;
 
+            backgroundTexture = content.Load<Texture2D>("BackGrounds\\BackGround_Standard");
 
-            isNextLevelTrigger = false;
-
-            level = new Level2(new Level2BlockFactory());
+            level = new Level3(new Level3BlockFactory());
             LoadContent(content);
             InitializeContent();
-            InitializeScore(2, isFromMainMenu);
+            InitializeScore(3, isFromMainMenu);
             fallingCode = new FallingCode(playerBullet);
 
             Restart();
@@ -65,9 +66,9 @@ namespace GameDevProject_August.States
         {
             Level newlevel = null;
 
-            if (level is Level2)
+            if (level is Level3)
             {
-                newlevel = new Level2(new Level2BlockFactory());
+                newlevel = new Level3(new Level3BlockFactory());
                 newlevel.Generate(newlevel.Map, tileSize);
             }
             /*
@@ -88,8 +89,8 @@ namespace GameDevProject_August.States
             {
                 new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture)
                 {
-                    Position = new Vector2(10,600),
-
+                    Position = new Vector2(1200,600),
+                    facingDirectionIndicator = false,
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.Down,
@@ -103,52 +104,12 @@ namespace GameDevProject_August.States
                     Bullet = new PlayerBullet(playerBullet),
                     Score = Game1.PlayerScore
                 },
-
-                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture)
+                new FinalTerminal(finalTerminalTexture)
                 {
-                    Position = new Vector2(250, 595),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.S,
-                        Up = System.Windows.Forms.Keys.Z,
-                        Left = System.Windows.Forms.Keys.Q,
-                        Right = System.Windows.Forms.Keys.D,
-                        Shoot = System.Windows.Forms.Keys.Space
-                    },
-                    Speed = 2f,
-                },
-                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture)
-                {
-                    Position = new Vector2(650,570),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.S,
-                        Up = System.Windows.Forms.Keys.Z,
-                        Left = System.Windows.Forms.Keys.Q,
-                        Right = System.Windows.Forms.Keys.D,
-                        Shoot = System.Windows.Forms.Keys.Space
-                    },
-                    Speed = 2f,
-                },
-                new RatMage(ratMoveTexture, ratCastTexture, ratIdleTexture, glitchDeathTexture, ratStandStillTexture)
-                {
-                    Position = new Vector2(225, 408),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.S,
-                        Up = System.Windows.Forms.Keys.Z,
-                        Left = System.Windows.Forms.Keys.Q,
-                        Right = System.Windows.Forms.Keys.D,
-                        Shoot = System.Windows.Forms.Keys.Space
-                    },
-                    Speed = 10f,
-                    Bullet = new EnemyBullet(ratProjectile),
-        },
-                new Regular_Point(RegularPointTexture)
-                {
-                    Position = new Vector2(865 ,400)
+                    Position = new Vector2(500, 465)
                 }
             };
+            _regularPointTexture = RegularPointTexture;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -188,13 +149,12 @@ namespace GameDevProject_August.States
                     i--;
                 }
 
-                if (sprite_1 is MainCharacter)
+                if (sprite_1 is FinalTerminal)
                 {
-                    var player = sprite_1 as MainCharacter;
-                    if (player.HasDied)
+                    var finalTerminal = sprite_1 as FinalTerminal;
+                    if (finalTerminal.HasDied)
                     {
-                        _game.ChangeState(new GameOverState(_game, _graphicsDevice, _content));
-                        //Restart();
+                        _game.ChangeState(new VictoryState(_game, _graphicsDevice, _content));
                     }
                 }
             }
@@ -238,11 +198,6 @@ namespace GameDevProject_August.States
             }
 
             PostUpdate(gameTime);
-
-            if (isNextLevelTrigger)
-            {
-                _game.ChangeState(new Level3State(_game, _graphicsDevice, _content, false));
-            }
         }
 
         public override void LoadContent(ContentManager content)

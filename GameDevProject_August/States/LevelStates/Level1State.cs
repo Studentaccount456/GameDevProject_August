@@ -1,26 +1,23 @@
-﻿using GameDevProject_August.Levels.Level2;
-using GameDevProject_August.Levels;
+﻿using GameDevProject_August.Levels;
+using GameDevProject_August.Levels.Level1;
 using GameDevProject_August.Models;
+using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.NotSentient.Collectibles;
 using GameDevProject_August.Sprites.NotSentient.Projectiles;
+using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
 using GameDevProject_August.Sprites.Sentient.Characters.Main;
+using GameDevProject_August.States.MenuStates;
+using GameDevProject_August.UI;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameDevProject_August.Sprites;
-using Microsoft.Xna.Framework.Input;
-using GameDevProject_August.Levels.Level3;
-using GameDevProject_August.Sprites.NotSentient.Terminal;
-using GameDevProject_August.UI;
 
-namespace GameDevProject_August.States
+namespace GameDevProject_August.States.LevelStates
 {
-    public class Level3State : PlayingState
+    public class Level1State : PlayingState
     {
         public static int ScreenWidth;
         public static int ScreenHeight;
@@ -29,21 +26,20 @@ namespace GameDevProject_August.States
 
         private float _timer;
 
+        private Color _backgroundColour = Color.CornflowerBlue;
+
         private List<Component> _gameComponents;
-
-        private Texture2D _regularPointTexture;
-
-        private Texture2D backgroundTexture;
 
         private FallingCode fallingCode;
 
         public static bool isNextLevelTrigger;
 
-        Level level;
-
         private bool _isFromMainMenu;
 
-        public Level3State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool isFromMainMenu) : base(game, graphicsDevice, content)
+
+        Level level;
+
+        public Level1State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool isFromMainMenu) : base(game, graphicsDevice, content)
         {
             content.RootDirectory = "Content";
             ScreenWidth = Game1.ScreenWidth;
@@ -51,13 +47,10 @@ namespace GameDevProject_August.States
 
             _isFromMainMenu = isFromMainMenu;
 
-
-            backgroundTexture = content.Load<Texture2D>("BackGrounds\\BackGround_Standard");
-
-            level = new Level3(new Level3BlockFactory());
+            level = new Level1(new Level1BlockFactory());
             LoadContent(content);
             InitializeContent();
-            InitializeScore(3, isFromMainMenu);
+            InitializeScore(1, isFromMainMenu);
             fallingCode = new FallingCode(playerBullet);
 
             Restart();
@@ -68,9 +61,9 @@ namespace GameDevProject_August.States
         {
             Level newlevel = null;
 
-            if (level is Level3)
+            if (level is Level1)
             {
-                newlevel = new Level3(new Level3BlockFactory());
+                newlevel = new Level1(new Level1BlockFactory());
                 newlevel.Generate(newlevel.Map, tileSize);
             }
             /*
@@ -91,8 +84,8 @@ namespace GameDevProject_August.States
             {
                 new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture)
                 {
-                    Position = new Vector2(1200,600),
-                    facingDirectionIndicator = false,
+                    Position = new Vector2(10,564),
+
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.Down,
@@ -106,12 +99,40 @@ namespace GameDevProject_August.States
                     Bullet = new PlayerBullet(playerBullet),
                     Score = Game1.PlayerScore
                 },
-                new FinalTerminal(finalTerminalTexture)
+
+                  new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture, minotaurStandStillTexture)
                 {
-                    Position = new Vector2(500, 465)
-                }
+                    Position = new Vector2(900,566),
+                    Input = new Input()
+                    {
+                        Down = System.Windows.Forms.Keys.S,
+                        Up = System.Windows.Forms.Keys.Z,
+                        Left = System.Windows.Forms.Keys.Q,
+                        Right = System.Windows.Forms.Keys.D,
+                        Shoot = System.Windows.Forms.Keys.M
+                    },
+                    Speed = 8f,
+        },
+
+
+                   new Porcupine(porcupineMoveTexture, glitchDeathTexture)
+                {
+                    Position = new Vector2(210,600),
+                    Input = new Input()
+                    {
+                        Down = System.Windows.Forms.Keys.M,
+                        Up = System.Windows.Forms.Keys.P,
+                        Left = System.Windows.Forms.Keys.I,
+                        Right = System.Windows.Forms.Keys.O,
+                    },
+                    Speed = 2f,
+                },
+                   new Regular_Point(RegularPointTexture)
+                   {
+                       Position = new Vector2(575, 566)
+                   }
+
             };
-            _regularPointTexture = RegularPointTexture;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -151,12 +172,13 @@ namespace GameDevProject_August.States
                     i--;
                 }
 
-                if (sprite_1 is FinalTerminal)
+                if (sprite_1 is MainCharacter)
                 {
-                    var finalTerminal = sprite_1 as FinalTerminal;
-                    if (finalTerminal.HasDied)
+                    var player = sprite_1 as MainCharacter;
+                    if (player.HasDied)
                     {
-                        _game.ChangeState(new VictoryState(_game, _graphicsDevice, _content));
+                        _game.ChangeState(new GameOverState(_game, _graphicsDevice, _content));
+                        //Restart();
                     }
                 }
             }
@@ -200,6 +222,12 @@ namespace GameDevProject_August.States
             }
 
             PostUpdate(gameTime);
+
+            if (PlayingState.isNextLevelTrigger)
+            {
+                PlayingState.isNextLevelTrigger = false;
+                _game.ChangeState(new Level2State(_game, _graphicsDevice, _content, false));
+            }
         }
 
         public override void LoadContent(ContentManager content)
@@ -212,5 +240,6 @@ namespace GameDevProject_August.States
             level = GenerateLevel(level, 38);
             //SpriteList = GenerateLevelSpriteList();
         }
+
     }
 }

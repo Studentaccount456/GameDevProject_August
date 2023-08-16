@@ -93,8 +93,7 @@ namespace GameDevProject_August.States
         public Texture2D BackgroundGlitchScore_6_Texture { get; private set; }
         public Texture2D BackgroundGlitchScore_7_Texture { get; private set; }
 
-
-
+        public static bool isNextLevelTrigger = false;
 
         public static Random Random;
 
