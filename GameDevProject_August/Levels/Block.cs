@@ -14,6 +14,8 @@ namespace GameDevProject_August.Levels
         // Will be used for doorBlock that will allow you to move to next Level.
         public bool isNextLevel;
 
+        public bool EnemyBehavior = false;
+
         #endregion
 
         #region Properties

@@ -116,7 +116,7 @@ namespace GameDevProject_August.States
         },
 
                   
-                   new Porcupine(porcupineMoveTexture, glitchDeathTexture,porcupineStandStillTexture)
+                   new Porcupine(porcupineMoveTexture, glitchDeathTexture)
                 {
                     Position = new Vector2(210,600),
                     Input = new Input()

@@ -22,6 +22,11 @@ namespace GameDevProject_August.Levels.Level1
             {
                 block = new ThreePointsType(rectangle);
             }
+            else if (number == 4)
+            {
+                block = new Grass(rectangle);
+                block.EnemyBehavior = true;
+            }
             return block;
         }
     }
