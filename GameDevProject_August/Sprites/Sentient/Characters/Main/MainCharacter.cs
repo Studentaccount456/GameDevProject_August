@@ -291,7 +291,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 
             foreach (var block in blocks)
             {
-                if (block is Block)
+                if (block is Block && block is not ThreePointsType && block is not SevenPointsType)
                 {
                     if ((Velocity.X > 0 && IsTouchingLeftBlock(block) && !hasJumped) ||
                         Velocity.X < 0 && IsTouchingRightBlock(block) && !hasJumped)
@@ -309,16 +309,16 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     {
                         hasJumped = false;
                     }
-
-                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && block is ThreePointsType && PlayingState.PlayerScore.MainScore == 3)
+                } else if (block is ThreePointsType || block is SevenPointsType)
+                {
+                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && PlayingState.PlayerScore.MainScore >= 3)
                     {
                         Level1State.isNextLevelTrigger = true;
                     }
-                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && block is SixPointsType && PlayingState.PlayerScore.MainScore == 6)
+                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && PlayingState.PlayerScore.MainScore >= 7)
                     {
                         Level2State.isNextLevelTrigger = true;
                     }
-
                 }
             }
             Position += Velocity;

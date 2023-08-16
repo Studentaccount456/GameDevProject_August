@@ -76,7 +76,7 @@ namespace GameDevProject_August.States
         public static Texture2D StoneTexture { get; private set; }
         public static Texture2D MarmerTexture { get; private set; }
         public static Texture2D ThreePointsTexture { get; private set; }
-        public static Texture2D SixPointsTexture { get; private set; }
+        public static Texture2D SevenPointsTexture { get; private set; }
 
 
         public Texture2D BackgroundOfLevel { get; set; }
@@ -219,7 +219,7 @@ namespace GameDevProject_August.States
             StoneTexture = content.Load<Texture2D>("Textures\\Tiles\\Stone");
             MarmerTexture = content.Load<Texture2D>("Textures\\Tiles\\Marmer");
             ThreePointsTexture = content.Load<Texture2D>("Textures\\Tiles\\ThreePointsTexture");
-            SixPointsTexture = content.Load<Texture2D>("Textures\\Tiles\\SixPointsTexture");
+            SevenPointsTexture = content.Load<Texture2D>("Textures\\Tiles\\SevenPointsTexture");
         }
 
         private void LoadSpriteFonts(ContentManager content)

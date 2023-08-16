@@ -459,7 +459,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Tiles/Marmer.png
 
-#begin Textures/Tiles/SixPointsTexture.png
+#begin Textures/Tiles/SevenPointsTexture.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -469,7 +469,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/Tiles/SixPointsTexture.png
+/build:Textures/Tiles/SevenPointsTexture.png
 
 #begin Textures/Tiles/Stone.png
 /importer:TextureImporter

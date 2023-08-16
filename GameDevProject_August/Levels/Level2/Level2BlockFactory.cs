@@ -20,11 +20,7 @@ namespace GameDevProject_August.Levels.Level2
             }
             else if (number == 2)
             {
-                block = new Dirt(rectangle);
-            }
-            else if (number == 3)
-            {
-                block = new SixPointsType(rectangle);
+                block = new SevenPointsType(rectangle);
             }
             return block;
         }
