@@ -21,8 +21,8 @@ namespace GameDevProject_August.UI
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            int topPosition = (int)(_screenHeight * 0.1);
-            spriteBatch.DrawString(_font, MainScore.ToString(), new Vector2(_screenWidth / 2, topPosition), Color.White);
+            int topPosition = (int)(_screenHeight * 0.05);
+            spriteBatch.DrawString(_font, MainScore.ToString(), new Vector2(_screenWidth / 2, topPosition), Color.Red);
         }
 
     }
