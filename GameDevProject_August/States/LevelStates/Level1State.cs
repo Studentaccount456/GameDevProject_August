@@ -97,7 +97,7 @@ namespace GameDevProject_August.States.LevelStates
                     Score = Game1.PlayerScore
                 },
 
-                  new MinotaurFix(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture)
+                  new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture)
                 {
                     Position = new Vector2(1085,566),
                     Input = new Input()
@@ -108,7 +108,7 @@ namespace GameDevProject_August.States.LevelStates
                         Right = System.Windows.Forms.Keys.D,
                         Shoot = System.Windows.Forms.Keys.M
                     },
-                    Speed = 8f,
+                    Speed = 11f,
         },
 
 
