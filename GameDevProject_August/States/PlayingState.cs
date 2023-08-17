@@ -37,6 +37,7 @@ namespace GameDevProject_August.States
         public Texture2D personDeathTexture { get; private set; }
         public Texture2D personStandStillTexture { get; private set; }
         public Texture2D personJumpTexture { get; private set; }
+        public Texture2D personBowDownTexture { get; private set; }
 
 
         public Texture2D ratMoveTexture { get; private set; }
@@ -220,6 +221,7 @@ namespace GameDevProject_August.States
             personIdleTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\MainCharacter\\MC_Idle"); ;
             personDeathTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\MainCharacter\\MC_Dies");
             personJumpTexture = content.Load<Texture2D>("LivingEntityTextures\\AnimationTextures\\MainCharacter\\MC_Jump");
+            personBowDownTexture = content.Load<Texture2D>("LivingEntityTextures\\SpritesStationaryTextures\\MC_BowDown");
             personStandStillTexture = content.Load<Texture2D>("LivingEntityTextures\\SpritesStationaryTextures\\MC_StandStill");
         }
 

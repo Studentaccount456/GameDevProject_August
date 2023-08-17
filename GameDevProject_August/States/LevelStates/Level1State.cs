@@ -50,7 +50,7 @@ namespace GameDevProject_August.States.LevelStates
             InitializeScore(1, isFromMainMenu);
             fallingCode = new FallingCode(playerBullet);
 
-            Restart();
+            GenerateLevelSprites();
 
         }
 
@@ -75,14 +75,13 @@ namespace GameDevProject_August.States.LevelStates
             return newlevel;
         }
 
-        private void Restart()
+        private void GenerateLevelSprites()
         {
             _sprites = new List<Sprite>()
             {
-                new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture)
+                new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture, personBowDownTexture)
                 {
                     Position = new Vector2(10,564),
-
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.Down,
@@ -91,44 +90,26 @@ namespace GameDevProject_August.States.LevelStates
                         Right = System.Windows.Forms.Keys.Right,
                         Shoot = System.Windows.Forms.Keys.Space
                     },
-
                     Speed = 7f,
                     Bullet = new PlayerBullet(playerBullet),
                     Score = Game1.PlayerScore
                 },
 
-                  new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture)
+                new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture)
                 {
                     Position = new Vector2(1085,566),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.S,
-                        Up = System.Windows.Forms.Keys.Z,
-                        Left = System.Windows.Forms.Keys.Q,
-                        Right = System.Windows.Forms.Keys.D,
-                        Shoot = System.Windows.Forms.Keys.M
-                    },
                     Speed = 11f,
-        },
+                },
 
-
-                   new Porcupine(porcupineMoveTexture, glitchDeathTexture)
+                new Porcupine(porcupineMoveTexture, glitchDeathTexture)
                 {
                     Position = new Vector2(210,600),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.M,
-                        Up = System.Windows.Forms.Keys.P,
-                        Left = System.Windows.Forms.Keys.I,
-                        Right = System.Windows.Forms.Keys.O,
-                    },
                     Speed = 2f,
                 },
-                   new Regular_Point(RegularPointTexture)
-                   {
+                new Regular_Point(RegularPointTexture)
+                {
                        Position = new Vector2(575, 566)
-                   }
-
+                }
             };
         }
 
@@ -175,7 +156,6 @@ namespace GameDevProject_August.States.LevelStates
                     if (player.HasDied)
                     {
                         _game.ChangeState(new GameOverState(_game, _graphicsDevice, _content));
-                        //Restart();
                     }
                 }
             }

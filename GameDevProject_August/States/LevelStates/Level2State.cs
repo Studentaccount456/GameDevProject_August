@@ -53,7 +53,7 @@ namespace GameDevProject_August.States.LevelStates
             InitializeScore(2, isFromMainMenu);
             fallingCode = new FallingCode(playerBullet);
 
-            Restart();
+            GenerateLevelSprites();
 
         }
 
@@ -78,14 +78,13 @@ namespace GameDevProject_August.States.LevelStates
             return newlevel;
         }
 
-        private void Restart()
+        private void GenerateLevelSprites()
         {
             _sprites = new List<Sprite>()
             {
-                new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture)
+                new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture, personBowDownTexture)
                 {
                     Position = new Vector2(10,600),
-
                     Input = new Input()
                     {
                         Down = System.Windows.Forms.Keys.Down,
@@ -94,7 +93,6 @@ namespace GameDevProject_August.States.LevelStates
                         Right = System.Windows.Forms.Keys.Right,
                         Shoot = System.Windows.Forms.Keys.Space
                     },
-
                     Speed = 7f,
                     Bullet = new PlayerBullet(playerBullet),
                     Score = Game1.PlayerScore

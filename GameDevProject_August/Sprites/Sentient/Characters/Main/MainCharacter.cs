@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 {
@@ -35,6 +36,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         public Texture2D DeathTexture;
         public Texture2D StandStillTexture;
         public Texture2D JumpTexture;
+        public Texture2D BowDownTexture;
 
         private bool canMove = true;
 
@@ -80,7 +82,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 
 
 
-        public MainCharacter(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture, Texture2D jumpTexture)
+        public MainCharacter(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture)
             : base(moveTexture)
         {
             AnimationHandler_MC = new AnimationHandler();
@@ -90,6 +92,8 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             StandStillTexture = standStillTexture;
 
             JumpTexture = jumpTexture;
+
+            BowDownTexture = bowDownTexture;
 
             hasJumped = true;
 
@@ -392,7 +396,6 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             }
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
             {
-                //Velocity.Y += Speed;
                 isMovingDown = true;
             }
             if (Keyboard.GetState().IsKeyDown((Keys)Input.Left) && !hasJumped)
@@ -476,11 +479,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     isShootingAnimating = false;
                 }
             }
-            else if (hasJumped && facingDirectionIndicator == true)
+            else if (hasJumped && facingDirectionIndicator == true && !isMovingDown)
             {
                 AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, true);
             }
-            else if (hasJumped && facingDirectionIndicator == false)
+            else if (hasJumped && facingDirectionIndicator == false && !isMovingDown)
             {
                 AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, false);
             }
@@ -503,16 +506,24 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, false);
                 }
             }
-            else if (facingDirectionIndicator == true && standStillNoIdle == true && !isShootingAnimating || (facingDirectionIndicator == true && !isShootingAnimating && isMovingDown) || (facingDirectionIndicator == true && !isShootingAnimating && isMovingUp))
+
+            else if (facingDirectionIndicator == true && standStillNoIdle == true && !isShootingAnimating || (facingDirectionIndicator == true && !isShootingAnimating && !isMovingDown) || (facingDirectionIndicator == true && !isShootingAnimating && isMovingUp))
             {
                 AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, true);
             }
-            else if (facingDirectionIndicator == false && standStillNoIdle == true && !isShootingAnimating || (facingDirectionIndicator == false && !isShootingAnimating && isMovingUp) || (facingDirectionIndicator == false && !isShootingAnimating && isMovingDown))
+            else if (facingDirectionIndicator == false && standStillNoIdle == true && !isShootingAnimating || (facingDirectionIndicator == false && !isShootingAnimating && isMovingUp) || (facingDirectionIndicator == false && !isShootingAnimating && !isMovingDown))
             {
                 AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, false);
+            } else if (facingDirectionIndicator == true && isMovingDown && !hasJumped)            
+            {
+                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), true);
+            }
+            else if (facingDirectionIndicator == false && isMovingDown && !hasJumped)
+            {
+                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0,2), false);
             }
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
-
+            
         }
     }
 }

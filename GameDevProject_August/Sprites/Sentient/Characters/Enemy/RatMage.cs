@@ -198,7 +198,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     facingDirectionIndicator = false;
                     facingDirection = -Vector2.UnitX;
                 }
-                if (shootDelay > 0.75f)
+                if (shootDelay > 0.75f && !isDeathAnimating)
                 {
                     AddBullet(sprites);
                     isShootingCooldown = true;
