@@ -95,9 +95,8 @@ namespace GameDevProject_August.States.LevelStates
                     Score = Game1.PlayerScore
                 },
 
-                new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture)
+                new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture, new Vector2(1085,566), new Vector2(285,71), 354, 115)
                 {
-                    Position = new Vector2(1085,566),
                     Speed = 11f,
                 },
 

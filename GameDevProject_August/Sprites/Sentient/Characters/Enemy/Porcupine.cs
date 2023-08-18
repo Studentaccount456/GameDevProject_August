@@ -4,38 +4,23 @@ using GameDevProject_August.Sprites.NotSentient.Projectiles;
 using GameDevProject_August.Sprites.Sentient.Characters.Main;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 {
     public class Porcupine : Sprite
     {
-        public bool HasDied = false;
-
         private Animation animationMove;
         private Animation animationDeath;
 
         public Texture2D DeathTexture;
 
-        private bool isDeathAnimating = false;
-
         private int deathAnimationFrameIndex = 0;
 
         private bool reachedFourthDeathFrame = false;
 
-
-        /*
-        public override Rectangle Rectangle
-        {
-            get
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, 57, 48);
-            }
-        }
-        */
-
-        public Rectangle Rectangle2;
-        public Rectangle Rectangle3;
+        public Rectangle AdditionalHitBox_1;
 
         public Rectangle DeathRectangle;
 
@@ -78,12 +63,23 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
-            if (!isDeathAnimating)
-            {
-                Move();
-                animationMove.Update(gameTime);
-            }
+            Move(gameTime, blocks);
+            PorcupineHitBoxFunct();
 
+            CollisionRules(gameTime, sprites);
+
+            UpdatePositionAndResetVelocity();
+        }
+
+        private void UpdatePositionAndResetVelocity()
+        {
+            Position += Velocity;
+
+            Velocity = Vector2.Zero;
+        }
+
+        private void CollisionRules(GameTime gameTime, List<Sprite> sprites/*, /*List<Block> blocks*/)
+        {
             foreach (var sprite in sprites)
             {
                 if (sprite is Porcupine)
@@ -91,89 +87,95 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     continue;
                 }
 
-                if ((sprite.RectangleHitbox.Intersects(Rectangle2) || sprite.RectangleHitbox.Intersects(Rectangle3)) && sprite is MainCharacter)
+                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is MainCharacter)
                 {
-                    sprite.HasDied = true;
                     sprite.isDeathAnimating = true;
                 }
 
-                if (sprite.RectangleHitbox.Intersects(Rectangle2) && sprite is PlayerBullet)
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet)
                 {
                     Game1.PlayerScore.MainScore++;
-                    HasDied = true;
                     isDeathAnimating = true;
                     sprite.IsRemoved = true;
                 }
 
-                if (isDeathAnimating)
-                {
-                    DeathRectangle = new Rectangle((int)Position.X, (int)Position.Y, 64, 64);
-
-                    animationDeath.Update(gameTime);
-
-                    deathAnimationFrameIndex = animationDeath.CurrentFrameIndex;
-
-                    if (deathAnimationFrameIndex == 3) // 4th frame
-                    {
-                        reachedFourthDeathFrame = true;
-                    }
-
-                    if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
-                    {
-                        PieceOfCodeToFall = 3;
-                        IsRemoved = true;
-                    }
-
-                    if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
-                    {
-                        sprite.isDeathAnimating = true;
-                    }
-
-                    if (deathAnimationFrameIndex > 6)
-                    {
-                        DeathRectangle.Width = 0;
-                        DeathRectangle.Height = 0;
-                    }
-
-                }
-
-                if ((sprite.RectangleHitbox.Intersects(Rectangle3) && sprite is PlayerBullet))
+                if ((sprite.RectangleHitbox.Intersects(AdditionalHitBox_1) && sprite is PlayerBullet))
                 {
                     sprite.IsRemoved = true;
                 }
-            }
 
+                GlitchDeathInit(gameTime, sprite, 3);
+            }
+        }
+
+        private void GlitchDeathInit(GameTime gameTime, Sprite sprite, int pieceOfCodeToFall)
+        {
+            if (isDeathAnimating)
+            {
+                DeathRectangle = new Rectangle((int)Position.X, (int)Position.Y, 64, 64);
+
+                animationDeath.Update(gameTime);
+
+                deathAnimationFrameIndex = animationDeath.CurrentFrameIndex;
+
+                if (deathAnimationFrameIndex == 3) // 4th frame
+                {
+                    reachedFourthDeathFrame = true;
+                }
+
+                if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
+                {
+                    PieceOfCodeToFall = pieceOfCodeToFall;
+                    IsRemoved = true;
+                }
+
+                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
+                {
+                    sprite.isDeathAnimating = true;
+                }
+
+                if (deathAnimationFrameIndex > 6)
+                {
+                    DeathRectangle.Width = 0;
+                    DeathRectangle.Height = 0;
+                    WidthRectangleHitbox = 0;
+                    HeightRectangleHitbox = 0;
+                }
+
+            }
+        }
+
+        private void Move(GameTime gameTime, List<Block> blocks)
+        {
             foreach (var block in blocks)
             {
-                if (block.BlockRectangle.Intersects(Rectangle2) && block.EnemyBehavior == true)
+                if (block.BlockRectangle.Intersects(RectangleHitbox) && block.EnemyBehavior == true)
                 {
                     facingDirectionIndicator = !facingDirectionIndicator;
                 }
             }
 
-            Position += Velocity;
-
-            Velocity = Vector2.Zero;
-            if (isDeathAnimating == true)
+            if (!isDeathAnimating)
             {
-                animationDeath.Update(gameTime);
+                if (!facingDirectionIndicator)
+                {
+                    Velocity.X -= Speed;
+                    facingDirection = -Vector2.UnitX;
+                }
+                else if (facingDirectionIndicator)
+                {
+                    Velocity.X += Speed;
+                    facingDirection = Vector2.UnitX;
+                }
+
+                Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
+                animationMove.Update(gameTime);
             }
         }
 
-        private void Move()
+        private void PorcupineHitBoxFunct()
         {
-            if (!facingDirectionIndicator)
-            {
-                Velocity.X -= Speed;
-                facingDirection = -Vector2.UnitX;
-            }
-            else if (facingDirectionIndicator)
-            {
-                Velocity.X += Speed;
-                facingDirection = Vector2.UnitX;
-            }
-
-            // Update Rectangle2 when facingDirection Changes
+            // Update Hitboxes when facingDirection Changes
             int rect2X = (int)Position.X + 42;
             int rect3X = (int)Position.X;
 
@@ -184,15 +186,13 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 rect3X += 16;
             }
 
-            // Update Rectangle2
-            Rectangle2 = new Rectangle(rect2X, (int)Position.Y + 24, 15, 24);
-            Rectangle3 = new Rectangle(rect3X, (int)Position.Y, 42, 48);
-
-
-            Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
+            // Update Hitboxes
+            PositionXRectangleHitbox = rect2X;
+            PositionYRectangleHitbox = (int)Position.Y + 24;
+            WidthRectangleHitbox = 15;
+            HeightRectangleHitbox = 24;
+            AdditionalHitBox_1 = new Rectangle(rect3X, (int)Position.Y, 42, 48);
         }
-
-
 
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -220,8 +220,8 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
 
-            spriteBatch.DrawRectangle(Rectangle2, Color.Blue);
-            spriteBatch.DrawRectangle(Rectangle3, Color.Yellow);
+            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
+            spriteBatch.DrawRectangle(AdditionalHitBox_1, Color.Yellow);
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
         }
 

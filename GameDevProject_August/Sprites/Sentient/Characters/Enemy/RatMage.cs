@@ -4,6 +4,7 @@ using GameDevProject_August.Sprites.NotSentient.Projectiles;
 using GameDevProject_August.Sprites.Sentient.Characters.Main;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
@@ -11,8 +12,6 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
     public class RatMage : Sprite
     {
         public EnemyBullet Bullet;
-
-        public bool HasDied = false;
 
         private Animation animationMove;
         private Animation animationDeath;
@@ -23,7 +22,6 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
         public Texture2D IdleTexture;
         public Texture2D DeathTexture;
 
-        private bool isDeathAnimating = false;
         private bool isShootingAnimating = false;
 
         private bool isShootingCooldown = false;
@@ -33,8 +31,6 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
         private bool isIdling = false;
         private const float IdleTimeoutDuration = 5.0f;
         private float idleTimer = 0f;
-        private bool standStillNoIdle = false;
-
 
         private int deathAnimationFrameIndex = 0;
 
@@ -50,7 +46,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
         private float shootDelay;
 
-        public RatMage(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture)
+        private int _widthSpotter, _heightSpotter;
+        private Vector2 _offsetPositonSpotter;
+
+        public RatMage(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture,
+            Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
             : base(moveTexture)
         {
             _texture = moveTexture;
@@ -60,6 +60,12 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
             EnemyPosition = new Vector2(0, 0);
             OriginBullet = new Vector2(60, _texture.Height / 2);
+
+            _offsetPositonSpotter = offsetPositionSpotter;
+            _widthSpotter = widthSpotter;
+            _heightSpotter = heightSpotter;
+
+            Position = startPosition;
 
             // Standard walks right
             #region MoveAnimation
@@ -122,32 +128,23 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
-            PositionXRectangleHitbox = (int)Position.X;
-            PositionYRectangleHitbox = (int)Position.Y;
-            EnemySpotter = new Rectangle((int)Position.X - 300, (int)Position.Y - 71, 600, 120);
+            PositionTracker();
 
+            InitializeEnemySpotter(Position, _offsetPositonSpotter, _widthSpotter, _heightSpotter);
 
-            idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            IdleFunctionality(gameTime);
 
-            if (idleTimer >= IdleTimeoutDuration + 1f && !isShootingAnimating)
-            {
-                standStillNoIdle = true;
-                isIdling = false;
-                idleTimer = 0;
-            }
-            else if (idleTimer >= IdleTimeoutDuration && !isShootingAnimating)
-            {
-                isIdling = true;
-                standStillNoIdle = false;
-                animationIdle.Update(gameTime);
-            }
+            Move(gameTime, blocks);
 
-            if (!isDeathAnimating && !isIdling && !isShootingAnimating)
-            {
-                Move();
-                animationMove.Update(gameTime);
-            }
+            ShootingFunctionality(gameTime, sprites);
 
+            CollisionRules(gameTime, sprites);
+
+            UpdatePositionAndResetVelocity();
+        }
+
+        private void CollisionRules(GameTime gameTime, List<Sprite> sprites)
+        {
             if (facingDirectionIndicator || !facingDirectionIndicator && !isShootingAnimating)
             {
                 WidthRectangleHitbox = 60;
@@ -160,16 +157,42 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 HeightRectangleHitbox = 49;
             }
 
-            // Shooting cooldown
-            if (isShootingCooldown)
+            foreach (var sprite in sprites)
             {
-                shootingCooldownTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (shootingCooldownTimer >= ShootingCooldownDuration)
+                if (sprite is RatMage)
                 {
-                    isShootingCooldown = false;
+                    continue;
                 }
-            }
 
+                if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is MainCharacter)
+                {
+                    enemySpotted = true;
+                    EnemyPosition.X = sprite.Position.X;
+                }
+                if (!sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is MainCharacter)
+                {
+                    enemySpotted = false;
+                }
+
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet)
+                {
+                    Game1.PlayerScore.MainScore++;
+                    isDeathAnimating = true;
+                    sprite.IsRemoved = true;
+                }
+
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is MainCharacter)
+                {
+                    sprite.isDeathAnimating = true;
+                }
+
+                GlitchDeathInit(gameTime, sprite, 4);
+            }
+        }
+
+        private void ShootingFunctionality(GameTime gameTime, List<Sprite> sprites)
+        {
+            ShootCooldown(gameTime);
             if (isShootingAnimating)
             {
                 animationShoot.Update(gameTime);
@@ -200,114 +223,133 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 }
                 if (shootDelay > 0.75f && !isDeathAnimating)
                 {
-                    AddBullet(sprites);
-                    isShootingCooldown = true;
-                    shootingCooldownTimer = 0f;
+                    Shoot(sprites);
                 }
 
-            }
-
-
-            foreach (var sprite in sprites)
-            {
-                if (sprite is RatMage)
-                {
-                    continue;
-                }
-
-                if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is MainCharacter)
-                {
-                    enemySpotted = true;
-                    EnemyPosition.X = sprite.Position.X;
-                }
-                if (!sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is MainCharacter)
-                {
-                    enemySpotted = false;
-                }
-
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet)
-                {
-                    Game1.PlayerScore.MainScore++;
-                    HasDied = true;
-                    isDeathAnimating = true;
-                    sprite.IsRemoved = true;
-                }
-
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is MainCharacter)
-                {
-                    HasDied = true;
-                    sprite.isDeathAnimating = true;
-                }
-
-                if (isDeathAnimating)
-                {
-                    DeathRectangle = new Rectangle((int)Position.X, (int)Position.Y, 64, 64);
-
-                    animationDeath.Update(gameTime);
-
-                    deathAnimationFrameIndex = animationDeath.CurrentFrameIndex;
-
-                    if (deathAnimationFrameIndex == 3) // 4th frame
-                    {
-                        reachedFourthDeathFrame = true;
-                    }
-
-                    if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
-                    {
-                        PieceOfCodeToFall = 4;
-                        IsRemoved = true;
-                    }
-
-                    if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
-                    {
-                        sprite.isDeathAnimating = true;
-                    }
-
-                    if (deathAnimationFrameIndex > 6)
-                    {
-                        DeathRectangle.Width = 0;
-                        DeathRectangle.Height = 0;
-                    }
-
-                }
-            }
-
-            foreach (var block in blocks)
-            {
-                if (IsTouchingLeftBlock(block) && block.EnemyBehavior_2 == true)
-                {
-                    facingDirectionIndicator = false;
-                }
-                else if (IsTouchingRightBlock(block) && block.EnemyBehavior_2 == true)
-                {
-                    facingDirectionIndicator = true;
-                }
-            }
-
-            Position += Velocity;
-
-            Velocity = Vector2.Zero;
-
-            if (isDeathAnimating == true)
-            {
-                animationDeath.Update(gameTime);
             }
         }
 
-        private void Move()
+        private void Shoot(List<Sprite> sprites)
         {
-            if (!facingDirectionIndicator)
-            {
-                Velocity.X -= Speed;
-                facingDirection = -Vector2.UnitX;
-            }
-            if (facingDirectionIndicator)
-            {
-                Velocity.X += Speed;
-                facingDirection = Vector2.UnitX;
-            }
+            AddBullet(sprites);
+            isShootingCooldown = true;
+            shootingCooldownTimer = 0f;
+        }
 
-            Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
+        private void ShootCooldown(GameTime gameTime)
+        {
+            // Shooting cooldown
+            if (isShootingCooldown)
+            {
+                shootingCooldownTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (shootingCooldownTimer >= ShootingCooldownDuration)
+                {
+                    isShootingCooldown = false;
+                }
+            }
+        }
+
+        private void IdleFunctionality(GameTime gameTime)
+        {
+            idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (idleTimer >= IdleTimeoutDuration + 1f && !isShootingAnimating)
+            {
+                isIdling = false;
+                idleTimer = 0;
+            }
+            else if (idleTimer >= IdleTimeoutDuration && !isShootingAnimating)
+            {
+                isIdling = true;
+                animationIdle.Update(gameTime);
+            }
+        }
+
+        private void InitializeEnemySpotter(Vector2 position, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
+        {
+            // Initialize in Constructor + use RemoveEnemySpotterSpotted() when spotter needs dissapear after spot
+            EnemySpotter = new Rectangle((int)(position.X - offsetPositionSpotter.X), (int)(position.Y - offsetPositionSpotter.Y), widthSpotter, heightSpotter);
+            // Otherwise put in update so the Position updates so the spot can be reset
+        }
+
+        private void PositionTracker()
+        {
+            PositionXRectangleHitbox = (int)Position.X;
+            PositionYRectangleHitbox = (int)Position.Y;
+        }
+
+        private void GlitchDeathInit(GameTime gameTime, Sprite sprite, int pieceOfCodeToFall)
+        {
+            if (isDeathAnimating)
+            {
+                DeathRectangle = new Rectangle((int)Position.X, (int)Position.Y, 64, 64);
+
+                animationDeath.Update(gameTime);
+
+                deathAnimationFrameIndex = animationDeath.CurrentFrameIndex;
+
+                if (deathAnimationFrameIndex == 3) // 4th frame
+                {
+                    reachedFourthDeathFrame = true;
+                }
+
+                if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
+                {
+                    PieceOfCodeToFall = pieceOfCodeToFall;
+                    IsRemoved = true;
+                }
+
+                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
+                {
+                    sprite.isDeathAnimating = true;
+                }
+
+                if (deathAnimationFrameIndex > 6)
+                {
+                    DeathRectangle.Width = 0;
+                    DeathRectangle.Height = 0;
+                }
+
+            }
+        }
+
+        private void UpdatePositionAndResetVelocity()
+        {
+            Position += Velocity;
+
+            Velocity = Vector2.Zero;
+        }
+
+        private void Move(GameTime gameTime, List<Block> blocks)
+        {
+            if (!isDeathAnimating && !isIdling && !isShootingAnimating)
+            {
+                foreach (var block in blocks)
+                {
+                    if (IsTouchingLeftBlock(block) && block.EnemyBehavior_2 == true)
+                    {
+                        facingDirectionIndicator = false;
+                    }
+                    else if (IsTouchingRightBlock(block) && block.EnemyBehavior_2 == true)
+                    {
+                        facingDirectionIndicator = true;
+                    }
+                }
+
+                if (!facingDirectionIndicator)
+                {
+                    Velocity.X -= Speed;
+                    facingDirection = -Vector2.UnitX;
+                }
+                if (facingDirectionIndicator)
+                {
+                    Velocity.X += Speed;
+                    facingDirection = Vector2.UnitX;
+                }
+
+                Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
+                animationMove.Update(gameTime);
+            }
         }
 
         private void AddBullet(List<Sprite> sprites)
@@ -376,6 +418,6 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
             spriteBatch.DrawRectangle(EnemySpotter, Color.Red);
         }
-        
+
     }
 }

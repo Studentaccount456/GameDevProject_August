@@ -108,9 +108,8 @@ namespace GameDevProject_August.States.LevelStates
                     Position = new Vector2(650,570),
                     Speed = 2f,
                 },
-                new RatMage(ratMoveTexture, ratCastTexture, ratIdleTexture, glitchDeathTexture)
+                new RatMage(ratMoveTexture, ratCastTexture, ratIdleTexture, glitchDeathTexture, new Vector2(225, 408), new Vector2(300,101), 600, 150)
                 {
-                    Position = new Vector2(225, 408),
                     Speed = 2f,
                     Bullet = new EnemyBullet(ratProjectile),
         },

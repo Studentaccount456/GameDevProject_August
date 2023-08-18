@@ -8,14 +8,13 @@ using GameDevProject_August.Sprites.Sentient.Characters.Main;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 {
     public class Minotaur : Sprite
     {
-        public bool HasDied = false;
-
         private Animation animationMove;
         private Animation animationDeath;
         private Animation animationIdle;
@@ -25,7 +24,6 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
         public Texture2D IdleTexture;
         public Texture2D DeathTexture;
 
-        private bool isDeathAnimating = false;
         private bool isShootingAnimating = false;
 
         private bool isShootingCooldown = false;
@@ -45,7 +43,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
         private bool reachedFourthDeathFrame = false;
 
         // Tongue Rectangle
-        public Rectangle Rectangle2;
+        public Rectangle AdditionalHitBox_1;
 
         public Rectangle DeathRectangle;
 
@@ -53,26 +51,17 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
         private bool canSeeEnemy = true;
 
-        /*
-        public override Rectangle RectangleHitbox
-        {
-            get
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, 63, 42);
-            }
-        }
-        */
-
-        private bool enemySpotted;
+        private bool _enemySpotted;
 
         public Rectangle EnemySpotter;
 
         public Vector2 EnemyPosition;
 
-        public Rectangle TestRectangle;
+        private int _widthSpotter, _heightSpotter;
+        private Vector2 _offsetPositonSpotter;
 
-
-        public Minotaur(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture)
+        public Minotaur(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture,
+                        Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
             : base(moveTexture)
         {
             _texture = moveTexture;
@@ -82,11 +71,19 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
             AnimationHandler_Minotaur = new AnimationHandler();
 
-            Rectangle2 = new Rectangle((int)Position.X, (int)Position.Y, 0, 0);
+            AdditionalHitBox_1 = new Rectangle((int)Position.X, (int)Position.Y, 0, 0);
 
             facingDirectionIndicator = false;
 
             isIdling = true;
+
+            _offsetPositonSpotter = offsetPositionSpotter;
+            _widthSpotter = widthSpotter;
+            _heightSpotter = heightSpotter;
+
+            Position = startPosition;
+
+            InitializeEnemySpotter(Position, _offsetPositonSpotter, _widthSpotter, _heightSpotter);
 
 
             #region MoveAnimation
@@ -128,7 +125,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
 
             #region Death
             animationDeath = new Animation(AnimationType.Death, deathTexture);
-            animationDeath.fps = 8;
+            animationDeath.fps = 4;
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 0, 64, 64)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 0, 64, 64)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 0, 64, 64)));
@@ -145,14 +142,70 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
             #endregion
         }
 
+        private void InitializeEnemySpotter(Vector2 position, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
+        {
+            // Initialize in Constructor + use RemoveEnemySpotterSpotted() when spotter needs dissapear after spot
+            EnemySpotter = new Rectangle((int)(position.X - offsetPositionSpotter.X), (int)(position.Y - offsetPositionSpotter.Y), widthSpotter, heightSpotter);
+            // Otherwise put in update so the Position updates so the spot can be reset
+        }
+
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
+            PositionTracker();
+
+            IdleFunctionality(gameTime);
+
+            RemoveEnemySpotterSpotted(_enemySpotted);
+
+            ShootCooldown(gameTime);
+
+            MinotaurAttack(gameTime);
+
+            Move(gameTime, blocks);
+
+            CollisionRules(gameTime, sprites);
+
+            UpdatePositionAndResetVelocity();
+        }
+
+        private void PositionTracker()
+        {
+            // Necessary When not override Rectanglehitbox with getter
             PositionXRectangleHitbox = (int)Position.X;
             PositionYRectangleHitbox = (int)Position.Y;
-            EnemySpotter = new Rectangle((int)Position.X - 285, (int)Position.Y - 71, 354, 120);
+        }
 
+        private void IdleFunctionality(GameTime gameTime)
+        {
             idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            if (idleTimer >= IdleTimeoutDuration && !isShootingAnimating && isIdling && !isShootingCooldown)
+            {
+                isShootingAnimating = true;
+                isIdling = false;
+                idleTimer = 0;
+            }
+            if (isIdling)
+            {
+                animationIdle.Update(gameTime);
+            }
+        }
+
+        private void ShootCooldown(GameTime gameTime)
+        {
+            // Shooting cooldown
+            if (isShootingCooldown)
+            {
+                shootingCooldownTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (shootingCooldownTimer >= ShootingCooldownDuration)
+                {
+                    isShootingCooldown = false;
+                }
+            }
+        }
+
+        private void CollisionRules(GameTime gameTime, List<Sprite> sprites)
+        {
             if (facingDirectionIndicator || !facingDirectionIndicator && !isShootingAnimating)
             {
                 WidthRectangleHitbox = 54;
@@ -166,30 +219,91 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 HeightRectangleHitbox = 44;
             }
 
-            // Shooting cooldown
-            if (isShootingCooldown)
+
+            foreach (var sprite in sprites)
             {
-                shootingCooldownTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (shootingCooldownTimer >= ShootingCooldownDuration)
+                if (sprite is Minotaur)
                 {
-                    isShootingCooldown = false;
+                    continue;
+                }
+
+                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is MainCharacter)
+                {
+                    sprite.isDeathAnimating = true;
+                }
+
+                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is PlayerBullet)
+                {
+                    Game1.PlayerScore.MainScore++;
+                    isDeathAnimating = true;
+                    sprite.IsRemoved = true;
+                }
+
+                GlitchDeathInit(gameTime, sprite, 1);
+
+                if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is MainCharacter && canSeeEnemy)
+                {
+                    _enemySpotted = true;
+                    isIdling = false;
                 }
             }
+        }
 
-            if (idleTimer >= IdleTimeoutDuration && !isShootingAnimating && isIdling && !isShootingCooldown)
+        private void GlitchDeathInit(GameTime gameTime, Sprite sprite, int pieceOfCodeToFall)
+        {
+            if (isDeathAnimating)
             {
-                isShootingAnimating = true;
-                isIdling = false;
-                idleTimer = 0;
+                DeathRectangle = new Rectangle((int)Position.X, (int)Position.Y, 64, 64);
+                WidthRectangleHitbox = 0;
+                HeightRectangleHitbox = 0;
+
+                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
+                {
+                    sprite.isDeathAnimating = true;
+                }
+
+                animationDeath.Update(gameTime);
+
+                deathAnimationFrameIndex = animationDeath.CurrentFrameIndex;
+
+                if (deathAnimationFrameIndex == 3) // 4th frame
+                {
+                    reachedFourthDeathFrame = true;
+                }
+
+                if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
+                {
+                    PieceOfCodeToFall = pieceOfCodeToFall;
+                    IsRemoved = true;
+                }
+
+                if (deathAnimationFrameIndex > 6)
+                {
+                    DeathRectangle.Width = 0;
+                    DeathRectangle.Height = 0;
+                }
+
             }
+        }
+
+        private void UpdatePositionAndResetVelocity()
+        {
+            Position += Velocity;
+
+            Velocity = Vector2.Zero;
+        }
+
+        private void MinotaurAttack(GameTime gameTime)
+        {
+            animationShoot.Update(gameTime);
             if (isShootingAnimating)
             {
                 PositionXRectangleHitbox = (int)Position.X;
                 PositionYRectangleHitbox = (int)Position.Y;
                 WidthRectangleHitbox = 63;
                 HeightRectangleHitbox = 42;
-                Rectangle2.Width = 0;
-                Rectangle2.Height = 0;
+                AdditionalHitBox_1.Width = 0;
+                AdditionalHitBox_1.Height = 0;
                 shootAnimationFrameIndex = animationShoot.CurrentFrameIndex;
                 canSeeEnemy = false;
                 if (shootAnimationFrameIndex == 1)
@@ -209,15 +323,15 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     //Tongue
                     if (facingDirectionIndicator)
                     {
-                        Rectangle2.X = (int)Position.X + 45;
+                        AdditionalHitBox_1.X = (int)Position.X + 45;
                     }
                     else
                     {
-                        Rectangle2.X = (int)Position.X;
+                        AdditionalHitBox_1.X = (int)Position.X;
                     }
-                    Rectangle2.Y = (int)Position.Y - 30;
-                    Rectangle2.Width = 27;
-                    Rectangle2.Height = 30;
+                    AdditionalHitBox_1.Y = (int)Position.Y - 30;
+                    AdditionalHitBox_1.Width = 27;
+                    AdditionalHitBox_1.Height = 30;
                 }
                 else if (shootAnimationFrameIndex == 5)
                 {
@@ -226,15 +340,15 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     //Tongue
                     if (facingDirectionIndicator)
                     {
-                        Rectangle2.X = (int)Position.X + 63;
+                        AdditionalHitBox_1.X = (int)Position.X + 63;
                     }
                     else
                     {
-                        Rectangle2.X = (int)Position.X;
+                        AdditionalHitBox_1.X = (int)Position.X;
                     }
-                    Rectangle2.Y = (int)Position.Y - 15;
-                    Rectangle2.Width = 9;
-                    Rectangle2.Height = 15;
+                    AdditionalHitBox_1.Y = (int)Position.Y - 15;
+                    AdditionalHitBox_1.Width = 9;
+                    AdditionalHitBox_1.Height = 15;
                 }
                 else if (shootAnimationFrameIndex == 7)
                 {
@@ -245,115 +359,47 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     isIdling = true;
                     canSeeEnemy = true;
                 }
-                animationShoot.Update(gameTime);
-            }
-
-            if (!isDeathAnimating && enemySpotted && canSeeEnemy)
-            {
-                Move();
-                animationMove.Update(gameTime);
-            }
-
-
-            foreach (var sprite in sprites)
-            {
-                if (sprite is Minotaur)
-                {
-                    continue;
-                }
-
-                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(Rectangle2)) && sprite is MainCharacter)
-                {
-                    HasDied = true;
-                    sprite.isDeathAnimating = true;
-                }
-
-                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(Rectangle2)) && sprite is PlayerBullet)
-                {
-                    Game1.PlayerScore.MainScore++;
-                    HasDied = true;
-                    isDeathAnimating = true;
-                    sprite.IsRemoved = true;
-                }
-
-
-                if (isDeathAnimating)
-                {
-                    DeathRectangle = new Rectangle((int)Position.X, (int)Position.Y, 64, 64);
-                    WidthRectangleHitbox = 0;
-                    HeightRectangleHitbox = 0;
-
-                    animationDeath.Update(gameTime);
-
-                    deathAnimationFrameIndex = animationDeath.CurrentFrameIndex;
-
-                    if (deathAnimationFrameIndex == 3) // 4th frame
-                    {
-                        reachedFourthDeathFrame = true;
-                    }
-
-                    if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
-                    {
-                        PieceOfCodeToFall = 1;
-                        IsRemoved = true;
-                    }
-
-                    if (deathAnimationFrameIndex > 6)
-                    {
-                        DeathRectangle.Width = 0;
-                        DeathRectangle.Height = 0;
-                    }
-
-                }
-
-                if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is MainCharacter && canSeeEnemy)
-                {
-                    enemySpotted = true;
-                    isIdling = false;
-                }
-
-                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
-                {
-                    sprite.isDeathAnimating = true;
-                }
-            }
-
-            foreach (var block in blocks)
-            {
-                if (IsTouchingLeftBlock(block) && block.EnemyBehavior == true)
-                {
-                    facingDirectionIndicator = false;
-                }
-                else if (IsTouchingRightBlock(block) && block.EnemyBehavior == true)
-                {
-                    facingDirectionIndicator = true;
-                }
-            }
-
-            Position += Velocity;
-
-            Velocity = Vector2.Zero;
-            animationShoot.Update(gameTime);
-            if (!isShootingAnimating)
-            {
-                animationIdle.Update(gameTime);
             }
         }
 
-        private void Move()
+        private void RemoveEnemySpotterSpotted(bool enemySpotted)
         {
-            if (!facingDirectionIndicator)
+            if (enemySpotted)
             {
-                Velocity.X -= Speed;
-                facingDirection = -Vector2.UnitX;
+                EnemySpotter = Rectangle.Empty;
             }
-            if (facingDirectionIndicator)
-            {
-                Velocity.X += Speed;
-                facingDirection = Vector2.UnitX;
-            }
+        }
 
-            Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
+        private void Move(GameTime gameTime, List<Block> blocks)
+        {
+            if (!isDeathAnimating && _enemySpotted && canSeeEnemy)
+            {
+                foreach (var block in blocks)
+                {
+                    if (IsTouchingLeftBlock(block) && block.EnemyBehavior == true)
+                    {
+                        facingDirectionIndicator = false;
+                    }
+                    else if (IsTouchingRightBlock(block) && block.EnemyBehavior == true)
+                    {
+                        facingDirectionIndicator = true;
+                    }
+                }
+
+                if (!facingDirectionIndicator)
+                {
+                    Velocity.X -= Speed;
+                    facingDirection = -Vector2.UnitX;
+                }
+                if (facingDirectionIndicator)
+                {
+                    Velocity.X += Speed;
+                    facingDirection = Vector2.UnitX;
+                }
+
+                Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
+                animationMove.Update(gameTime);
+            }
         }
 
 
@@ -392,7 +438,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 spriteBatch.Draw(_texture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
 
-            spriteBatch.DrawRectangle(Rectangle2, Color.Blue);
+            spriteBatch.DrawRectangle(AdditionalHitBox_1, Color.Blue);
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
             spriteBatch.DrawRectangle(EnemySpotter, Color.Yellow);

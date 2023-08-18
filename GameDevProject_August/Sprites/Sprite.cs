@@ -15,9 +15,7 @@ namespace GameDevProject_August.Sprites
         public Vector2 OriginBullet;
         public Vector2 Velocity;
 
-        public bool isDeathAnimating;
-
-        public bool HasDied = false;
+        public bool isDeathAnimating = false;
 
         public int PieceOfCodeToFall;
 
