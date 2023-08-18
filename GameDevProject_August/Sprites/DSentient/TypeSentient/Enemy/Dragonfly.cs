@@ -2,8 +2,7 @@
 using GameDevProject_August.Levels;
 using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
-using GameDevProject_August.Sprites.DSentient;
-using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -35,6 +34,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
 
         public Rectangle DeathRectangle;
+
 
         public Dragonfly(Texture2D moveTexture, Texture2D deathTexture)
             : base(moveTexture)
@@ -77,8 +77,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         {
             Move(gameTime, blocks);
 
-
-
             CollisionRules(gameTime, sprites);
 
         }
@@ -97,7 +95,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 {
                     continue;
                 }
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is MainCharacter && sprite is Sentient sentient)
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Archeologist && sprite is Sentient sentient)
                 {
                     sentient.isDeathAnimating = true;
                 }
@@ -128,7 +126,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     IsKilled = true;
                 }
 
-                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter && sprite is Sentient sentient)
+                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is Archeologist && sprite is Sentient sentient)
                 {
                     sentient.isDeathAnimating = true;
                 }

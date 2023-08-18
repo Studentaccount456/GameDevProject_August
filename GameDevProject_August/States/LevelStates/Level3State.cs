@@ -1,6 +1,5 @@
 ﻿using GameDevProject_August.Levels;
 using GameDevProject_August.Levels.Level3;
-using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
@@ -79,22 +78,8 @@ namespace GameDevProject_August.States.LevelStates
         {
             _sprites = new List<Sprite>()
             {
-                new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture, personBowDownTexture)
-                {
-                    Position = new Vector2(1200,600),
-                    facingDirectionIndicator = false,
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.Down,
-                        Up = System.Windows.Forms.Keys.Up,
-                        Left = System.Windows.Forms.Keys.Left,
-                        Right = System.Windows.Forms.Keys.Right,
-                        Shoot = System.Windows.Forms.Keys.Space
-                    },
-                    Speed = 7f,
-                    Bullet = new PlayerBullet(playerBullet),
-                    Score = Game1.PlayerScore
-                },
+                player_1.makePlayer(arrowInput(),TypePlayer.Archeologist,personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture, personBowDownTexture, new Vector2(1200,600), 7f, new PlayerBullet(playerBullet), Game1.PlayerScore, false),
+
                 new FinalTerminal(finalTerminalTexture)
                 {
                     Position = new Vector2(500, 465)

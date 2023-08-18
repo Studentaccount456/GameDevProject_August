@@ -2,11 +2,9 @@
 using GameDevProject_August.Levels;
 using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
-using GameDevProject_August.Sprites.DSentient;
-using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D9;
 using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
@@ -166,17 +164,17 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     continue;
                 }
 
-                if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is MainCharacter)
+                if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist)
                 {
                     enemySpotted = true;
                     EnemyPosition.X = sprite.Position.X;
                 }
-                if (!sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is MainCharacter)
+                if (!sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist)
                 {
                     enemySpotted = false;
                 }
 
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is MainCharacter && sprite is Sentient sentient)
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Archeologist && sprite is Sentient sentient)
                 {
                     sentient.isDeathAnimating = true;
                 }
@@ -301,7 +299,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     IsKilled = true;
                 }
 
-                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter && sprite is Sentient sentient)
+                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is Archeologist && sprite is Sentient sentient)
                 {
                     sentient.isDeathAnimating = true;
                 }

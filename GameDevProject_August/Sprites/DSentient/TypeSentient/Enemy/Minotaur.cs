@@ -3,11 +3,9 @@ using GameDevProject_August.AnimationClasses.AnimationMethods;
 using GameDevProject_August.Levels;
 using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
-using GameDevProject_August.Sprites.DSentient;
-using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D9;
 using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
@@ -226,14 +224,14 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     continue;
                 }
 
-                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is MainCharacter && sprite is Sentient sentient)
+                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is Archeologist && sprite is Sentient sentient)
                 {
                     sentient.isDeathAnimating = true;
                 }
 
                 GlitchDeathInit(gameTime, sprite, 1);
 
-                if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is MainCharacter && canSeeEnemy)
+                if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist && canSeeEnemy)
                 {
                     _enemySpotted = true;
                     isIdling = false;
@@ -255,7 +253,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 WidthRectangleHitbox = 0;
                 HeightRectangleHitbox = 0;
 
-                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter && sprite is Sentient sentient)
+                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is Archeologist && sprite is Sentient sentient)
                 {
                     sentient.isDeathAnimating = true;
                 }

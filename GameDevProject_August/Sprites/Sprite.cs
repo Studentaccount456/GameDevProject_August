@@ -1,7 +1,5 @@
 ﻿using GameDevProject_August.Levels;
 using GameDevProject_August.Models;
-using GameDevProject_August.Sprites.DNotSentient;
-using GameDevProject_August.Sprites.DSentient;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -14,15 +12,18 @@ namespace GameDevProject_August.Sprites
         protected Texture2D _texture;
         public Vector2 Position;
         public Vector2 Origin;
+
+
+
         // Shooting
         public Vector2 OriginBullet;
+
+
+
         // Moving
         public Vector2 Velocity;
 
-        //Dying -> EnemyDeath
-        public int PieceOfCodeToFall;
-
-        //Player
+        // ManualMovement
         public Input Input;
 
         // ManualMovement
@@ -33,6 +34,12 @@ namespace GameDevProject_August.Sprites
         public bool facingDirectionIndicator = true;
         public Vector2 facingDirection = Vector2.UnitX;
 
+
+
+
+        //Dying -> EnemyDeath
+        public int PieceOfCodeToFall;
+
         //Shooting
         public Sprite Parent;
 
@@ -40,6 +47,7 @@ namespace GameDevProject_August.Sprites
         public Color Colour = Color.White;
 
         // Collision
+        //
         private Rectangle _rectangleHitbox;
 
         public virtual Rectangle RectangleHitbox
@@ -78,6 +86,7 @@ namespace GameDevProject_August.Sprites
                 _rectangleHitbox.Height = value;
             }
         }
+        //
         // End Collision
 
         public Sprite(Texture2D texture)

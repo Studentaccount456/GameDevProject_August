@@ -1,6 +1,5 @@
 ﻿using GameDevProject_August.Levels;
 using GameDevProject_August.Levels.Level1;
-using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
@@ -8,6 +7,7 @@ using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using GameDevProject_August.States.MenuStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -58,6 +58,7 @@ namespace GameDevProject_August.States.LevelStates
 
             GenerateLevelSprites();
 
+
         }
 
         public Level GenerateLevel(Level level, int tileSize)
@@ -85,21 +86,7 @@ namespace GameDevProject_August.States.LevelStates
         {
             _sprites = new List<Sprite>()
             {
-                new MainCharacter(personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture, personBowDownTexture)
-                {
-                    Position = new Vector2(10,564),
-                    Input = new Input()
-                    {
-                        Down = System.Windows.Forms.Keys.Down,
-                        Up = System.Windows.Forms.Keys.Up,
-                        Left = System.Windows.Forms.Keys.Left,
-                        Right = System.Windows.Forms.Keys.Right,
-                        Shoot = System.Windows.Forms.Keys.Space
-                    },
-                    Speed = 7f,
-                    Bullet = new PlayerBullet(playerBullet),
-                    Score = Game1.PlayerScore
-                },
+                player_1.makePlayer(arrowInput(),TypePlayer.Archeologist,personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture, personBowDownTexture, new Vector2(10,564), 7f, new PlayerBullet(playerBullet), Game1.PlayerScore, true),
 
                 new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture, new Vector2(1085,566), new Vector2(285,71), 354, 115)
                 {
@@ -148,9 +135,9 @@ namespace GameDevProject_August.States.LevelStates
                     i--;
                 }
 
-                if (sprite_1 is MainCharacter)
+                if (sprite_1 is Archeologist)
                 {
-                    var player = sprite_1 as MainCharacter;
+                    var player = sprite_1 as Archeologist;
                     if (player.HasDied)
                     {
                         _game.ChangeState(new GameOverState(_game, _graphicsDevice, _content));

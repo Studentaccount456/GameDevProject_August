@@ -1,5 +1,7 @@
 ﻿using GameDevProject_August.Levels;
+using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -98,12 +100,17 @@ namespace GameDevProject_August.States
 
         public static Random Random;
 
+        public Player player_1;
+
 
         public PlayingState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
                             : base(game, graphicsDevice, content)
         {
             Random = new Random();
             LoadContent(content);
+
+
+            player_1 = new Player();
         }
 
 
@@ -122,6 +129,20 @@ namespace GameDevProject_August.States
             LoadFallingCodeTextures(content);
             LoadFinalTerminalTexture(content);
             LoadBackGrounds(content);
+        }
+
+        public Input arrowInput()
+        {
+            Input input;
+
+            return input = new Input()
+            {
+                Down = System.Windows.Forms.Keys.Down,
+                Up = System.Windows.Forms.Keys.Up,
+                Left = System.Windows.Forms.Keys.Left,
+                Right = System.Windows.Forms.Keys.Right,
+                Shoot = System.Windows.Forms.Keys.Space
+            };
         }
 
 

@@ -6,7 +6,6 @@ using GameDevProject_August.Models;
 using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
-using GameDevProject_August.Sprites.DSentient;
 using GameDevProject_August.States;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
@@ -15,9 +14,9 @@ using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct3D9;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
 {
-    public class MainCharacter : Sentient
+    public class Archeologist : Sentient
     {
         public Score Score;
 
@@ -83,7 +82,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
 
 
 
-        public MainCharacter(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture)
+        public Archeologist(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture)
             : base(moveTexture)
         {
             AnimationHandler_MC = new AnimationHandler();
@@ -96,7 +95,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
 
             hasJumped = true;
 
-            OriginBullet = new Vector2(30, (_texture.Height / 2 ) - 2);
+            OriginBullet = new Vector2(30, _texture.Height / 2 - 2);
+
 
 
             // Standard walks right
@@ -222,7 +222,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
         {
             foreach (var sprite in sprites)
             {
-                if (sprite is MainCharacter)
+                if (sprite is Archeologist)
                 {
                     continue;
                 }
@@ -360,7 +360,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
 
         private void Move(GameTime gameTime, List<Block> blocks)
         {
-            if (canMove && !isShootingAnimating)
+            if (!isShootingAnimating)
             {
                 if (Input == null)
                     return;
@@ -534,4 +534,3 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
         }
     }
 }
-
