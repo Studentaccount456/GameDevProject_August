@@ -1,15 +1,17 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.Levels;
-using GameDevProject_August.Sprites.NotSentient.Projectiles;
-using GameDevProject_August.Sprites.Sentient.Characters.Main;
+using GameDevProject_August.Sprites.DNotSentient;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
+using GameDevProject_August.Sprites.DSentient;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+using SharpDX.Direct3D9;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
-    public class RatMage : Sprite
+    public class RatMage : Sentient
     {
         public EnemyBullet Bullet;
 
@@ -174,19 +176,19 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     enemySpotted = false;
                 }
 
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is MainCharacter && sprite is Sentient sentient)
+                {
+                    sentient.isDeathAnimating = true;
+                }
+
+                GlitchDeathInit(gameTime, sprite, 4);
+
                 if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet)
                 {
                     Game1.PlayerScore.MainScore++;
                     isDeathAnimating = true;
                     sprite.IsRemoved = true;
                 }
-
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is MainCharacter)
-                {
-                    sprite.isDeathAnimating = true;
-                }
-
-                GlitchDeathInit(gameTime, sprite, 4);
             }
         }
 
@@ -299,9 +301,9 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     IsRemoved = true;
                 }
 
-                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
+                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter && sprite is Sentient sentient)
                 {
-                    sprite.isDeathAnimating = true;
+                    sentient.isDeathAnimating = true;
                 }
 
                 if (deathAnimationFrameIndex > 6)

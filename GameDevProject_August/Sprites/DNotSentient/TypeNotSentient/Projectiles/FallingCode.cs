@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.NotSentient.Projectiles
+namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles
 {
     public class FallingCode : Projectile
     {

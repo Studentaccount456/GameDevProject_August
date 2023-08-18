@@ -2,10 +2,12 @@
 using GameDevProject_August.Levels.Level1;
 using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
-using GameDevProject_August.Sprites.NotSentient.Collectibles;
-using GameDevProject_August.Sprites.NotSentient.Projectiles;
-using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
-using GameDevProject_August.Sprites.Sentient.Characters.Main;
+using GameDevProject_August.Sprites.DNotSentient;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
+using GameDevProject_August.Sprites.DSentient;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
 using GameDevProject_August.States.MenuStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -20,6 +22,10 @@ namespace GameDevProject_August.States.LevelStates
         public static int ScreenHeight;
 
         private List<Sprite> _sprites;
+
+        private List<NotSentient> _notsentients;
+
+        private List<Sentient> _sentients;
 
         private float _timer;
 
@@ -105,7 +111,7 @@ namespace GameDevProject_August.States.LevelStates
                     Position = new Vector2(210,600),
                     Speed = 2f,
                 },
-                new Regular_Point(RegularPointTexture)
+               new Regular_Point(RegularPointTexture)
                 {
                        Position = new Vector2(575, 566)
                 }
@@ -119,13 +125,6 @@ namespace GameDevProject_August.States.LevelStates
             DrawBackground(spriteBatch);
 
             level.Draw(spriteBatch);
-
-            /* Empty atm
-            foreach (var component in _gameComponents)
-            {
-                component.Draw(gameTime, spriteBatch);
-            }
-            */
 
             foreach (var sprite in _sprites)
             {
@@ -162,13 +161,6 @@ namespace GameDevProject_August.States.LevelStates
 
         public override void Update(GameTime gameTime)
         {
-            /* empty atm
-            foreach (var component in _gameComponents)
-            {
-                component.Update(gameTime);
-            }
-            */
-
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             foreach (var sprite in _sprites.ToArray())

@@ -3,21 +3,21 @@ using GameDevProject_August.AnimationClasses.AnimationMethods;
 using GameDevProject_August.Levels;
 using GameDevProject_August.Levels.BlockTypes;
 using GameDevProject_August.Models;
-using GameDevProject_August.Sprites.NotSentient.Collectibles;
-using GameDevProject_August.Sprites.NotSentient.Projectiles;
+using GameDevProject_August.Sprites.DNotSentient;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
+using GameDevProject_August.Sprites.DSentient;
 using GameDevProject_August.States;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct3D9;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 
-namespace GameDevProject_August.Sprites.Sentient.Characters.Main
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
 {
-    public class MainCharacter : Sprite
+    public class MainCharacter : Sentient
     {
         public Score Score;
 
@@ -225,8 +225,7 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                 {
                     continue;
                 }
-
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && ((sprite is FallingCode) || (sprite is EnemyBullet)))
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && (sprite is FallingCode || sprite is EnemyBullet))
                 {
                     isDeathAnimating = true;
                     sprite.IsRemoved = true;
@@ -244,13 +243,13 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
             {
                 if (block is Block && block is not ThreePointsType && block is not SevenPointsType)
                 {
-                    if ((Velocity.X > 0 && IsTouchingLeftBlock(block) && !hasJumped) ||
+                    if (Velocity.X > 0 && IsTouchingLeftBlock(block) && !hasJumped ||
                         Velocity.X < 0 && IsTouchingRightBlock(block) && !hasJumped)
                     {
                         Velocity.X = 0;
                     }
 
-                    if ((Velocity.Y > 0 && IsTouchingTopBlock(block) && !hasJumped) ||
+                    if (Velocity.Y > 0 && IsTouchingTopBlock(block) && !hasJumped ||
                         Velocity.Y < 0 && IsTouchingBottomBlock(block))
                     {
                         Velocity.Y = 0;
@@ -267,7 +266,8 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                     {
                         PlayingState.isNextLevelTrigger = true;
                     }
-                } else if (block is SevenPointsType)
+                }
+                else if (block is SevenPointsType)
                 {
                     if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && Game1.PlayerScore.MainScore >= 7)
                     {
@@ -279,11 +279,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
 
         private void Shoot(List<Sprite> sprites)
         {
-                AddBullet(sprites);
-                isShootingAnimating = true;
+            AddBullet(sprites);
+            isShootingAnimating = true;
 
-                isShootingCooldown = true;
-                shootingCooldownTimer = 0f;
+            isShootingCooldown = true;
+            shootingCooldownTimer = 0f;
         }
 
         private void ShootingFunctionality(GameTime gameTime, List<Sprite> sprites)
@@ -455,10 +455,11 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
         {
             if (isDeathAnimating)
             {
-                if(facingDirectionIndicator == false)
+                if (facingDirectionIndicator == false)
                 {
                     AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, false);
-                } else if  (facingDirectionIndicator == true)
+                }
+                else if (facingDirectionIndicator == true)
                 {
                     AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, true);
                 }
@@ -511,23 +512,24 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Main
                 }
             }
 
-            else if (facingDirectionIndicator == true && standStillNoIdle == true && !isShootingAnimating || (facingDirectionIndicator == true && !isShootingAnimating && !isMovingDown) || (facingDirectionIndicator == true && !isShootingAnimating && isMovingUp))
+            else if (facingDirectionIndicator == true && standStillNoIdle == true && !isShootingAnimating || facingDirectionIndicator == true && !isShootingAnimating && !isMovingDown || facingDirectionIndicator == true && !isShootingAnimating && isMovingUp)
             {
                 AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, true);
             }
-            else if (facingDirectionIndicator == false && standStillNoIdle == true && !isShootingAnimating || (facingDirectionIndicator == false && !isShootingAnimating && isMovingUp) || (facingDirectionIndicator == false && !isShootingAnimating && !isMovingDown))
+            else if (facingDirectionIndicator == false && standStillNoIdle == true && !isShootingAnimating || facingDirectionIndicator == false && !isShootingAnimating && isMovingUp || facingDirectionIndicator == false && !isShootingAnimating && !isMovingDown)
             {
                 AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, false);
-            } else if (facingDirectionIndicator == true && isMovingDown && !hasJumped)            
+            }
+            else if (facingDirectionIndicator == true && isMovingDown && !hasJumped)
             {
                 AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), true);
             }
             else if (facingDirectionIndicator == false && isMovingDown && !hasJumped)
             {
-                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0,2), false);
+                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), false);
             }
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
-            
+
         }
     }
 }

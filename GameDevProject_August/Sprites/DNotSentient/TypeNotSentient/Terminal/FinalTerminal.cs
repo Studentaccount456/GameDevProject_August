@@ -1,13 +1,14 @@
 ﻿using GameDevProject_August.Levels;
-using GameDevProject_August.Sprites.NotSentient.Projectiles;
+using GameDevProject_August.Sprites.DNotSentient;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.NotSentient.Terminal
+namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal
 {
-    public class FinalTerminal : Sprite
+    public class FinalTerminal : NotSentient
     {
         public bool HasDied = false;
 
@@ -43,7 +44,7 @@ namespace GameDevProject_August.Sprites.NotSentient.Terminal
                 {
                     HasDied = true;
                     sprite.IsRemoved = true;
-                }                               
+                }
             }
             Velocity = Vector2.Zero;
         }

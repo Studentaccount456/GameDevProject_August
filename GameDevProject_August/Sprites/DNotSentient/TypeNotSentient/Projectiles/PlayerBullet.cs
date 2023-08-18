@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.NotSentient.Projectiles
+namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles
 {
     public class PlayerBullet : Projectile, ICloneable
     {
@@ -37,7 +37,7 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
 
             foreach (var block in blocks)
             {
-                if(IsTouchingBottomBlock(block) || IsTouchingRightBlock(block) || IsTouchingLeftBlock(block))
+                if (IsTouchingBottomBlock(block) || IsTouchingRightBlock(block) || IsTouchingLeftBlock(block))
                 {
                     IsRemoved = true;
                 }
@@ -51,7 +51,7 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
 
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return MemberwiseClone();
         }
     }
 }

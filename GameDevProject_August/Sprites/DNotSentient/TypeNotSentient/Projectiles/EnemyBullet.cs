@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.NotSentient.Projectiles
+namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles
 {
     public class EnemyBullet : Projectile, ICloneable
     {
@@ -42,7 +42,7 @@ namespace GameDevProject_August.Sprites.NotSentient.Projectiles
 
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return MemberwiseClone();
         }
     }
 }

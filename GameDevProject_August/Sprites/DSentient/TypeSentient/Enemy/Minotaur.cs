@@ -1,19 +1,18 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.AnimationClasses.AnimationMethods;
 using GameDevProject_August.Levels;
-using GameDevProject_August.Models;
-using GameDevProject_August.Sprites.NotSentient.Collectibles;
-using GameDevProject_August.Sprites.NotSentient.Projectiles;
-using GameDevProject_August.Sprites.Sentient.Characters.Main;
+using GameDevProject_August.Sprites.DNotSentient;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
+using GameDevProject_August.Sprites.DSentient;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
+using SharpDX.Direct3D9;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
-    public class Minotaur : Sprite
+    public class Minotaur : Sentient
     {
         private Animation animationMove;
         private Animation animationDeath;
@@ -227,16 +226,9 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                     continue;
                 }
 
-                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is MainCharacter)
+                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is MainCharacter && sprite is Sentient sentient)
                 {
-                    sprite.isDeathAnimating = true;
-                }
-
-                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is PlayerBullet)
-                {
-                    Game1.PlayerScore.MainScore++;
-                    isDeathAnimating = true;
-                    sprite.IsRemoved = true;
+                    sentient.isDeathAnimating = true;
                 }
 
                 GlitchDeathInit(gameTime, sprite, 1);
@@ -245,6 +237,12 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 {
                     _enemySpotted = true;
                     isIdling = false;
+                }
+                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is PlayerBullet)
+                {
+                    Game1.PlayerScore.MainScore++;
+                    isDeathAnimating = true;
+                    sprite.IsRemoved = true;
                 }
             }
         }
@@ -257,9 +255,9 @@ namespace GameDevProject_August.Sprites.Sentient.Characters.Enemy
                 WidthRectangleHitbox = 0;
                 HeightRectangleHitbox = 0;
 
-                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter)
+                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter && sprite is Sentient sentient)
                 {
-                    sprite.isDeathAnimating = true;
+                    sentient.isDeathAnimating = true;
                 }
 
                 animationDeath.Update(gameTime);

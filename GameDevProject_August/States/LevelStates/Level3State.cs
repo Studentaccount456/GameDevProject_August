@@ -2,9 +2,9 @@
 using GameDevProject_August.Levels.Level3;
 using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
-using GameDevProject_August.Sprites.NotSentient.Projectiles;
-using GameDevProject_August.Sprites.NotSentient.Terminal;
-using GameDevProject_August.Sprites.Sentient.Characters.Main;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
 using GameDevProject_August.States.MenuStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;

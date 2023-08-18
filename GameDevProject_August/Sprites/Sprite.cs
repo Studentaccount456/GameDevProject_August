@@ -1,5 +1,7 @@
 ﻿using GameDevProject_August.Levels;
 using GameDevProject_August.Models;
+using GameDevProject_August.Sprites.DNotSentient;
+using GameDevProject_August.Sprites.DSentient;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,15 +9,13 @@ using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites
 {
-    public class Sprite : Component
+    public class Sprite
     {
         protected Texture2D _texture;
         public Vector2 Position;
         public Vector2 Origin;
         public Vector2 OriginBullet;
         public Vector2 Velocity;
-
-        public bool isDeathAnimating = false;
 
         public int PieceOfCodeToFall;
 
@@ -98,6 +98,16 @@ namespace GameDevProject_August.Sprites
 
 
         public virtual void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
+        {
+
+        }
+
+        public virtual void Update(GameTime gameTime, List<Sentient> sentients, List<NotSentient> notSentients, List<Block> blocks)
+        {
+
+        }
+
+        public virtual void Update(GameTime gameTime, List<Block> blocks, List<NotSentient> notsentients)
         {
 
         }

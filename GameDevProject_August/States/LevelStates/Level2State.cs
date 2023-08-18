@@ -2,10 +2,10 @@
 using GameDevProject_August.Levels.Level2;
 using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
-using GameDevProject_August.Sprites.NotSentient.Collectibles;
-using GameDevProject_August.Sprites.NotSentient.Projectiles;
-using GameDevProject_August.Sprites.Sentient.Characters.Enemy;
-using GameDevProject_August.Sprites.Sentient.Characters.Main;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
 using GameDevProject_August.States.MenuStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
