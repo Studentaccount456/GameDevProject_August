@@ -40,10 +40,10 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal
                     continue;
                 }
 
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet)
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet && sprite is NotSentient notSentient)
                 {
                     HasDied = true;
-                    sprite.IsRemoved = true;
+                    notSentient.IsDestroyed = true;
                 }
             }
             Velocity = Vector2.Zero;

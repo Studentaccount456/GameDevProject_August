@@ -142,7 +142,7 @@ namespace GameDevProject_August.States.LevelStates
             {
                 var sprite_1 = _sprites[i];
 
-                if (sprite_1.IsRemoved)
+                if ((sprite_1 is Sentient sentient && sentient.IsKilled) || (sprite_1 is NotSentient notSentient && notSentient.IsDestroyed))
                 {
                     _sprites.RemoveAt(i);
                     i--;

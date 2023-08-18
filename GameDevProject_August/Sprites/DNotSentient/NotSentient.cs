@@ -1,17 +1,10 @@
-﻿using GameDevProject_August.Sprites.DSentient;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace GameDevProject_August.Sprites.DNotSentient
 {
     public class NotSentient : Sprite
     {
-        protected List<Sentient> SentientsList;
-        protected List<NotSentient> notSentientsList;
+        public bool IsDestroyed = false;
 
         public NotSentient(Texture2D texture) : base(texture)
         {

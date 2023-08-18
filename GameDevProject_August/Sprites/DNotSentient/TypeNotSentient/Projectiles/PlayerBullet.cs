@@ -12,7 +12,7 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles
 
         private float _timer;
 
-        private float bulletSpeed = 4f;
+        public float BulletSpeed = 4f;
 
 
         public override Rectangle RectangleHitbox
@@ -33,19 +33,19 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Position += facingDirection * bulletSpeed;
+            Position += facingDirection * BulletSpeed;
 
             foreach (var block in blocks)
             {
                 if (IsTouchingBottomBlock(block) || IsTouchingRightBlock(block) || IsTouchingLeftBlock(block))
                 {
-                    IsRemoved = true;
+                    IsDestroyed = true;
                 }
             }
 
             if (_timer > Lifespan)
             {
-                IsRemoved = true;
+                IsDestroyed = true;
             }
         }
 

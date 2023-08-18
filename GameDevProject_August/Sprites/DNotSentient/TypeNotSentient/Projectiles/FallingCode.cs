@@ -11,12 +11,14 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles
 
         private Texture2D _texture;
 
+        private int FallingSpeed;
+
         public FallingCode(Texture2D texture)
             : base(texture)
         {
             _texture = texture;
             Position = new Vector2(PlayingState.Random.Next(0, Game1.ScreenWidth - _texture.Width), -_texture.Height);
-            Speed = PlayingState.Random.Next(4, 10);
+            FallingSpeed = PlayingState.Random.Next(4, 10);
         }
 
         public override Rectangle RectangleHitbox
@@ -30,12 +32,12 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
-            Position.Y += Speed;
+            Position.Y += FallingSpeed;
 
             // When the bottom of the window is hit
             if (RectangleHitbox.Bottom >= Game1.ScreenHeight)
             {
-                IsRemoved = true;
+                IsDestroyed = true;
             }
         }
 

@@ -38,8 +38,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
         public Texture2D JumpTexture;
         public Texture2D BowDownTexture;
 
-        public bool HasDied = false;
-
         private bool canMove = true;
 
         private bool isShootingAnimating = false;
@@ -97,6 +95,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
             BowDownTexture = bowDownTexture;
 
             hasJumped = true;
+
+            OriginBullet = new Vector2(30, (_texture.Height / 2 ) - 2);
+
 
             // Standard walks right
             #region MoveAnimation
@@ -225,17 +226,17 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
                 {
                     continue;
                 }
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && (sprite is FallingCode || sprite is EnemyBullet))
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && (sprite is FallingCode || sprite is EnemyBullet) && sprite is NotSentient notSentient)
                 {
                     isDeathAnimating = true;
-                    sprite.IsRemoved = true;
+                    notSentient.IsDestroyed = true;
                 }
 
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Regular_Point)
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Regular_Point && sprite is NotSentient notSentient2)
                 {
                     Score.MainScore++;
                     PieceOfCodeToFall = 5;
-                    sprite.IsRemoved = true;
+                    notSentient2.IsDestroyed = true;
                 }
             }
 
@@ -350,7 +351,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
             var bullet = Bullet.Clone() as PlayerBullet;
             bullet.facingDirection = facingDirection;
             bullet.Position = Position + OriginBullet;
-            bullet.Speed = Speed;
+            bullet.BulletSpeed = Speed;
             bullet.Lifespan = 1f;
             bullet.Parent = this;
 
@@ -466,7 +467,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
                 if (animationDictionary["DeathAnimation"].IsAnimationComplete)
                 {
                     HasDied = true;
-                    IsRemoved = true;
+                    IsKilled = true;
                 }
             }
             else if (isShootingAnimating)

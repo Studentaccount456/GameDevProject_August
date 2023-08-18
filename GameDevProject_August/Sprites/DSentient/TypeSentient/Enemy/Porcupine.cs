@@ -95,16 +95,16 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 }
                 GlitchDeathInit(gameTime, sprite, 3);
 
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet)
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet && sprite is NotSentient notSentient)
                 {
                     Game1.PlayerScore.MainScore++;
                     isDeathAnimating = true;
-                    sprite.IsRemoved = true;
+                    notSentient.IsDestroyed = true;
                 }
 
-                if (sprite.RectangleHitbox.Intersects(AdditionalHitBox_1) && sprite is PlayerBullet)
+                if (sprite.RectangleHitbox.Intersects(AdditionalHitBox_1) && sprite is PlayerBullet && sprite is NotSentient notSentient2)
                 {
-                    sprite.IsRemoved = true;
+                    notSentient2.IsDestroyed = true;
                 }
             }
         }
@@ -127,7 +127,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
                 {
                     PieceOfCodeToFall = pieceOfCodeToFall;
-                    IsRemoved = true;
+                    IsKilled = true;
                 }
 
                 if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is MainCharacter && sprite is Sentient sentient)
@@ -208,7 +208,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
                     if (animationDeath.IsAnimationComplete)
                     {
-                        IsRemoved = true;
+                        IsKilled = true;
                     }
                 }
             }

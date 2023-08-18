@@ -2,8 +2,10 @@
 using GameDevProject_August.Levels.Level2;
 using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
+using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
+using GameDevProject_August.Sprites.DSentient;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
 using GameDevProject_August.States.MenuStates;
@@ -151,7 +153,7 @@ namespace GameDevProject_August.States.LevelStates
             {
                 var sprite_1 = _sprites[i];
 
-                if (sprite_1.IsRemoved)
+                if ((sprite_1 is Sentient sentient && sentient.IsKilled) || (sprite_1 is NotSentient notSentient && notSentient.IsDestroyed))
                 {
                     _sprites.RemoveAt(i);
                     i--;

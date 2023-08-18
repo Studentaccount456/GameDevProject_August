@@ -238,11 +238,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     _enemySpotted = true;
                     isIdling = false;
                 }
-                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is PlayerBullet)
+                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is PlayerBullet && sprite is NotSentient notSentient)
                 {
                     Game1.PlayerScore.MainScore++;
                     isDeathAnimating = true;
-                    sprite.IsRemoved = true;
+                    notSentient.IsDestroyed = true;
                 }
             }
         }
@@ -272,7 +272,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
                 {
                     PieceOfCodeToFall = pieceOfCodeToFall;
-                    IsRemoved = true;
+                    IsKilled = true;
                 }
 
                 if (deathAnimationFrameIndex > 6)
@@ -408,7 +408,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             {
                 if (animationDeath.IsAnimationComplete)
                 {
-                    IsRemoved = true;
+                    IsKilled = true;
                 }
                 AnimationHandler_Minotaur.DrawAnimation(spriteBatch, animationDeath, Position, true);
             }

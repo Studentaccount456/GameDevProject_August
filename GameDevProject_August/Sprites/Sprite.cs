@@ -14,40 +14,32 @@ namespace GameDevProject_August.Sprites
         protected Texture2D _texture;
         public Vector2 Position;
         public Vector2 Origin;
+        // Shooting
         public Vector2 OriginBullet;
+        // Moving
         public Vector2 Velocity;
 
+        //Dying -> EnemyDeath
         public int PieceOfCodeToFall;
 
-        public float Speed = 2f;
-
+        //Player
         public Input Input;
 
+        // ManualMovement
         protected KeyboardState _currentKey;
         protected KeyboardState _previousKey;
 
-        public Vector2 facingDirection = Vector2.UnitX;
         // False is left en Right is True
         public bool facingDirectionIndicator = true;
+        public Vector2 facingDirection = Vector2.UnitX;
 
+        //Shooting
         public Sprite Parent;
-
-        public bool IsRemoved = false;
 
         // Color.Black for glitch
         public Color Colour = Color.White;
 
-        /*
-        public virtual Rectangle Rectangle
-        {
-            get 
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
-            }
-        }
-        */
-
-
+        // Collision
         private Rectangle _rectangleHitbox;
 
         public virtual Rectangle RectangleHitbox
@@ -86,28 +78,15 @@ namespace GameDevProject_August.Sprites
                 _rectangleHitbox.Height = value;
             }
         }
-
+        // End Collision
 
         public Sprite(Texture2D texture)
         {
             _texture = texture;
             Origin = Vector2.Zero;
-            OriginBullet = new Vector2(0, _texture.Height / 2);
         }
-
-
 
         public virtual void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
-        {
-
-        }
-
-        public virtual void Update(GameTime gameTime, List<Sentient> sentients, List<NotSentient> notSentients, List<Block> blocks)
-        {
-
-        }
-
-        public virtual void Update(GameTime gameTime, List<Block> blocks, List<NotSentient> notsentients)
         {
 
         }
@@ -122,6 +101,7 @@ namespace GameDevProject_August.Sprites
             spriteBatch.Draw(_texture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
         }
 
+        //Collision
         #region Collision
 
         protected bool IsTouchingLeft(Sprite sprite)
@@ -194,5 +174,6 @@ namespace GameDevProject_August.Sprites
         }
 
         #endregion
+        //Collision
     }
 }
