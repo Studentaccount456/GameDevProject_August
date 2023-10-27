@@ -21,8 +21,6 @@ namespace GameDevProject_August.States.LevelStates
         public static int ScreenWidth;
         public static int ScreenHeight;
 
-        private List<Sprite> _sprites;
-
         private float _timer;
 
         private Color _backgroundColour = Color.CornflowerBlue;
@@ -35,9 +33,6 @@ namespace GameDevProject_August.States.LevelStates
 
         private bool _isFromMainMenu;
 
-
-        Level level;
-
         public Level2State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool isFromMainMenu) : base(game, graphicsDevice, content)
         {
             content.RootDirectory = "Content";
@@ -49,7 +44,7 @@ namespace GameDevProject_August.States.LevelStates
 
             isNextLevelTrigger = false;
 
-            level = new Level2(new Level2BlockFactory());
+            Level = new Level2(new Level2BlockFactory());
             LoadContent(content);
             InitializeContent();
             InitializeScore(2, isFromMainMenu);
@@ -82,7 +77,7 @@ namespace GameDevProject_August.States.LevelStates
 
         private void GenerateLevelSprites()
         {
-            _sprites = new List<Sprite>()
+            SpriteList = new List<Sprite>()
             {
                 player_1.makePlayer(arrowInput(),TypePlayer.Archeologist,personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture, personBowDownTexture, new Vector2(10,600), 7f, new PlayerBullet(playerBullet), Game1.PlayerScore, true),
 
@@ -109,31 +104,6 @@ namespace GameDevProject_August.States.LevelStates
             };
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-
-            DrawBackground(spriteBatch);
-
-            level.Draw(spriteBatch);
-
-            /* Empty atm
-            foreach (var component in _gameComponents)
-            {
-                component.Draw(gameTime, spriteBatch);
-            }
-            */
-
-            foreach (var sprite in _sprites)
-            {
-                sprite.Draw(spriteBatch);
-            }
-
-            Game1.PlayerScore.Draw(spriteBatch);
-
-            spriteBatch.End();
-        }
-
         public override void Update(GameTime gameTime)
         {
             /* empty atm
@@ -145,33 +115,33 @@ namespace GameDevProject_August.States.LevelStates
 
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            foreach (var sprite in _sprites.ToArray())
+            foreach (var sprite in SpriteList.ToArray())
             {
-                sprite.Update(gameTime, _sprites, level.TileList);
+                sprite.Update(gameTime, SpriteList, Level.TileList);
 
                 switch (sprite.PieceOfCodeToFall)
                 {
                     case 1:
-                        fallingCode.LetCodeFall(_sprites, FallingCodeMinotaur);
+                        fallingCode.LetCodeFall(SpriteList, FallingCodeMinotaur);
                         break;
                     case 2:
-                        fallingCode.LetCodeFall(_sprites, FallingCodeDragonFly);
+                        fallingCode.LetCodeFall(SpriteList, FallingCodeDragonFly);
                         break;
                     case 3:
-                        fallingCode.LetCodeFall(_sprites, FallingCodePorcupine);
+                        fallingCode.LetCodeFall(SpriteList, FallingCodePorcupine);
                         break;
                     case 4:
-                        fallingCode.LetCodeFall(_sprites, FallingCodeRatMage);
+                        fallingCode.LetCodeFall(SpriteList, FallingCodeRatMage);
                         break;
                     case 5:
-                        fallingCode.LetCodeFall(_sprites, FallingCodePoint);
+                        fallingCode.LetCodeFall(SpriteList, FallingCodePoint);
                         break;
                     default:
                         break;
                 }
             }
 
-            PostUpdate(gameTime, _sprites);
+            PostUpdate(gameTime, SpriteList);
 
             if (PlayingState.isNextLevelTrigger)
             {
@@ -187,7 +157,7 @@ namespace GameDevProject_August.States.LevelStates
 
         public /*override*/ void InitializeContent()
         {
-            level = GenerateLevel(level, 38);
+            Level = GenerateLevel(Level, 38);
             //SpriteList = GenerateLevelSpriteList();
         }
     }

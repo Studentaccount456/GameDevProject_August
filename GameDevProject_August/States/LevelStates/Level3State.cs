@@ -19,8 +19,6 @@ namespace GameDevProject_August.States.LevelStates
         public static int ScreenWidth;
         public static int ScreenHeight;
 
-        private List<Sprite> _sprites;
-
         private float _timer;
 
         private List<Component> _gameComponents;
@@ -30,8 +28,6 @@ namespace GameDevProject_August.States.LevelStates
         private Texture2D backgroundTexture;
 
         private FallingCode fallingCode;
-
-        Level level;
 
         private bool _isFromMainMenu;
 
@@ -43,7 +39,7 @@ namespace GameDevProject_August.States.LevelStates
 
             _isFromMainMenu = isFromMainMenu;
 
-            level = new Level3(new Level3BlockFactory());
+            Level = new Level3(new Level3BlockFactory());
             LoadContent(content);
             InitializeContent();
             InitializeScore(3, isFromMainMenu);
@@ -76,7 +72,7 @@ namespace GameDevProject_August.States.LevelStates
 
         private void GenerateLevelSprites()
         {
-            _sprites = new List<Sprite>()
+            SpriteList = new List<Sprite>()
             {
                 player_1.makePlayer(arrowInput(),TypePlayer.Archeologist,personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture, personBowDownTexture, new Vector2(1200,600), 7f, new PlayerBullet(playerBullet), Game1.PlayerScore, false),
 
@@ -85,31 +81,6 @@ namespace GameDevProject_August.States.LevelStates
                     Position = new Vector2(500, 465)
                 }
             };
-        }
-
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-
-            DrawBackground(spriteBatch);
-
-            level.Draw(spriteBatch);
-
-            /* Empty atm
-            foreach (var component in _gameComponents)
-            {
-                component.Draw(gameTime, spriteBatch);
-            }
-            */
-
-            foreach (var sprite in _sprites)
-            {
-                sprite.Draw(spriteBatch);
-            }
-
-            Game1.PlayerScore.Draw(spriteBatch);
-
-            spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
@@ -123,33 +94,33 @@ namespace GameDevProject_August.States.LevelStates
 
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            foreach (var sprite in _sprites.ToArray())
+            foreach (var sprite in SpriteList.ToArray())
             {
-                sprite.Update(gameTime, _sprites, level.TileList);
+                sprite.Update(gameTime, SpriteList, Level.TileList);
 
                 switch (sprite.PieceOfCodeToFall)
                 {
                     case 1:
-                        fallingCode.LetCodeFall(_sprites, FallingCodeMinotaur);
+                        fallingCode.LetCodeFall(SpriteList, FallingCodeMinotaur);
                         break;
                     case 2:
-                        fallingCode.LetCodeFall(_sprites, FallingCodeDragonFly);
+                        fallingCode.LetCodeFall(SpriteList, FallingCodeDragonFly);
                         break;
                     case 3:
-                        fallingCode.LetCodeFall(_sprites, FallingCodePorcupine);
+                        fallingCode.LetCodeFall(SpriteList, FallingCodePorcupine);
                         break;
                     case 4:
-                        fallingCode.LetCodeFall(_sprites, FallingCodeRatMage);
+                        fallingCode.LetCodeFall(SpriteList, FallingCodeRatMage);
                         break;
                     case 5:
-                        fallingCode.LetCodeFall(_sprites, FallingCodePoint);
+                        fallingCode.LetCodeFall(SpriteList, FallingCodePoint);
                         break;
                     default:
                         break;
                 }
             }
 
-            PostUpdate(gameTime, _sprites);
+            PostUpdate(gameTime, SpriteList);
         }
 
         public override void LoadContent(ContentManager content)
@@ -159,7 +130,7 @@ namespace GameDevProject_August.States.LevelStates
 
         public /*override*/ void InitializeContent()
         {
-            level = GenerateLevel(level, 38);
+            Level = GenerateLevel(Level, 38);
             //SpriteList = GenerateLevelSpriteList();
         }
     }

@@ -153,11 +153,20 @@ namespace GameDevProject_August.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            DrawBackground(spriteBatch);
-
             spriteBatch.Begin();
 
+            DrawBackground(spriteBatch);
+
             level.Draw(spriteBatch);
+
+            /* Empty atm
+            foreach (var component in _gameComponents)
+            {
+                component.Draw(gameTime, spriteBatch);
+            }
+            */
+
+            Game1.PlayerScore.Draw(spriteBatch);
 
             DrawSprites(spriteList, spriteBatch);
 
