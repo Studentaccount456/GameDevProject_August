@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameDevProject_August.Sprites;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace GameDevProject_August.States
 {
@@ -20,7 +22,7 @@ namespace GameDevProject_August.States
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
-        public virtual void PostUpdate(GameTime gameTime) { }
+        public virtual void PostUpdate(GameTime gameTime, List<Sprite> sprites) { }
 
         public State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
         {

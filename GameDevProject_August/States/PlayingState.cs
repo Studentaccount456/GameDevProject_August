@@ -1,7 +1,12 @@
 ﻿using GameDevProject_August.Levels;
 using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
+using GameDevProject_August.Sprites.DNotSentient;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal;
+using GameDevProject_August.Sprites.DSentient;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
+using GameDevProject_August.States.MenuStates;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -161,6 +166,38 @@ namespace GameDevProject_August.States
         public override void Update(GameTime gameTime)
         {
 
+        }
+
+        public override void PostUpdate(GameTime gameTime, List<Sprite> sprites)
+        {
+            for (int i = 0; i < sprites.Count; i++)
+            {
+                var sprite_1 = sprites[i];
+
+                if ((sprite_1 is Sentient sentient && sentient.IsKilled) || (sprite_1 is NotSentient notSentient && notSentient.IsDestroyed))
+                {
+                    sprites.RemoveAt(i);
+                    i--;
+                }
+
+                if (sprite_1 is Archeologist)
+                {
+                    var player = sprite_1 as Archeologist;
+                    if (player.HasDied)
+                    {
+                        _game.ChangeState(new GameOverState(_game, _graphicsDevice, _content));
+                    }
+                }
+
+                if (sprite_1 is FinalTerminal)
+                {
+                    var finalTerminal = sprite_1 as FinalTerminal;
+                    if (finalTerminal.HasDied)
+                    {
+                        _game.ChangeState(new VictoryState(_game, _graphicsDevice, _content));
+                    }
+                }
+            }
         }
 
 

@@ -1,4 +1,5 @@
-﻿using GameDevProject_August.States.LevelStates;
+﻿using GameDevProject_August.Sprites;
+using GameDevProject_August.States.LevelStates;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -120,7 +121,7 @@ namespace GameDevProject_August.States.MenuStates
             spriteBatch.End();
         }
 
-        public override void PostUpdate(GameTime gameTime)
+        public override void PostUpdate(GameTime gameTime, List<Sprite> _sprites)
         {
             //Remove sprites if not needed
         }

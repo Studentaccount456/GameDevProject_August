@@ -70,7 +70,7 @@ namespace GameDevProject_August
 
             _currentState.Update(gameTime);
 
-            _currentState.PostUpdate(gameTime);
+            //_currentState.PostUpdate(gameTime, null);
 
             base.Update(gameTime);
         }

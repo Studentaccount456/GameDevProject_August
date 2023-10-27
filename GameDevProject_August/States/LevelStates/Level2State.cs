@@ -134,29 +134,6 @@ namespace GameDevProject_August.States.LevelStates
             spriteBatch.End();
         }
 
-        public override void PostUpdate(GameTime gameTime)
-        {
-            for (int i = 0; i < _sprites.Count; i++)
-            {
-                var sprite_1 = _sprites[i];
-
-                if ((sprite_1 is Sentient sentient && sentient.IsKilled) || (sprite_1 is NotSentient notSentient && notSentient.IsDestroyed))
-                {
-                    _sprites.RemoveAt(i);
-                    i--;
-                }
-
-                if (sprite_1 is Archeologist)
-                {
-                    var player = sprite_1 as Archeologist;
-                    if (player.HasDied)
-                    {
-                        _game.ChangeState(new GameOverState(_game, _graphicsDevice, _content));
-                    }
-                }
-            }
-        }
-
         public override void Update(GameTime gameTime)
         {
             /* empty atm
@@ -194,7 +171,7 @@ namespace GameDevProject_August.States.LevelStates
                 }
             }
 
-            PostUpdate(gameTime);
+            PostUpdate(gameTime, _sprites);
 
             if (PlayingState.isNextLevelTrigger)
             {
