@@ -93,11 +93,6 @@ namespace GameDevProject_August.States.LevelStates
             };
         }
 
-        public override void LoadContent(ContentManager content)
-        {
-            base.LoadContent(content);
-        }
-
         public /*override*/ void InitializeContent()
         {
             Level = GenerateLevel(Level, 38);
