@@ -2,10 +2,12 @@
 using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.DNotSentient;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal;
 using GameDevProject_August.Sprites.DSentient;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
+using GameDevProject_August.States.LevelStates;
 using GameDevProject_August.States.MenuStates;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
@@ -23,6 +25,9 @@ namespace GameDevProject_August.States
 
         private static Level level;
         private List<Sprite> spriteList;
+        protected float _timer;
+        protected int nextLevelIndicator;
+        protected FallingCode fallingCode;
 
         public static Level Level
         {
@@ -174,7 +179,58 @@ namespace GameDevProject_August.States
         }
         public override void Update(GameTime gameTime)
         {
+            /* empty atm
+            foreach (var component in _gameComponents)
+            {
+                component.Update(gameTime);
+            }
+            */
 
+            _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            foreach (var sprite in SpriteList.ToArray())
+            {
+                sprite.Update(gameTime, SpriteList, Level.TileList);
+
+                switch (sprite.PieceOfCodeToFall)
+                {
+                    case 1:
+                        fallingCode.LetCodeFall(SpriteList, FallingCodeMinotaur);
+                        break;
+                    case 2:
+                        fallingCode.LetCodeFall(SpriteList, FallingCodeDragonFly);
+                        break;
+                    case 3:
+                        fallingCode.LetCodeFall(SpriteList, FallingCodePorcupine);
+                        break;
+                    case 4:
+                        fallingCode.LetCodeFall(SpriteList, FallingCodeRatMage);
+                        break;
+                    case 5:
+                        fallingCode.LetCodeFall(SpriteList, FallingCodePoint);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            PostUpdate(gameTime, SpriteList);
+
+            if (isNextLevelTrigger)
+            {
+                isNextLevelTrigger = false;
+                switch(nextLevelIndicator)
+                {
+                    case 2:
+                        _game.ChangeState(new Level2State(_game, _graphicsDevice, _content, false));
+                        break;
+                    case 3:
+                        _game.ChangeState(new Level3State(_game, _graphicsDevice, _content, false));
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         public override void PostUpdate(GameTime gameTime, List<Sprite> sprites)

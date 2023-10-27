@@ -21,15 +21,11 @@ namespace GameDevProject_August.States.LevelStates
         public static int ScreenWidth;
         public static int ScreenHeight;
 
-        private float _timer;
-
         private Color _backgroundColour = Color.CornflowerBlue;
 
         private List<Component> _gameComponents;
 
         private Texture2D _regularPointTexture;
-
-        private FallingCode fallingCode;
 
         private bool _isFromMainMenu;
 
@@ -38,6 +34,7 @@ namespace GameDevProject_August.States.LevelStates
             content.RootDirectory = "Content";
             ScreenWidth = Game1.ScreenWidth;
             ScreenHeight = Game1.ScreenHeight;
+            nextLevelIndicator = 3;
 
             _isFromMainMenu = isFromMainMenu;
 
@@ -63,14 +60,6 @@ namespace GameDevProject_August.States.LevelStates
                 newlevel = new Level2(new Level2BlockFactory());
                 newlevel.Generate(newlevel.Map, tileSize);
             }
-            /*
-            else if (level is Level2)
-            {
-                newlevel = new Level2(new Level2BlockFactory());
-                newlevel.Generate(newlevel.Map, tileSize);
-            }
-            */
-
 
             return newlevel;
         }
@@ -102,52 +91,6 @@ namespace GameDevProject_August.States.LevelStates
                     Position = new Vector2(865 ,400)
                 }
             };
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            /* empty atm
-            foreach (var component in _gameComponents)
-            {
-                component.Update(gameTime);
-            }
-            */
-
-            _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            foreach (var sprite in SpriteList.ToArray())
-            {
-                sprite.Update(gameTime, SpriteList, Level.TileList);
-
-                switch (sprite.PieceOfCodeToFall)
-                {
-                    case 1:
-                        fallingCode.LetCodeFall(SpriteList, FallingCodeMinotaur);
-                        break;
-                    case 2:
-                        fallingCode.LetCodeFall(SpriteList, FallingCodeDragonFly);
-                        break;
-                    case 3:
-                        fallingCode.LetCodeFall(SpriteList, FallingCodePorcupine);
-                        break;
-                    case 4:
-                        fallingCode.LetCodeFall(SpriteList, FallingCodeRatMage);
-                        break;
-                    case 5:
-                        fallingCode.LetCodeFall(SpriteList, FallingCodePoint);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            PostUpdate(gameTime, SpriteList);
-
-            if (PlayingState.isNextLevelTrigger)
-            {
-                PlayingState.isNextLevelTrigger = false;
-                _game.ChangeState(new Level3State(_game, _graphicsDevice, _content, false));
-            }
         }
 
         public override void LoadContent(ContentManager content)
