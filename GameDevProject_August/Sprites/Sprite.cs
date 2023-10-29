@@ -53,6 +53,7 @@ namespace GameDevProject_August.Sprites
         public virtual Rectangle RectangleHitbox
         {
             get { return _rectangleHitbox; }
+            set { _rectangleHitbox = value; }
         }
 
         public int PositionXRectangleHitbox

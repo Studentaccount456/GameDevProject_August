@@ -250,13 +250,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             if (isDeathAnimating)
             {
                 DeathRectangle = new Rectangle((int)Position.X, (int)Position.Y, 64, 64);
-                WidthRectangleHitbox = 0;
-                HeightRectangleHitbox = 0;
-
-                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is Archeologist && sprite is Sentient sentient)
-                {
-                    sentient.isDeathAnimating = true;
-                }
 
                 animationDeath.Update(gameTime);
 
@@ -272,6 +265,14 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     PieceOfCodeToFall = pieceOfCodeToFall;
                     IsKilled = true;
                 }
+
+                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is Archeologist && sprite is Sentient sentient)
+                {
+                    sentient.isDeathAnimating = true;
+                }
+
+                WidthRectangleHitbox = 0;
+                HeightRectangleHitbox = 0;
 
                 if (deathAnimationFrameIndex > 6)
                 {
@@ -404,10 +405,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         {
             if (isDeathAnimating)
             {
-                if (animationDeath.IsAnimationComplete)
-                {
-                    IsKilled = true;
-                }
                 AnimationHandler_Minotaur.DrawAnimation(spriteBatch, animationDeath, Position, true);
             }
             else if (isIdling)

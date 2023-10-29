@@ -304,12 +304,14 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     sentient.isDeathAnimating = true;
                 }
 
+                WidthRectangleHitbox = 0;
+                HeightRectangleHitbox = 0;
+
                 if (deathAnimationFrameIndex > 6)
                 {
                     DeathRectangle.Width = 0;
                     DeathRectangle.Height = 0;
                 }
-
             }
         }
 
@@ -377,10 +379,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 else
                 {
                     spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-                    if (animationDeath.IsAnimationComplete)
-                    {
-                        IsKilled = true;
-                    }
                 }
             }
             else if (isShootingAnimating)
