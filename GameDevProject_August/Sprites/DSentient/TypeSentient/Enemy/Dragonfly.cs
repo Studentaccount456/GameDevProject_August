@@ -46,8 +46,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         protected override void PositionTracker()
         {
-            base.PositionTracker();
-
             hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 51, 39);
         }
 
@@ -60,7 +58,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         {
             foreach (var block in blocks)
             {
-                if (block.BlockRectangle.Intersects(RectangleHitbox) && block.EnemyBehavior == true)
+                if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
                 {
                     isMovingUp = !isMovingUp;
                 }

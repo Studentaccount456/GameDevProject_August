@@ -6,6 +6,8 @@ using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D9;
+using System;
 using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
@@ -34,9 +36,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         private Vector2 OffsetAnimation;
 
-        // Tongue Rectangle
-        public Rectangle AdditionalHitBox_1;
-
         public AnimationHandler AnimationHandler_Minotaur;
 
         private bool canSeeEnemy = true;
@@ -58,6 +57,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             ShootTexture = shootTexture;
             IdleTexture = idleTexture;
             DeathTexture = deathTexture;
+
+            hitboxes.Add("SoftSpot1", RectangleHitbox);
+            hitboxes.Add("SoftSpot2", AdditionalHitBox_1);
 
             AnimationHandler_Minotaur = new AnimationHandler();
 
@@ -141,11 +143,10 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             UpdatePositionAndResetVelocity();
         }
 
-        private void PositionTracker()
+        protected override void PositionTracker()
         {
+            hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 63, 44);
             // Necessary When not override Rectanglehitbox with getter
-            PositionXRectangleHitbox = (int)Position.X;
-            PositionYRectangleHitbox = (int)Position.Y;
         }
 
         private void IdleFunctionality(GameTime gameTime)
@@ -162,6 +163,16 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             {
                 animationIdle.Update(gameTime);
             }
+
+            if (facingDirectionIndicator || !facingDirectionIndicator && !isShootingAnimating)
+            {
+                hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 54, 49);
+            }
+
+            if (isIdling)
+            {
+                hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 63, 44);
+            }
         }
 
         private void ShootCooldown(GameTime gameTime)
@@ -177,48 +188,13 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
         }
 
-        protected override void CollisionRules(GameTime gameTime, List<Sprite> sprites)
-        {
-            if (facingDirectionIndicator || !facingDirectionIndicator && !isShootingAnimating)
-            {
-                WidthRectangleHitbox = 54;
-                HeightRectangleHitbox = 49;
-                PositionYRectangleHitbox = (int)Position.Y - 5;
-            }
-
-            if (isIdling)
-            {
-                WidthRectangleHitbox = 63;
-                HeightRectangleHitbox = 44;
-            }
-
-
-            foreach (var sprite in sprites)
-            {
-                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is Archeologist && sprite is Sentient sentient)
-                {
-                    sentient.isDeathAnimating = true;
-                }
-
-                GlitchDeathInit(gameTime, sprite, 1);
-
-                if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist && canSeeEnemy)
-                {
-                    _enemySpotted = true;
-                    isIdling = false;
-                }
-                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is PlayerBullet && sprite is NotSentient notSentient)
-                {
-                    Game1.PlayerScore.MainScore++;
-                    isDeathAnimating = true;
-                    notSentient.IsDestroyed = true;
-                }
-            }
-        }
-
         protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
         {
-            throw new System.NotImplementedException();
+            if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist && canSeeEnemy)
+            {
+                _enemySpotted = true;
+                isIdling = false;
+            }          
         }
 
         private void MinotaurAttack(GameTime gameTime)
@@ -226,62 +202,47 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             animationShoot.Update(gameTime);
             if (isShootingAnimating)
             {
-                PositionXRectangleHitbox = (int)Position.X;
-                PositionYRectangleHitbox = (int)Position.Y;
-                WidthRectangleHitbox = 63;
-                HeightRectangleHitbox = 42;
-                AdditionalHitBox_1.Width = 0;
-                AdditionalHitBox_1.Height = 0;
+                hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y - 15, 63, 42);
+                hitboxes["SoftSpot2"] = new Rectangle((int)Position.X, (int)Position.Y, 0, 0);
                 shootAnimationFrameIndex = animationShoot.CurrentFrameIndex;
                 canSeeEnemy = false;
                 if (shootAnimationFrameIndex == 1)
                 {
-                    WidthRectangleHitbox = 69;
-                    HeightRectangleHitbox = 42;
+                    hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 69, 42);
                 }
                 else if (shootAnimationFrameIndex == 2 || shootAnimationFrameIndex == 3 || shootAnimationFrameIndex == 6)
                 {
-                    WidthRectangleHitbox = 75;
-                    HeightRectangleHitbox = 42;
+                    hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 75, 42);
                 }
                 else if (shootAnimationFrameIndex == 4)
                 {
-                    WidthRectangleHitbox = 54;
-                    HeightRectangleHitbox = 42;
+                    hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 76, 42);
                     //Tongue
                     if (facingDirectionIndicator)
                     {
-                        AdditionalHitBox_1.X = (int)Position.X + 45;
+                        hitboxes["SoftSpot2"] = new Rectangle((int)Position.X + 45, (int)Position.Y - 30, 27, 30);
                     }
                     else
                     {
-                        AdditionalHitBox_1.X = (int)Position.X;
+                        hitboxes["SoftSpot2"] = new Rectangle((int)Position.X, (int)Position.Y - 30, 27, 30);
                     }
-                    AdditionalHitBox_1.Y = (int)Position.Y - 30;
-                    AdditionalHitBox_1.Width = 27;
-                    AdditionalHitBox_1.Height = 30;
                 }
                 else if (shootAnimationFrameIndex == 5)
                 {
-                    WidthRectangleHitbox = 69;
-                    HeightRectangleHitbox = 42;
+                    hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 69, 42);
                     //Tongue
                     if (facingDirectionIndicator)
                     {
-                        AdditionalHitBox_1.X = (int)Position.X + 63;
+                        hitboxes["SoftSpot2"] = new Rectangle((int)Position.X + 63, (int)Position.Y - 15, 9, 15);
                     }
                     else
                     {
-                        AdditionalHitBox_1.X = (int)Position.X;
+                        hitboxes["SoftSpot2"] = new Rectangle((int)Position.X, (int)Position.Y - 15, 9, 15);
                     }
-                    AdditionalHitBox_1.Y = (int)Position.Y - 15;
-                    AdditionalHitBox_1.Width = 9;
-                    AdditionalHitBox_1.Height = 15;
                 }
                 else if (shootAnimationFrameIndex == 7)
                 {
-                    WidthRectangleHitbox = 72;
-                    HeightRectangleHitbox = 42;
+                    hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y - 15, 72, 42);
                     idleTimer = 0;
                     isShootingAnimating = false;
                     isIdling = true;
@@ -304,13 +265,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             {
                 foreach (var block in blocks)
                 {
-                    if (IsTouchingLeftBlock(block) && block.EnemyBehavior == true)
+                    if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
                     {
-                        facingDirectionIndicator = false;
-                    }
-                    else if (IsTouchingRightBlock(block) && block.EnemyBehavior == true)
-                    {
-                        facingDirectionIndicator = true;
+                        facingDirectionIndicator = !facingDirectionIndicator;
                     }
                 }
 
@@ -366,6 +323,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
             spriteBatch.DrawRectangle(EnemySpotter, Color.Yellow);
+            spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Black);
+            spriteBatch.DrawRectangle(hitboxes["SoftSpot2"], Color.White);
         }
     }
 }

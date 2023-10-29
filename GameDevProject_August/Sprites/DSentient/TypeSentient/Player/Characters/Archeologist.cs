@@ -242,7 +242,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
 
             foreach (var block in blocks)
             {
-                if (block is Block && block is not ThreePointsType && block is not SevenPointsType)
+                if (block is Block && block is not ThreePointsType && block is not SevenPointsType && block is not InvisibleBlock)
                 {
                     if (Velocity.X > 0 && IsTouchingLeftBlock(block) && !hasJumped ||
                         Velocity.X < 0 && IsTouchingRightBlock(block) && !hasJumped)

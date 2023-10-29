@@ -277,6 +277,18 @@
 /processorParam:TextureFormat=Color
 /build:LevelTextures/Tiles/DirtUnderGround.png
 
+#begin LevelTextures/Tiles/InvisibleBlock.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LevelTextures/Tiles/InvisibleBlock.png
+
 #begin LevelTextures/Tiles/Marmer.png
 /importer:TextureImporter
 /processor:TextureProcessor

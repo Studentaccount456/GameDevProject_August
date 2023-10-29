@@ -27,6 +27,11 @@ namespace GameDevProject_August.Levels.Level1
                 block = new Grass(rectangle);
                 block.EnemyBehavior = true;
             }
+            else if (number == 5)
+            {
+                block = new InvisibleBlock(rectangle);
+                block.EnemyBehavior = true;
+            }
             return block;
         }
     }
