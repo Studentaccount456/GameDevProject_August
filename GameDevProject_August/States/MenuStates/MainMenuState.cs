@@ -1,5 +1,4 @@
-﻿using GameDevProject_August.Sprites;
-using GameDevProject_August.States.LevelStates;
+﻿using GameDevProject_August.States.LevelStates;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,15 +7,11 @@ using System.Collections.Generic;
 
 namespace GameDevProject_August.States.MenuStates
 {
-    public class MainMenuState : State
+    public class MainMenuState : MenuState
     {
         #region Fields
 
-        private List<Component> _components;
-
         private Button loadGameButton;
-
-        private Texture2D backGroundMainMenu;
 
         private int levelSelect = 1;
 
@@ -24,35 +19,32 @@ namespace GameDevProject_August.States.MenuStates
 
         public MainMenuState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
         {
-            var buttonTexture = _content.Load<Texture2D>("MenuTextures\\Buttons\\Classic_Button");
-            var buttonFont = _content.Load<SpriteFont>("MenuTextures\\Fonts\\ButtonFont");
-            backGroundMainMenu = _content.Load<Texture2D>("LevelTextures\\BackGrounds\\MenuScreens\\Start_Screen");
 
-            var newGameButton = new Button(buttonTexture, buttonFont)
+            var newGameButton = new Button(ButtonTexture, ButtonFont)
             {
-                Position = new Vector2(Game1.ScreenWidth / 2 - buttonTexture.Width / 2, 250),
+                Position = new Vector2(Game1.ScreenWidth / 2 - ButtonTexture.Width / 2, 250),
                 TextButton = "New Game",
             };
 
             newGameButton.Click += NewGameButton_Click;
 
-            loadGameButton = new Button(buttonTexture, buttonFont)
+            loadGameButton = new Button(ButtonTexture, ButtonFont)
             {
-                Position = new Vector2(Game1.ScreenWidth / 2 - buttonTexture.Width / 2, 325),
+                Position = new Vector2(Game1.ScreenWidth / 2 - ButtonTexture.Width / 2, 325),
                 TextButton = "Level: Level 1",
             };
 
             loadGameButton.Click += LoadGameButton_Click;
 
-            var quitGameButton = new Button(buttonTexture, buttonFont)
+            var quitGameButton = new Button(ButtonTexture, ButtonFont)
             {
-                Position = new Vector2(Game1.ScreenWidth / 2 - buttonTexture.Width / 2, 400),
+                Position = new Vector2(Game1.ScreenWidth / 2 - ButtonTexture.Width / 2, 400),
                 TextButton = "Quit",
             };
 
             quitGameButton.Click += QuitGameButton_Click;
 
-            _components = new List<Component>()
+            ComponentsList = new List<Component>()
             {
                 newGameButton,
                 loadGameButton,
@@ -104,34 +96,6 @@ namespace GameDevProject_August.States.MenuStates
         private void QuitGameButton_Click(object sender, EventArgs e)
         {
             _game.Exit();
-        }
-
-
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-
-            spriteBatch.Draw(backGroundMainMenu, new Vector2(0, 0), Color.White);
-
-            foreach (var component in _components)
-            {
-                component.Draw(gameTime, spriteBatch);
-            }
-
-            spriteBatch.End();
-        }
-
-        public override void PostUpdate(GameTime gameTime, List<Sprite> _sprites)
-        {
-            //Remove sprites if not needed
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            foreach (var component in _components)
-            {
-                component.Update(gameTime);
-            }
         }
     }
 }
