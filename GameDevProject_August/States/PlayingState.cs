@@ -118,6 +118,8 @@ namespace GameDevProject_August.States
         public static int ScreenWidth;
         public static int ScreenHeight;
 
+        protected int levelNumber;
+
 
         public PlayingState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
                             : base(game, graphicsDevice, content)

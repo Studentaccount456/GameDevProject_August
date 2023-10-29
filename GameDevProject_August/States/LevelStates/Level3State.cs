@@ -18,10 +18,12 @@ namespace GameDevProject_August.States.LevelStates
 
         public Level3State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool isFromMainMenu) : base(game, graphicsDevice, content)
         {
+            levelNumber = 3;
+            nextLevelIndicator = levelNumber + 1;
 
             Level = new Level3(new Level3BlockFactory());
             InitializeContent();
-            InitializeScore(3, isFromMainMenu);
+            InitializeScore(levelNumber, isFromMainMenu);
 
             GenerateLevelSprites();
 
