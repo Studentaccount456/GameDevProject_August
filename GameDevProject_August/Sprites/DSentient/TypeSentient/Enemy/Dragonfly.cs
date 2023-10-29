@@ -21,7 +21,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             RectangleHitbox = new Rectangle((int)startPosition.X, (int)startPosition.Y, 51, 39);
 
-            hitboxes.Add(RectangleHitbox);
+            hitboxes.Add("SoftSpot1",RectangleHitbox);
 
             // Standard walks right
             #region MoveAnimation
@@ -44,16 +44,14 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         }
 
-        private void PositionTracker()
+        protected override void PositionTracker()
         {
-            // Necessary When not override Rectanglehitbox with getter
-            PositionXRectangleHitbox = (int)Position.X;
-            PositionYRectangleHitbox = (int)Position.Y;
+            base.PositionTracker();
 
-            hitboxes[0] = new Rectangle((int)Position.X, (int)Position.Y, 51, 39);
+            hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 51, 39);
         }
 
-        protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox)
+        protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
         {
 
         }
@@ -105,7 +103,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
-            spriteBatch.DrawRectangle(hitboxes[0], Color.Yellow);
+            spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Yellow);
         }
     }
 }

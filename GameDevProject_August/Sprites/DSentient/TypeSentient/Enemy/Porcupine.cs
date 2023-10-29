@@ -1,8 +1,6 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.Levels;
-using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
-using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -13,13 +11,14 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
     {
         private Animation animationMove;
 
-        public Rectangle AdditionalHitBox_1;
-
         public Porcupine(Texture2D moveTexture, Texture2D deathTexture)
             : base(moveTexture, deathTexture)
         {
             _texture = moveTexture;
             DeathTexture = deathTexture;
+
+            hitboxes.Add("SoftSpot1", RectangleHitbox);
+            hitboxes.Add("HardSpot1", AdditionalHitBox_1);
 
             // Standard walks right
             #region MoveAnimation
@@ -35,6 +34,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
+            PositionTracker();
             Move(gameTime, blocks);
             PorcupineHitBoxFunct();
 
@@ -43,36 +43,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             UpdatePositionAndResetVelocity();
         }
 
-        protected override void CollisionRules(GameTime gameTime, List<Sprite> sprites)
-        {
-            foreach (var sprite in sprites)
-            {
-
-                if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is Archeologist && sprite is Sentient sentient)
-                {
-                    sentient.isDeathAnimating = true;
-                }
-                GlitchDeathInit(gameTime, sprite, 3);
-
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet && sprite is NotSentient notSentient)
-                {
-                    Game1.PlayerScore.MainScore++;
-                    isDeathAnimating = true;
-                    notSentient.IsDestroyed = true;
-                }
-
-                if (sprite.RectangleHitbox.Intersects(AdditionalHitBox_1) && sprite is PlayerBullet && sprite is NotSentient notSentient2)
-                {
-                    notSentient2.IsDestroyed = true;
-                }
-            }
-        }
-
         private void Move(GameTime gameTime, List<Block> blocks)
         {
             foreach (var block in blocks)
             {
-                if (block.BlockRectangle.Intersects(RectangleHitbox) && block.EnemyBehavior == true)
+                if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
                 {
                     facingDirectionIndicator = !facingDirectionIndicator;
                 }
@@ -110,11 +85,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
 
             // Update Hitboxes
-            PositionXRectangleHitbox = rect2X;
-            PositionYRectangleHitbox = (int)Position.Y + 24;
-            WidthRectangleHitbox = 15;
-            HeightRectangleHitbox = 24;
-            AdditionalHitBox_1 = new Rectangle(rect3X, (int)Position.Y, 42, 48);
+            hitboxes["SoftSpot1"] = new Rectangle(rect2X, (int)Position.Y + 24, 15, 24);
+            hitboxes["HardSpot1"] = new Rectangle(rect3X, (int)Position.Y, 42, 48);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -142,11 +114,17 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
             spriteBatch.DrawRectangle(AdditionalHitBox_1, Color.Yellow);
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
+            spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Black);
+            spriteBatch.DrawRectangle(hitboxes["HardSpot1"], Color.White);
+
         }
 
-        protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox)
+        protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
         {
-            throw new System.NotImplementedException();
+            if (sprite.RectangleHitbox.Intersects(hitbox) && sprite is PlayerBullet playerbullet && isHardSpot == true)
+            {
+                playerbullet.IsDestroyed = true;
+            }
         }
     }
 }

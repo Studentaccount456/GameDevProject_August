@@ -1,12 +1,10 @@
 ﻿using GameDevProject_August.AnimationClasses;
-using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DNotSentient;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
@@ -24,7 +22,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         protected bool reachedFourthDeathFrame = false;
 
-        protected List<Rectangle> hitboxes = new List<Rectangle>();
+        protected Dictionary<string, Rectangle> hitboxes = new Dictionary<string, Rectangle>();
 
 
         public Enemy(Texture2D texture, Texture2D deathTexture) : base(texture)
@@ -98,18 +96,23 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         {
             foreach (var sprite in sprites)
             {
-                foreach (var hitbox in hitboxes.ToList())
+                foreach (var hitbox in hitboxes)
                 {
+                    bool IsHardSpot = false;
+                    if (hitbox.Key.StartsWith("HardSpot"))
                     {
-                        SpecificCollisionRules(sprite, hitbox);
+                        IsHardSpot = true;
+                    }
+                    {
+                        SpecificCollisionRules(sprite, hitbox.Value, IsHardSpot);
 
-                        if (sprite.RectangleHitbox.Intersects(hitbox) && sprite is PlayerBullet && sprite is NotSentient notSentient)
+                        if (sprite.RectangleHitbox.Intersects(hitbox.Value) && sprite is PlayerBullet && sprite is NotSentient notSentient && hitbox.Key.StartsWith("SoftSpot"))
                         {
                             Game1.PlayerScore.MainScore++;
                             isDeathAnimating = true;
                             notSentient.IsDestroyed = true;
                         }
-                        if (sprite.RectangleHitbox.Intersects(hitbox) && sprite is Archeologist archeologist)
+                        if (sprite.RectangleHitbox.Intersects(hitbox.Value) && sprite is Archeologist archeologist)
                         {
                             archeologist.isDeathAnimating = true;
                         }
@@ -122,7 +125,14 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
         }
 
-        protected abstract void SpecificCollisionRules(Sprite sprite, Rectangle hitbox);
+        protected abstract void SpecificCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot);
+
+        protected virtual void PositionTracker()
+        {
+            // Necessary When not override Rectanglehitbox with getter
+            PositionXRectangleHitbox = (int)Position.X;
+            PositionYRectangleHitbox = (int)Position.Y;
+        }
     }
 
 
