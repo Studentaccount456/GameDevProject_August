@@ -1,14 +1,9 @@
-﻿using GameDevProject_August.Levels;
-using GameDevProject_August.Levels.Level2;
+﻿using GameDevProject_August.Levels.Level2;
 using GameDevProject_August.Sprites;
-using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
-using GameDevProject_August.Sprites.DSentient;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
-using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
-using GameDevProject_August.States.MenuStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,34 +13,17 @@ namespace GameDevProject_August.States.LevelStates
 {
     public class Level2State : PlayingState
     {
-        public static int ScreenWidth;
-        public static int ScreenHeight;
 
-        private Color _backgroundColour = Color.CornflowerBlue;
-
+        // Might use later
         private List<Component> _gameComponents;
-
-        private Texture2D _regularPointTexture;
-
-        private bool _isFromMainMenu;
 
         public Level2State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool isFromMainMenu) : base(game, graphicsDevice, content)
         {
-            content.RootDirectory = "Content";
-            ScreenWidth = Game1.ScreenWidth;
-            ScreenHeight = Game1.ScreenHeight;
             nextLevelIndicator = 3;
 
-            _isFromMainMenu = isFromMainMenu;
-
-
-            isNextLevelTrigger = false;
-
             Level = new Level2(new Level2BlockFactory());
-            LoadContent(content);
             InitializeContent();
             InitializeScore(2, isFromMainMenu);
-            fallingCode = new FallingCode(playerBullet);
 
             GenerateLevelSprites();
 

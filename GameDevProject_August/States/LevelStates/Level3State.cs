@@ -1,12 +1,8 @@
-﻿using GameDevProject_August.Levels;
-using GameDevProject_August.Levels.Level3;
+﻿using GameDevProject_August.Levels.Level3;
 using GameDevProject_August.Sprites;
-using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal;
-using GameDevProject_August.Sprites.DSentient;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
-using GameDevProject_August.States.MenuStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,30 +12,16 @@ namespace GameDevProject_August.States.LevelStates
 {
     public class Level3State : PlayingState
     {
-        public static int ScreenWidth;
-        public static int ScreenHeight;
 
+        // Might use later
         private List<Component> _gameComponents;
-
-        private Texture2D _regularPointTexture;
-
-        private Texture2D backgroundTexture;
-
-        private bool _isFromMainMenu;
 
         public Level3State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool isFromMainMenu) : base(game, graphicsDevice, content)
         {
-            content.RootDirectory = "Content";
-            ScreenWidth = Game1.ScreenWidth;
-            ScreenHeight = Game1.ScreenHeight;
-
-            _isFromMainMenu = isFromMainMenu;
 
             Level = new Level3(new Level3BlockFactory());
-            LoadContent(content);
             InitializeContent();
             InitializeScore(3, isFromMainMenu);
-            fallingCode = new FallingCode(playerBullet);
 
             GenerateLevelSprites();
 

@@ -115,15 +115,23 @@ namespace GameDevProject_August.States
 
         public Player player_1;
 
+        public static int ScreenWidth;
+        public static int ScreenHeight;
+
 
         public PlayingState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
                             : base(game, graphicsDevice, content)
         {
+            content.RootDirectory = "Content";
+            ScreenWidth = Game1.ScreenWidth;
+            ScreenHeight = Game1.ScreenHeight;
+
             Random = new Random();
             LoadContent(content);
 
-
             player_1 = new Player();
+
+            fallingCode = new FallingCode(playerBullet);
         }
 
 
