@@ -1,5 +1,4 @@
 ﻿using GameDevProject_August.Models;
-using GameDevProject_August.Models.Movement.ManualMovement;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using GameDevProject_August.UI;
