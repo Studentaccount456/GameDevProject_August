@@ -9,23 +9,14 @@ using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
-    public class Porcupine : Sentient
+    public class Porcupine : Enemy
     {
         private Animation animationMove;
-        private Animation animationDeath;
-
-        public Texture2D DeathTexture;
-
-        private int deathAnimationFrameIndex = 0;
-
-        private bool reachedFourthDeathFrame = false;
 
         public Rectangle AdditionalHitBox_1;
 
-        public Rectangle DeathRectangle;
-
         public Porcupine(Texture2D moveTexture, Texture2D deathTexture)
-            : base(moveTexture)
+            : base(moveTexture, deathTexture)
         {
             _texture = moveTexture;
             DeathTexture = deathTexture;
@@ -39,25 +30,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             animationMove.AddFrame(new AnimationFrame(new Rectangle(192, 0, 57, 48)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(288, 0, 57, 48)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(384, 0, 57, 48)));
-            #endregion
-
-            //Height is 44 for each frame
-            #region Death
-            animationDeath = new Animation(AnimationType.Death, deathTexture);
-            animationDeath.fps = 4;
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 0, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 0, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 0, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(192, 0, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 64, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 64, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 64, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(192, 64, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 128, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 128, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 128, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(192, 128, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 192, 64, 64)));
             #endregion
         }
 
@@ -104,44 +76,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 {
                     notSentient2.IsDestroyed = true;
                 }
-            }
-        }
-
-        private void GlitchDeathInit(GameTime gameTime, Sprite sprite, int pieceOfCodeToFall)
-        {
-            if (isDeathAnimating)
-            {
-                DeathRectangle = new Rectangle((int)Position.X, (int)Position.Y, 64, 64);
-
-                animationDeath.Update(gameTime);
-
-                deathAnimationFrameIndex = animationDeath.CurrentFrameIndex;
-
-                if (deathAnimationFrameIndex == 3) // 4th frame
-                {
-                    reachedFourthDeathFrame = true;
-                }
-
-                if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
-                {
-                    PieceOfCodeToFall = pieceOfCodeToFall;
-                    IsKilled = true;
-                }
-
-                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is Archeologist && sprite is Sentient sentient)
-                {
-                    sentient.isDeathAnimating = true;
-                }
-
-                WidthRectangleHitbox = 0;
-                HeightRectangleHitbox = 0;
-
-                if (deathAnimationFrameIndex > 6)
-                {
-                    DeathRectangle.Width = 0;
-                    DeathRectangle.Height = 0;
-                }
-
             }
         }
 

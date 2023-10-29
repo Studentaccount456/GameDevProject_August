@@ -10,16 +10,14 @@ using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
-    public class Minotaur : Sentient
+    public class Minotaur : Enemy
     {
         private Animation animationMove;
-        private Animation animationDeath;
         private Animation animationIdle;
         private Animation animationShoot;
 
         public Texture2D ShootTexture;
         public Texture2D IdleTexture;
-        public Texture2D DeathTexture;
 
         private bool isShootingAnimating = false;
 
@@ -31,18 +29,13 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         private const float IdleTimeoutDuration = 5.0f;
         private float idleTimer = 0f;
 
-        private int deathAnimationFrameIndex = 0;
         private int shootAnimationFrameIndex = 0;
 
 
         private Vector2 OffsetAnimation;
 
-        private bool reachedFourthDeathFrame = false;
-
         // Tongue Rectangle
         public Rectangle AdditionalHitBox_1;
-
-        public Rectangle DeathRectangle;
 
         public AnimationHandler AnimationHandler_Minotaur;
 
@@ -59,7 +52,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         public Minotaur(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture,
                         Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
-            : base(moveTexture)
+            : base(moveTexture,deathTexture)
         {
             _texture = moveTexture;
             ShootTexture = shootTexture;
@@ -120,23 +113,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             animationIdle.AddFrame(new AnimationFrame(new Rectangle(384, 0, 66, 42)));
             #endregion
 
-            #region Death
-            animationDeath = new Animation(AnimationType.Death, deathTexture);
-            animationDeath.fps = 4;
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 0, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 0, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 0, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(192, 0, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 64, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 64, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 64, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(192, 64, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 128, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 128, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 128, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(192, 128, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 192, 64, 64)));
-            #endregion
         }
 
         private void InitializeEnemySpotter(Vector2 position, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
@@ -242,44 +218,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     isDeathAnimating = true;
                     notSentient.IsDestroyed = true;
                 }
-            }
-        }
-
-        private void GlitchDeathInit(GameTime gameTime, Sprite sprite, int pieceOfCodeToFall)
-        {
-            if (isDeathAnimating)
-            {
-                DeathRectangle = new Rectangle((int)Position.X, (int)Position.Y, 64, 64);
-
-                animationDeath.Update(gameTime);
-
-                deathAnimationFrameIndex = animationDeath.CurrentFrameIndex;
-
-                if (deathAnimationFrameIndex == 3) // 4th frame
-                {
-                    reachedFourthDeathFrame = true;
-                }
-
-                if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
-                {
-                    PieceOfCodeToFall = pieceOfCodeToFall;
-                    IsKilled = true;
-                }
-
-                if (sprite.RectangleHitbox.Intersects(DeathRectangle) && sprite is Archeologist && sprite is Sentient sentient)
-                {
-                    sentient.isDeathAnimating = true;
-                }
-
-                WidthRectangleHitbox = 0;
-                HeightRectangleHitbox = 0;
-
-                if (deathAnimationFrameIndex > 6)
-                {
-                    DeathRectangle.Width = 0;
-                    DeathRectangle.Height = 0;
-                }
-
             }
         }
 
