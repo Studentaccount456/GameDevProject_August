@@ -50,6 +50,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             IdleTexture = idleTexture;
             DeathTexture = deathTexture;
 
+            hitboxes.Add("SoftSpot1", RectangleHitbox);
+
             EnemyPosition = new Vector2(0, 0);
             OriginBullet = new Vector2(60, _texture.Height / 2);
 
@@ -116,47 +118,19 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             UpdatePositionAndResetVelocity();
         }
 
-        protected override void CollisionRules(GameTime gameTime, List<Sprite> sprites)
+
+        protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
         {
-            if (facingDirectionIndicator || !facingDirectionIndicator && !isShootingAnimating)
+            if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist)
             {
-                WidthRectangleHitbox = 60;
-                HeightRectangleHitbox = 49;
-                PositionYRectangleHitbox = (int)Position.Y;
+                enemySpotted = true;
+                EnemyPosition.X = sprite.Position.X;
             }
-            else
+            if (!sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist)
             {
-                WidthRectangleHitbox = 60;
-                HeightRectangleHitbox = 49;
+                enemySpotted = false;
             }
 
-            foreach (var sprite in sprites)
-            {
-
-                if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist)
-                {
-                    enemySpotted = true;
-                    EnemyPosition.X = sprite.Position.X;
-                }
-                if (!sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist)
-                {
-                    enemySpotted = false;
-                }
-
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Archeologist && sprite is Sentient sentient)
-                {
-                    sentient.isDeathAnimating = true;
-                }
-
-                GlitchDeathInit(gameTime, sprite, 4);
-
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet && sprite is NotSentient notSentient)
-                {
-                    Game1.PlayerScore.MainScore++;
-                    isDeathAnimating = true;
-                    notSentient.IsDestroyed = true;
-                }
-            }
         }
 
         private void ShootingFunctionality(GameTime gameTime, List<Sprite> sprites)
@@ -241,10 +215,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             // Otherwise put in update so the Position updates so the spot can be reset
         }
 
-        private void PositionTracker()
+
+        protected override void PositionTracker()
         {
-            PositionXRectangleHitbox = (int)Position.X;
-            PositionYRectangleHitbox = (int)Position.Y;
+            hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 60, 49);
+            // Necessary When not override Rectanglehitbox with getter
         }
 
         private void Move(GameTime gameTime, List<Block> blocks)
@@ -253,13 +228,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             {
                 foreach (var block in blocks)
                 {
-                    if (IsTouchingLeftBlock(block) && block.EnemyBehavior_2 == true)
+                    if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
                     {
-                        facingDirectionIndicator = false;
-                    }
-                    else if (IsTouchingRightBlock(block) && block.EnemyBehavior_2 == true)
-                    {
-                        facingDirectionIndicator = true;
+                        facingDirectionIndicator = !facingDirectionIndicator;
                     }
                 }
 
@@ -340,11 +311,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
             spriteBatch.DrawRectangle(EnemySpotter, Color.Red);
-        }
+            spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Yellow);
 
-        protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
