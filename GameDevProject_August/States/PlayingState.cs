@@ -1,4 +1,7 @@
 ﻿using GameDevProject_August.Levels;
+using GameDevProject_August.Levels.Level1;
+using GameDevProject_August.Levels.Level2;
+using GameDevProject_August.Levels.Level3;
 using GameDevProject_August.Models;
 using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.DNotSentient;
@@ -263,6 +266,32 @@ namespace GameDevProject_August.States
                     }
                 }
             }
+        }
+
+        public Level GenerateLevel(Level level, int tileSize)
+        {
+            Level newlevel = null;
+
+            if (level is Level1)
+            {
+                newlevel = new Level1(new Level1BlockFactory());
+                newlevel.Generate(newlevel.Map, tileSize);
+            } else if (level is Level2)
+            {
+                newlevel = new Level2(new Level2BlockFactory());
+                newlevel.Generate(newlevel.Map, tileSize);
+            } else if (level is Level3)
+            {
+                newlevel = new Level3(new Level3BlockFactory());
+                newlevel.Generate(newlevel.Map, tileSize);
+            }
+
+            return newlevel;
+        }
+
+        public void InitializeContent()
+        {
+            Level = GenerateLevel(Level, 38);
         }
 
 

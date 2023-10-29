@@ -45,19 +45,6 @@ namespace GameDevProject_August.States.LevelStates
 
         }
 
-        public Level GenerateLevel(Level level, int tileSize)
-        {
-            Level newlevel = null;
-
-            if (level is Level3)
-            {
-                newlevel = new Level3(new Level3BlockFactory());
-                newlevel.Generate(newlevel.Map, tileSize);
-            }
-
-            return newlevel;
-        }
-
         private void GenerateLevelSprites()
         {
             SpriteList = new List<Sprite>()
@@ -69,12 +56,6 @@ namespace GameDevProject_August.States.LevelStates
                     Position = new Vector2(500, 465)
                 }
             };
-        }
-
-        public /*override*/ void InitializeContent()
-        {
-            Level = GenerateLevel(Level, 38);
-            //SpriteList = GenerateLevelSpriteList();
         }
     }
 }
