@@ -11,7 +11,6 @@ using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SharpDX.Direct3D9;
 using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
@@ -222,10 +221,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
         {
             foreach (var sprite in sprites)
             {
-                if (sprite is Archeologist)
-                {
-                    continue;
-                }
                 if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && (sprite is FallingCode || sprite is EnemyBullet) && sprite is NotSentient notSentient)
                 {
                     isDeathAnimating = true;

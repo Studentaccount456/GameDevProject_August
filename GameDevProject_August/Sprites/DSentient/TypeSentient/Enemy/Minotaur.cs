@@ -1,13 +1,9 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.AnimationClasses.AnimationMethods;
 using GameDevProject_August.Levels;
-using GameDevProject_August.Sprites.DNotSentient;
-using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D9;
-using System;
 using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy

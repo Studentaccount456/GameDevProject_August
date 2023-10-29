@@ -1,6 +1,5 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.Levels;
-using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
