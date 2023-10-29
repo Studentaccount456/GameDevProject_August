@@ -43,14 +43,10 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             UpdatePositionAndResetVelocity();
         }
 
-        private void CollisionRules(GameTime gameTime, List<Sprite> sprites)
+        protected override void CollisionRules(GameTime gameTime, List<Sprite> sprites)
         {
             foreach (var sprite in sprites)
             {
-                if (sprite is Porcupine)
-                {
-                    continue;
-                }
 
                 if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is Archeologist && sprite is Sentient sentient)
                 {
@@ -148,5 +144,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
         }
 
+        protected override void SpecificCollisionRules(Sprite sprite)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

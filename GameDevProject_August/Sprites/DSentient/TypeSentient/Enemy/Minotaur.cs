@@ -177,7 +177,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
         }
 
-        private void CollisionRules(GameTime gameTime, List<Sprite> sprites)
+        protected override void CollisionRules(GameTime gameTime, List<Sprite> sprites)
         {
             if (facingDirectionIndicator || !facingDirectionIndicator && !isShootingAnimating)
             {
@@ -195,11 +195,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             foreach (var sprite in sprites)
             {
-                if (sprite is Minotaur)
-                {
-                    continue;
-                }
-
                 if ((sprite.RectangleHitbox.Intersects(RectangleHitbox) || sprite.RectangleHitbox.Intersects(AdditionalHitBox_1)) && sprite is Archeologist && sprite is Sentient sentient)
                 {
                     sentient.isDeathAnimating = true;
@@ -219,6 +214,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     notSentient.IsDestroyed = true;
                 }
             }
+        }
+
+        protected override void SpecificCollisionRules(Sprite sprite)
+        {
+            throw new System.NotImplementedException();
         }
 
         private void MinotaurAttack(GameTime gameTime)

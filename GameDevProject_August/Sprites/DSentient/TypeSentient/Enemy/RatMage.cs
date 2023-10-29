@@ -116,7 +116,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             UpdatePositionAndResetVelocity();
         }
 
-        private void CollisionRules(GameTime gameTime, List<Sprite> sprites)
+        protected override void CollisionRules(GameTime gameTime, List<Sprite> sprites)
         {
             if (facingDirectionIndicator || !facingDirectionIndicator && !isShootingAnimating)
             {
@@ -132,10 +132,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             foreach (var sprite in sprites)
             {
-                if (sprite is RatMage)
-                {
-                    continue;
-                }
 
                 if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist)
                 {
@@ -346,5 +342,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             spriteBatch.DrawRectangle(EnemySpotter, Color.Red);
         }
 
+        protected override void SpecificCollisionRules(Sprite sprite)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

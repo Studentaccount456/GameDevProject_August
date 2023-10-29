@@ -1,11 +1,14 @@
 ﻿using GameDevProject_August.AnimationClasses;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
+using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
-    public class Enemy : Sentient
+    abstract public class Enemy : Sentient
     {
         protected Texture2D DeathTexture;
 
@@ -16,6 +19,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         protected int deathAnimationFrameIndex = 0;
 
         protected bool reachedFourthDeathFrame = false;
+
+        protected List<Rectangle> hitboxes;
 
 
         public Enemy(Texture2D texture, Texture2D deathTexture) : base(texture)
@@ -84,6 +89,34 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             Velocity = Vector2.Zero;
         }
+
+        protected virtual void CollisionRules(GameTime gameTime, List<Sprite> sprites)
+        {
+            foreach (var sprite in sprites)
+            {
+                //foreach (var hitbox in hitboxes)
+                {
+                    if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet && sprite is NotSentient notSentient)
+                    {
+                        Game1.PlayerScore.MainScore++;
+                        isDeathAnimating = true;
+                        notSentient.IsDestroyed = true;
+                    }
+                    if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Archeologist && sprite is Sentient sentient)
+                    {
+                        sentient.isDeathAnimating = true;
+                    }
+                }
+
+                SpecificCollisionRules(sprite);
+
+                GlitchDeathInit(gameTime, sprite, 2);
+
+                UpdatePositionAndResetVelocity();
+            }
+        }
+
+        protected abstract void SpecificCollisionRules(Sprite sprite);
     }
 
 

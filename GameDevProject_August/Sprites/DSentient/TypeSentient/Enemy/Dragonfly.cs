@@ -5,7 +5,9 @@ using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D9;
 using System.Collections.Generic;
+using System.Security.Policy;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
@@ -52,28 +54,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         }
 
-        private void CollisionRules(GameTime gameTime, List<Sprite> sprites)
+        protected override void SpecificCollisionRules(Sprite sprite)
         {
-            foreach (var sprite in sprites)
-            {
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet && sprite is NotSentient notSentient)
-                {
-                    Game1.PlayerScore.MainScore++;
-                    isDeathAnimating = true;
-                    notSentient.IsDestroyed = true;
-                }
-                if (sprite is Dragonfly)
-                {
-                    continue;
-                }
-                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Archeologist && sprite is Sentient sentient)
-                {
-                    sentient.isDeathAnimating = true;
-                }
-                GlitchDeathInit(gameTime, sprite, 2);
 
-                UpdatePositionAndResetVelocity();
-            }
         }
 
         private void Move(GameTime gameTime, List<Block> blocks)
