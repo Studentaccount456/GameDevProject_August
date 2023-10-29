@@ -17,23 +17,17 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         private bool isMovingUp = true;
 
-        
-        // Consistent Hitbox
-        public override Rectangle RectangleHitbox
-        {
-            get
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, 51, 39);
-            }
-        }
-        
-
-        public Dragonfly(Texture2D moveTexture, Texture2D deathTexture)
+        public Dragonfly(Texture2D moveTexture, Texture2D deathTexture, Vector2 startPosition)
             : base(moveTexture,deathTexture)
         {
             _texture = moveTexture;
             DeathTexture = deathTexture;
             facingDirectionIndicator = false;
+
+            PositionXRectangleHitbox = (int)startPosition.X;
+            PositionYRectangleHitbox = (int)startPosition.Y;
+            WidthRectangleHitbox = 51;
+            HeightRectangleHitbox = 39;
 
             // Standard walks right
             #region MoveAnimation
@@ -48,10 +42,19 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
+            PositionTracker();
+
             Move(gameTime, blocks);
 
             CollisionRules(gameTime, sprites);
 
+        }
+
+        private void PositionTracker()
+        {
+            // Necessary When not override Rectanglehitbox with getter
+            PositionXRectangleHitbox = (int)Position.X;
+            PositionYRectangleHitbox = (int)Position.Y;
         }
 
         protected override void SpecificCollisionRules(Sprite sprite)
@@ -107,14 +110,5 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
         }
-
-        /*protected override void SpecificCollisionRules(Sprite sprite)
-        {
-            if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Archeologist && sprite is Sentient sentient)
-            {
-                sentient.isDeathAnimating = true;
-            }
-                
-        }*/
     }
 }

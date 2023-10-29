@@ -38,12 +38,12 @@ namespace GameDevProject_August.States.LevelStates
                 player_1.makePlayer(arrowInput(),TypePlayer.Archeologist,personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture, personBowDownTexture, new Vector2(10,600), 7f, new PlayerBullet(playerBullet), Game1.PlayerScore, true),
 
 
-                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture)
+                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture, new Vector2(250, 595))
                 {
                     Position = new Vector2(250, 595),
                     Speed = 2f,
                 },
-                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture)
+                new Dragonfly(dragonflyMoveTexture, glitchDeathTexture,new Vector2(650,570))
                 {
                     Position = new Vector2(650,570),
                     Speed = 2f,

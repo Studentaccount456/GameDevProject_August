@@ -48,7 +48,7 @@ namespace GameDevProject_August.Sprites
 
         // Collision
         //
-        private Rectangle _rectangleHitbox;
+        private Rectangle _rectangleHitbox = new Rectangle();
 
         public virtual Rectangle RectangleHitbox
         {
