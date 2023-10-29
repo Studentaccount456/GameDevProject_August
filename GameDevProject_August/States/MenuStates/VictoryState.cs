@@ -9,8 +9,12 @@ namespace GameDevProject_August.States.MenuStates
 {
     internal class VictoryState : MenuState
     {
+        private Texture2D backgroundVictoryState;
         public VictoryState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
         {
+            backgroundVictoryState = _content.Load<Texture2D>("LevelTextures\\BackGrounds\\MenuScreens\\Victory_Screen");
+            chosenTexture = backgroundVictoryState;
+
             var replayButton = new Button(ButtonTexture, ButtonFont)
             {
                 Position = new Vector2(Game1.ScreenWidth / 2 - ButtonTexture.Width / 2, 300),

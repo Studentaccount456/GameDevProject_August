@@ -12,9 +12,7 @@ namespace GameDevProject_August.States
         public Texture2D ButtonTexture { get; private set; }
 
         // Backgrounds
-        public Texture2D BackGroundMainMenu { get; private set; }
-        public Texture2D BackGroundGameOverState { get; private set; }
-        public Texture2D BackgroundVictoryState { get; private set; }
+        protected Texture2D chosenTexture { get; set; }
 
         // Fonts
         public SpriteFont ButtonFont { get; private set; }
@@ -33,7 +31,6 @@ namespace GameDevProject_August.States
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
             Load_Buttons(content);
-            Load_MenuBackgrounds(content);
             Load_Fonts(content);
 
         }
@@ -42,7 +39,7 @@ namespace GameDevProject_August.States
         {
             spriteBatch.Begin();
 
-            spriteBatch.Draw(BackgroundVictoryState, new Vector2(0, 0), Color.White);
+            spriteBatch.Draw(chosenTexture, new Vector2(0, 0), Color.White);
 
             foreach (var component in ComponentsList)
             {
@@ -68,13 +65,6 @@ namespace GameDevProject_August.States
         private void Load_Buttons(ContentManager content)
         {
             ButtonTexture = _content.Load<Texture2D>("MenuTextures\\Buttons\\Classic_Button");
-        }
-
-        private void Load_MenuBackgrounds(ContentManager content)
-        {
-            BackGroundMainMenu = _content.Load<Texture2D>("LevelTextures\\BackGrounds\\MenuScreens\\Start_Screen");
-            BackGroundGameOverState = _content.Load<Texture2D>("LevelTextures\\BackGrounds\\MenuScreens\\Game_Over");
-            BackgroundVictoryState = _content.Load<Texture2D>("LevelTextures\\BackGrounds\\MenuScreens\\Victory_Screen");
         }
         private void Load_Fonts(ContentManager content)
         {

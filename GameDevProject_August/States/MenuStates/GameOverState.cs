@@ -9,8 +9,13 @@ namespace GameDevProject_August.States.MenuStates
 {
     internal class GameOverState : MenuState
     {
+        private Texture2D backGroundGameOverState;
+
         public GameOverState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
         {
+            backGroundGameOverState = _content.Load<Texture2D>("LevelTextures\\BackGrounds\\MenuScreens\\Game_Over");
+            chosenTexture = backGroundGameOverState;
+
             var replayButton = new Button(ButtonTexture, ButtonFont)
             {
                 Position = new Vector2(Game1.ScreenWidth / 2 - ButtonTexture.Width / 2, 175),

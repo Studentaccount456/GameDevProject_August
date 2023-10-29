@@ -15,10 +15,14 @@ namespace GameDevProject_August.States.MenuStates
 
         private int levelSelect = 1;
 
+        private Texture2D backGroundMainMenu;
+
         #endregion
 
         public MainMenuState(Game1 game, GraphicsDevice graphicsDevice, Microsoft.Xna.Framework.Content.ContentManager content) : base(game, graphicsDevice, content)
         {
+            backGroundMainMenu = _content.Load<Texture2D>("LevelTextures\\BackGrounds\\MenuScreens\\Start_Screen");
+            chosenTexture = backGroundMainMenu;
 
             var newGameButton = new Button(ButtonTexture, ButtonFont)
             {
