@@ -221,13 +221,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
         }
 
-        private void UpdatePositionAndResetVelocity()
-        {
-            Position += Velocity;
-
-            Velocity = Vector2.Zero;
-        }
-
         private void MinotaurAttack(GameTime gameTime)
         {
             animationShoot.Update(gameTime);

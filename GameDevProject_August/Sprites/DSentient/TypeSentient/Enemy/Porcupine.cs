@@ -43,13 +43,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             UpdatePositionAndResetVelocity();
         }
 
-        private void UpdatePositionAndResetVelocity()
-        {
-            Position += Velocity;
-
-            Velocity = Vector2.Zero;
-        }
-
         private void CollisionRules(GameTime gameTime, List<Sprite> sprites)
         {
             foreach (var sprite in sprites)

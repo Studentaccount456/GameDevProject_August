@@ -76,7 +76,14 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 }
 
             }
-        }    
+        }
+
+        protected void UpdatePositionAndResetVelocity()
+        {
+            Position += Velocity;
+
+            Velocity = Vector2.Zero;
+        }
     }
 
 

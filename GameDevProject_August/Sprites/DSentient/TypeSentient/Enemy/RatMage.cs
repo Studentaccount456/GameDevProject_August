@@ -251,13 +251,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             PositionYRectangleHitbox = (int)Position.Y;
         }
 
-        private void UpdatePositionAndResetVelocity()
-        {
-            Position += Velocity;
-
-            Velocity = Vector2.Zero;
-        }
-
         private void Move(GameTime gameTime, List<Block> blocks)
         {
             if (!isDeathAnimating && !isIdling && !isShootingAnimating)
