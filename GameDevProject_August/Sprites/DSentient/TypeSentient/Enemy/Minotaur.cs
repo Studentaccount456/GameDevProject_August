@@ -216,7 +216,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
         }
 
-        protected override void SpecificCollisionRules(Sprite sprite)
+        protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox)
         {
             throw new System.NotImplementedException();
         }

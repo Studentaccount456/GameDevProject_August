@@ -1,13 +1,8 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.Levels;
-using GameDevProject_August.Sprites.DNotSentient;
-using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
-using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D9;
 using System.Collections.Generic;
-using System.Security.Policy;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
@@ -24,10 +19,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             DeathTexture = deathTexture;
             facingDirectionIndicator = false;
 
-            PositionXRectangleHitbox = (int)startPosition.X;
-            PositionYRectangleHitbox = (int)startPosition.Y;
-            WidthRectangleHitbox = 51;
-            HeightRectangleHitbox = 39;
+            RectangleHitbox = new Rectangle((int)startPosition.X, (int)startPosition.Y, 51, 39);
+
+            hitboxes.Add(RectangleHitbox);
 
             // Standard walks right
             #region MoveAnimation
@@ -55,9 +49,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             // Necessary When not override Rectanglehitbox with getter
             PositionXRectangleHitbox = (int)Position.X;
             PositionYRectangleHitbox = (int)Position.Y;
+
+            hitboxes[0] = new Rectangle((int)Position.X, (int)Position.Y, 51, 39);
         }
 
-        protected override void SpecificCollisionRules(Sprite sprite)
+        protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox)
         {
 
         }
@@ -109,6 +105,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
+            spriteBatch.DrawRectangle(hitboxes[0], Color.Yellow);
         }
     }
 }

@@ -5,6 +5,8 @@ using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
@@ -16,11 +18,13 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         public Rectangle DeathRectangle;
 
+        public Rectangle AdditionalHitBox_1;
+
         protected int deathAnimationFrameIndex = 0;
 
         protected bool reachedFourthDeathFrame = false;
 
-        protected List<Rectangle> hitboxes;
+        protected List<Rectangle> hitboxes = new List<Rectangle>();
 
 
         public Enemy(Texture2D texture, Texture2D deathTexture) : base(texture)
@@ -94,21 +98,23 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         {
             foreach (var sprite in sprites)
             {
-                //foreach (var hitbox in hitboxes)
+                foreach (var hitbox in hitboxes.ToList())
                 {
-                    if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet && sprite is NotSentient notSentient)
                     {
-                        Game1.PlayerScore.MainScore++;
-                        isDeathAnimating = true;
-                        notSentient.IsDestroyed = true;
-                    }
-                    if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Archeologist && sprite is Sentient sentient)
-                    {
-                        sentient.isDeathAnimating = true;
+                        SpecificCollisionRules(sprite, hitbox);
+
+                        if (sprite.RectangleHitbox.Intersects(hitbox) && sprite is PlayerBullet && sprite is NotSentient notSentient)
+                        {
+                            Game1.PlayerScore.MainScore++;
+                            isDeathAnimating = true;
+                            notSentient.IsDestroyed = true;
+                        }
+                        if (sprite.RectangleHitbox.Intersects(hitbox) && sprite is Archeologist archeologist)
+                        {
+                            archeologist.isDeathAnimating = true;
+                        }
                     }
                 }
-
-                SpecificCollisionRules(sprite);
 
                 GlitchDeathInit(gameTime, sprite, 2);
 
@@ -116,7 +122,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
         }
 
-        protected abstract void SpecificCollisionRules(Sprite sprite);
+        protected abstract void SpecificCollisionRules(Sprite sprite, Rectangle hitbox);
     }
 
 
