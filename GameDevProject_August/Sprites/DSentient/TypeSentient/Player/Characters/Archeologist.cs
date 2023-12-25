@@ -78,6 +78,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
 
         private bool keyPressed;
 
+        private Vector2 OriginBullet;
+
 
 
 

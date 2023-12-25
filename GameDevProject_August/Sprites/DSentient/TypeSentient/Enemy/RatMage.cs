@@ -39,6 +39,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         private int _widthSpotter, _heightSpotter;
         private Vector2 _offsetPositonSpotter;
 
+        private Vector2 OriginBullet;
+
         public RatMage(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture,
             Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
             : base(moveTexture, deathTexture)

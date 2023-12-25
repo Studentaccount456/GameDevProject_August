@@ -9,16 +9,10 @@ namespace GameDevProject_August.Sprites
 {
     public class Sprite
     {
-        // Is not only used in moving (RENAME)
-        protected Texture2D MoveTexture;
+        protected Texture2D staticTexture;
 
         public Vector2 Position;
         public Vector2 Origin;
-
-
-
-        // Shooting
-        public Vector2 OriginBullet;
 
         // Moving
         public Vector2 Velocity;
@@ -79,7 +73,7 @@ namespace GameDevProject_August.Sprites
 
         public Sprite(Texture2D texture)
         {
-            MoveTexture = texture;
+            staticTexture = texture;
             Origin = Vector2.Zero;
         }
 
@@ -100,7 +94,7 @@ namespace GameDevProject_August.Sprites
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(MoveTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(staticTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
         }
 
         //Collision

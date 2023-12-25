@@ -44,7 +44,6 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal
                     notSentient.IsDestroyed = true;
                 }
             }
-            Velocity = Vector2.Zero;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

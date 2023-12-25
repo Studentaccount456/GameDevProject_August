@@ -1,10 +1,11 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameDevProject_August.Sprites.DSentient
 {
     public class Sentient : Sprite
     {
-        //protected Texture2D MoveTexture;
+        protected Texture2D MoveTexture;
 
         // Death
         public bool isDeathAnimating = false;
@@ -18,6 +19,7 @@ namespace GameDevProject_August.Sprites.DSentient
 
         public Sentient(Texture2D texture) : base(texture)
         {
+            MoveTexture = texture;
         }
 
         public Sentient()

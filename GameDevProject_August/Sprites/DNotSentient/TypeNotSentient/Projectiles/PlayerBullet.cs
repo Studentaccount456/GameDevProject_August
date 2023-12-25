@@ -19,7 +19,7 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, MoveTexture.Width, MoveTexture.Height);
+                return new Rectangle((int)Position.X, (int)Position.Y, staticTexture.Width, staticTexture.Height);
             }
         }
 
