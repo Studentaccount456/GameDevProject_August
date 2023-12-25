@@ -11,8 +11,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
     public class Porcupine : Enemy
     {
 
-        public Porcupine(Texture2D moveTexture, Texture2D deathTexture)
-            : base(moveTexture, deathTexture)
+        public Porcupine(Texture2D moveTexture, Texture2D deathTexture, Vector2 startPosition)
+            : base(moveTexture, deathTexture, startPosition)
         {
             MoveTexture = moveTexture;
             numberOfCodeToFall = 3;

@@ -42,7 +42,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
 
 
-        public Enemy(Texture2D moveTexture, Texture2D deathTexture) : base(moveTexture)
+        public Enemy(Texture2D moveTexture, Texture2D deathTexture, Vector2 StartPosition) : base(moveTexture)
         {
             DeathTexture = deathTexture;
 
@@ -69,6 +69,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             animationMove = new Animation(AnimationType.Move, moveTexture);
             animationMove.fps = 8;
+
+            Position = StartPosition;
         }
 
         protected void GlitchDeathInit(GameTime gameTime, Sprite sprite, int pieceOfCodeToFall)

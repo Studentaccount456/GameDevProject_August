@@ -10,7 +10,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
     public class Dragonfly : Enemy
     {
         public Dragonfly(Texture2D moveTexture, Texture2D deathTexture, Vector2 startPosition)
-            : base(moveTexture,deathTexture)
+            : base(moveTexture,deathTexture, startPosition)
         {
             MoveTexture = moveTexture;
             facingDirectionIndicator = false;

@@ -40,17 +40,14 @@ namespace GameDevProject_August.States.LevelStates
                 new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture, new Vector2(1085,566), new Vector2(285,71), 354, 115)
                 {
                     Speed = 11f,
-
                 },
-
-                new Porcupine(porcupineMoveTexture, glitchDeathTexture)
+                new Porcupine(porcupineMoveTexture, glitchDeathTexture, new Vector2(210,600))
                 {
-                    Position = new Vector2(210,600),
                     Speed = 2f,
                 },
                new Regular_Point(RegularPointTexture)
                 {
-                       Position = new Vector2(575, 566)
+                    Position = new Vector2(575, 566)
                 }
             };
         }

@@ -44,7 +44,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         public RatMage(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture,
             Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
-            : base(moveTexture, deathTexture)
+            : base(moveTexture, deathTexture, startPosition)
         {
             MoveTexture = moveTexture;
             ShootTexture = shootTexture;
@@ -59,8 +59,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             _offsetPositonSpotter = offsetPositionSpotter;
             _widthSpotter = widthSpotter;
             _heightSpotter = heightSpotter;
-
-            Position = startPosition;
 
             // Standard walks right
             #region MoveAnimation
