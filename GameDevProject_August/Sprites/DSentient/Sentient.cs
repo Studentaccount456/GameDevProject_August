@@ -17,9 +17,9 @@ namespace GameDevProject_August.Sprites.DSentient
 
         public bool HasDied = false;
 
-        public Sentient(Texture2D texture) : base(texture)
+        public Sentient(Texture2D moveTexture) : base(moveTexture)
         {
-            MoveTexture = texture;
+            MoveTexture = moveTexture;
         }
 
         public Sentient()

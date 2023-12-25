@@ -64,7 +64,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             // Standard walks right
             #region MoveAnimation
-            animationMove = new Animation(AnimationType.Move, moveTexture);
+            animationMove.fps = 12;
             animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 60, 57)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(96, 0, 57, 57)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(192, 0, 54, 57)));
@@ -225,7 +225,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
         {
-            if (!isDeathAnimating && !isIdling && !isShootingAnimating)
+            if (!isIdling && !isShootingAnimating)
             {
                 foreach (var block in blocks)
                 {
@@ -246,7 +246,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     facingDirection = Vector2.UnitX;
                 }
             }
-            animationMove.Update(gameTime);
         }
 
         private void AddBullet(List<Sprite> sprites)

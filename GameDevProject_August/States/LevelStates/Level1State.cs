@@ -40,6 +40,7 @@ namespace GameDevProject_August.States.LevelStates
                 new Minotaur(minotaurMoveTexture, minotaurCastTexture, minotaurIdleTexture, glitchDeathTexture, new Vector2(1085,566), new Vector2(285,71), 354, 115)
                 {
                     Speed = 11f,
+
                 },
 
                 new Porcupine(porcupineMoveTexture, glitchDeathTexture)

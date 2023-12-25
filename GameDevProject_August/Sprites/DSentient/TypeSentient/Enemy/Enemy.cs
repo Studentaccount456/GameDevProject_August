@@ -34,7 +34,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         protected int numberOfCodeToFall = 0;
 
-        protected Movement Movement = new Movement()
+        protected Uniaxial_Movement Movement = new Uniaxial_Movement()
         {
             Direction = Direction.Right
         };
@@ -42,7 +42,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
 
 
-        public Enemy(Texture2D texture, Texture2D deathTexture) : base(texture)
+        public Enemy(Texture2D moveTexture, Texture2D deathTexture) : base(moveTexture)
         {
             DeathTexture = deathTexture;
 
@@ -66,6 +66,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(192, 128, 64, 64)));
             animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 192, 64, 64)));
             #endregion
+
+            animationMove = new Animation(AnimationType.Move, moveTexture);
+            animationMove.fps = 8;
         }
 
         protected void GlitchDeathInit(GameTime gameTime, Sprite sprite, int pieceOfCodeToFall)
@@ -171,7 +174,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         protected void Move(GameTime gameTime, List<Block> blocks)
         {
-            UniqueMovingRules(gameTime, blocks);
+            if (!isDeathAnimating)
+            {
+                UniqueMovingRules(gameTime, blocks);
+            }
+            animationMove.Update(gameTime);
 
             Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
         }

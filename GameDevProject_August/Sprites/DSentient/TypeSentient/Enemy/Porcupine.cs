@@ -22,8 +22,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             // Standard walks right
             #region MoveAnimation
-            animationMove = new Animation(AnimationType.Move, moveTexture);
-            animationMove.fps = 8;
             animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 57, 48)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(96, 0, 57, 48)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(192, 0, 57, 48)));
@@ -53,8 +51,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
         }
 
-        if (!isDeathAnimating)
-        {
             if (Movement.Direction == Direction.Left)
             {
                 Velocity.X -= Speed;
@@ -65,8 +61,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 Velocity.X += Speed;
                 facingDirection = Vector2.UnitX;
             }
-        }
-            animationMove.Update(gameTime);
         }
 
         private void PorcupineHitBoxFunct()

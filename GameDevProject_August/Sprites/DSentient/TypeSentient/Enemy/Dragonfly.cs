@@ -24,8 +24,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             // Standard walks right
             #region MoveAnimation
-            animationMove = new Animation(AnimationType.Move, moveTexture);
-            animationMove.fps = 8;
             animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 51, 42)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(96, 0, 51, 42)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(192, 0, 51, 42)));
@@ -62,8 +60,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 } 
             }
 
-            if (!isDeathAnimating)
-            {
                 if (Movement.Direction == Direction.Up)
                 {
                     Velocity.Y -= Speed;
@@ -72,8 +68,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 {
                     Velocity.Y += Speed;
                 }
-                animationMove.Update(gameTime);
-            }
         }
 
         protected override void UniqueDrawRules(SpriteBatch spriteBatch)

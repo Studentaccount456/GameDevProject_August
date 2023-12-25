@@ -75,7 +75,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
 
             #region MoveAnimation
-            animationMove = new Animation(AnimationType.Move, moveTexture);
+            animationMove.fps = 12;
             animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 54, 51)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(96, 0, 54, 51)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(192, 0, 54, 51)));
@@ -257,7 +257,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
         {
-            if (!isDeathAnimating && _enemySpotted && canSeeEnemy)
+            if (_enemySpotted && canSeeEnemy)
             {
                 foreach (var block in blocks)
                 {
@@ -277,7 +277,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     Velocity.X += Speed;
                     facingDirection = Vector2.UnitX;
                 }
-                animationMove.Update(gameTime);
             }
         }
 
