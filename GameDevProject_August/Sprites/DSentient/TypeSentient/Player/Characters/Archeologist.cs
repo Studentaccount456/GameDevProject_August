@@ -3,6 +3,7 @@ using GameDevProject_August.AnimationClasses.AnimationMethods;
 using GameDevProject_August.Levels;
 using GameDevProject_August.Levels.BlockTypes;
 using GameDevProject_August.Models;
+using GameDevProject_August.Models.Movement;
 using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
@@ -452,11 +453,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
             {
                 if (facingDirectionIndicator == false)
                 {
-                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, false);
+                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, Direction.Left);
                 }
                 else if (facingDirectionIndicator == true)
                 {
-                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, true);
+                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, Direction.Right);
                 }
                 if (animationDictionary["DeathAnimation"].IsAnimationComplete)
                 {
@@ -468,11 +469,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
             {
                 if (facingDirectionIndicator == true)
                 {
-                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, true);
+                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, Direction.Right);
                 }
                 else if (facingDirectionIndicator == false)
                 {
-                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, false);
+                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, Direction.Left);
                 }
                 if (animationDictionary["AttackAnimation"].IsAnimationComplete)
                 {
@@ -481,47 +482,47 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
             }
             else if (hasJumped && facingDirectionIndicator == true && !isMovingDown)
             {
-                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, true);
+                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, Direction.Right);
             }
             else if (hasJumped && facingDirectionIndicator == false && !isMovingDown)
             {
-                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, false);
+                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, Direction.Left);
             }
             else if (isMovingLeft)
             {
-                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, false);
+                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, Direction.Left);
             }
             else if (isMovingRight)
             {
-                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, true);
+                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, Direction.Right);
             }
             else if (isIdling)
             {
                 if (facingDirectionIndicator == true)
                 {
-                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, true);
+                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, Direction.Right);
                 }
                 else if (facingDirectionIndicator == false)
                 {
-                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, false);
+                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, Direction.Left);
                 }
             }
 
             else if (facingDirectionIndicator == true && standStillNoIdle == true && !isShootingAnimating || facingDirectionIndicator == true && !isShootingAnimating && !isMovingDown || facingDirectionIndicator == true && !isShootingAnimating && isMovingUp)
             {
-                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, true);
+                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, Direction.Right);
             }
             else if (facingDirectionIndicator == false && standStillNoIdle == true && !isShootingAnimating || facingDirectionIndicator == false && !isShootingAnimating && isMovingUp || facingDirectionIndicator == false && !isShootingAnimating && !isMovingDown)
             {
-                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, false);
+                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, Direction.Left);
             }
             else if (facingDirectionIndicator == true && isMovingDown && !hasJumped)
             {
-                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), true);
+                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), Direction.Right);
             }
             else if (facingDirectionIndicator == false && isMovingDown && !hasJumped)
             {
-                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), false);
+                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), Direction.Left);
             }
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
 

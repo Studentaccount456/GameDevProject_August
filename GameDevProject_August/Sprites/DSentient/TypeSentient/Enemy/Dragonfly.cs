@@ -13,16 +13,14 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             : base(moveTexture,deathTexture, startPosition)
         {
             MoveTexture = moveTexture;
-            facingDirectionIndicator = false;
-            numberOfCodeToFall = 2;
-
             Movement.Direction = Direction.Up;
 
             RectangleHitbox = new Rectangle((int)startPosition.X, (int)startPosition.Y, 51, 39);
+            hitboxes.Add("SoftSpot1", RectangleHitbox);
 
-            hitboxes.Add("SoftSpot1",RectangleHitbox);
+            numberOfCodeToFall = 2;
 
-            // Standard walks right
+            // Spritesheet looks to the right
             #region MoveAnimation
             animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 51, 42)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(96, 0, 51, 42)));
@@ -74,10 +72,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         {
             if (Movement.Direction == Direction.Up || Movement.Direction == Direction.Down)
             {
-                spriteBatch.Draw(MoveTexture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                animationHandlerEnemy.DrawAnimation(spriteBatch, animationMove, Position , Direction.Left);
             }
 
-            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
             spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Yellow);
         }
