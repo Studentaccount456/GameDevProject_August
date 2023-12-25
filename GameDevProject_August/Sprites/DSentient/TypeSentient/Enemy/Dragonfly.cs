@@ -16,6 +16,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         {
             MoveTexture = moveTexture;
             facingDirectionIndicator = false;
+            numberOfCodeToFall = 2;
 
             RectangleHitbox = new Rectangle((int)startPosition.X, (int)startPosition.Y, 51, 39);
 

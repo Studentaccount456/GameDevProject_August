@@ -14,6 +14,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             : base(moveTexture, deathTexture)
         {
             MoveTexture = moveTexture;
+            numberOfCodeToFall = 3;
 
             hitboxes.Add("SoftSpot1", RectangleHitbox);
             hitboxes.Add("HardSpot1", AdditionalHitBox_1);

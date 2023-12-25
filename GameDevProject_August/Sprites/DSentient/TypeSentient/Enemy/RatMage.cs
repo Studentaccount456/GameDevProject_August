@@ -46,6 +46,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             MoveTexture = moveTexture;
             ShootTexture = shootTexture;
             IdleTexture = idleTexture;
+            numberOfCodeToFall = 4;
 
             hitboxes.Add("SoftSpot1", RectangleHitbox);
 

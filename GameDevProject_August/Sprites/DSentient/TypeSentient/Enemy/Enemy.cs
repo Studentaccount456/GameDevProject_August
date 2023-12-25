@@ -4,6 +4,7 @@ using GameDevProject_August.Levels;
 using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
+using GameDevProject_August.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -29,6 +30,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         protected Dictionary<string, Rectangle> hitboxes = new Dictionary<string, Rectangle>();
 
         protected AnimationHandler animationHandlerEnemy;
+
+        protected int numberOfCodeToFall = 0;
 
 
 
@@ -75,7 +78,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
                 if (reachedFourthDeathFrame && animationDeath.IsAnimationComplete)
                 {
-                    PieceOfCodeToFall = pieceOfCodeToFall;
+                    PlayingState.whichCodeFalls = pieceOfCodeToFall;
                     IsKilled = true;
                 }
 
@@ -130,7 +133,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     }
                 }
 
-                GlitchDeathInit(gameTime, sprite, 2);
+                GlitchDeathInit(gameTime, sprite, numberOfCodeToFall);
 
                 UpdatePositionAndResetVelocity();
             }

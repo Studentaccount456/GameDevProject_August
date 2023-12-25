@@ -4,6 +4,8 @@ namespace GameDevProject_August.Sprites.DSentient
 {
     public class Sentient : Sprite
     {
+        //protected Texture2D MoveTexture;
+
         // Death
         public bool isDeathAnimating = false;
 

@@ -9,7 +9,9 @@ namespace GameDevProject_August.Sprites
 {
     public class Sprite
     {
+        // Is not only used in moving (RENAME)
         protected Texture2D MoveTexture;
+
         public Vector2 Position;
         public Vector2 Origin;
 
@@ -24,12 +26,6 @@ namespace GameDevProject_August.Sprites
         // False is left en Right is True
         public bool facingDirectionIndicator = true;
         public Vector2 facingDirection = Vector2.UnitX;
-
-
-
-
-        //Dying -> EnemyDeath
-        public int PieceOfCodeToFall;
 
         //Shooting
         public Sprite Parent;

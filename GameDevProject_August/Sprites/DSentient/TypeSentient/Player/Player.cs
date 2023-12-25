@@ -14,10 +14,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
     }
     public class Player : Sentient
     {
-        // ManualMovement
         public Input Input;
 
-        // ManualMovement
         protected KeyboardState _currentKey;
         protected KeyboardState _previousKey;
 

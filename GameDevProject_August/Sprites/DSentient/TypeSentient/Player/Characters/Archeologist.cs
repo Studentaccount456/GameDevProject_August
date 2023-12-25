@@ -177,9 +177,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
 
             ImplementGravity(gameTime);
 
-            //Otherwise code keeps falling
-            PieceOfCodeToFall = 0;
-
             //Moving (Horizontal, Vertical (Including Jump)
             Move(gameTime, blocks);
 
@@ -230,7 +227,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
                 if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Regular_Point && sprite is NotSentient notSentient2)
                 {
                     Score.MainScore++;
-                    PieceOfCodeToFall = 5;
+                    PlayingState.whichCodeFalls = 5;
                     notSentient2.IsDestroyed = true;
                 }
             }

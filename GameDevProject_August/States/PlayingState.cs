@@ -30,6 +30,8 @@ namespace GameDevProject_August.States
         private List<Sprite> spriteList;
         protected float _timer;
         protected int nextLevelIndicator;
+
+        public static int whichCodeFalls = 0;
         protected FallingCode fallingCode;
 
         public static Level Level
@@ -207,7 +209,7 @@ namespace GameDevProject_August.States
             {
                 sprite.Update(gameTime, SpriteList, Level.TileList);
 
-                switch (sprite.PieceOfCodeToFall)
+                switch (whichCodeFalls)
                 {
                     case 1:
                         fallingCode.LetCodeFall(SpriteList, FallingCodeMinotaur);
@@ -227,6 +229,8 @@ namespace GameDevProject_August.States
                     default:
                         break;
                 }
+                // Stop code from falling
+                whichCodeFalls = 0;
             }
 
             PostUpdate(gameTime, SpriteList);
