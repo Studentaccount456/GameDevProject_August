@@ -15,12 +15,13 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             : base(moveTexture, deathTexture, startPosition)
         {
             MoveTexture = moveTexture;
-            numberOfCodeToFall = 3;
 
             hitboxes.Add("SoftSpot1", RectangleHitbox);
             hitboxes.Add("HardSpot1", AdditionalHitBox_1);
 
-            // Standard walks right
+            numberOfCodeToFall = 3;
+
+            // Spritesheet looks to the right
             #region MoveAnimation
             animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 57, 48)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(96, 0, 57, 48)));
@@ -33,12 +34,10 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
             PositionTracker();
+
             Move(gameTime, blocks);
-            PorcupineHitBoxFunct();
 
             CollisionRules(gameTime, sprites);
-
-            UpdatePositionAndResetVelocity();
         }
 
         protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
@@ -63,8 +62,13 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
         }
 
-        private void PorcupineHitBoxFunct()
+        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
         {
+            if (sprite.RectangleHitbox.Intersects(hitbox) && sprite is PlayerBullet playerbullet && isHardSpot == true)
+            {
+                playerbullet.IsDestroyed = true;
+            }
+
             // Update Hitboxes when facingDirection Changes
             int rect2X = (int)Position.X + 42;
             int rect3X = (int)Position.X;
@@ -81,23 +85,15 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             hitboxes["HardSpot1"] = new Rectangle(rect3X, (int)Position.Y, 42, 48);
         }
 
-        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
-        {
-            if (sprite.RectangleHitbox.Intersects(hitbox) && sprite is PlayerBullet playerbullet && isHardSpot == true)
-            {
-                playerbullet.IsDestroyed = true;
-            }
-        }
-
         protected override void UniqueDrawRules(SpriteBatch spriteBatch)
         {
             if (Movement.Direction == Direction.Right)
             {
-                spriteBatch.Draw(MoveTexture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                animationHandlerEnemy.DrawAnimation(spriteBatch, animationMove, Position, Direction.Right);
             }
             else if (Movement.Direction == Direction.Left)
             {
-                spriteBatch.Draw(MoveTexture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                animationHandlerEnemy.DrawAnimation(spriteBatch, animationMove, Position, Direction.Left);
             }
 
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
