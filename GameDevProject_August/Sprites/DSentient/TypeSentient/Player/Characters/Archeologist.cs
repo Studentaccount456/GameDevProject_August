@@ -238,8 +238,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
             {
                 if (block is Block && block is not ThreePointsType && block is not SevenPointsType && block is not InvisibleBlock)
                 {
-                    if (Velocity.X > 0 && IsTouchingLeftBlock(block) && !hasJumped ||
-                        Velocity.X < 0 && IsTouchingRightBlock(block) && !hasJumped)
+                    if ((Velocity.X > 0 && IsTouchingLeftBlock(block) ||
+                        Velocity.X < 0 && IsTouchingRightBlock(block)) && !hasJumped)
                     {
                         Velocity.X = 0;
                     }
@@ -257,14 +257,14 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
                 }
                 else if (block is ThreePointsType)
                 {
-                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && Game1.PlayerScore.MainScore >= 3)
+                    if ((block.BlockRectangle.Intersects(RectangleHitbox) && Game1.PlayerScore.MainScore >= 3))
                     {
                         PlayingState.isNextLevelTrigger = true;
                     }
                 }
                 else if (block is SevenPointsType)
                 {
-                    if ((IsTouchingLeftBlock(block) || IsTouchingTopBlock(block) || IsTouchingTopBlock(block)) && Game1.PlayerScore.MainScore >= 7)
+                    if ((block.BlockRectangle.Intersects(RectangleHitbox) && Game1.PlayerScore.MainScore >= 7))
                     {
                         PlayingState.isNextLevelTrigger = true;
                     }

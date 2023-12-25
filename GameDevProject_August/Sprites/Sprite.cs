@@ -97,44 +97,6 @@ namespace GameDevProject_August.Sprites
             spriteBatch.Draw(staticTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
         }
 
-        //Collision
-        #region Collision
-
-        protected bool IsTouchingLeft(Sprite sprite)
-        {
-            return this.RectangleHitbox.Right + this.Velocity.X > sprite.RectangleHitbox.Left &&
-                   this.RectangleHitbox.Left < sprite.RectangleHitbox.Left &&
-                   this.RectangleHitbox.Bottom > sprite.RectangleHitbox.Top &&
-                   this.RectangleHitbox.Top < sprite.RectangleHitbox.Bottom;
-        }
-
-        protected bool IsTouchingRight(Sprite sprite)
-        {
-            return this.RectangleHitbox.Left + this.Velocity.X < sprite.RectangleHitbox.Right &&
-                   this.RectangleHitbox.Right > sprite.RectangleHitbox.Right &&
-                   this.RectangleHitbox.Bottom > sprite.RectangleHitbox.Top &&
-                   this.RectangleHitbox.Top < sprite.RectangleHitbox.Bottom;
-        }
-
-        protected bool IsTouchingTop(Sprite sprite)
-        {
-            return this.RectangleHitbox.Bottom + this.Velocity.Y > sprite.RectangleHitbox.Top &&
-                   this.RectangleHitbox.Top < sprite.RectangleHitbox.Top &&
-                   this.RectangleHitbox.Right > sprite.RectangleHitbox.Left &&
-                   this.RectangleHitbox.Left < sprite.RectangleHitbox.Right;
-        }
-
-        protected bool IsTouchingBottom(Sprite sprite)
-        {
-            return this.RectangleHitbox.Top + this.Velocity.Y < sprite.RectangleHitbox.Bottom &&
-                   this.RectangleHitbox.Bottom > sprite.RectangleHitbox.Bottom &&
-                   this.RectangleHitbox.Right > sprite.RectangleHitbox.Left &&
-                   this.RectangleHitbox.Left < sprite.RectangleHitbox.Right;
-        }
-
-
-        #endregion
-
         #region CollisionBlock
 
         protected bool IsTouchingLeftBlock(Block block)
@@ -168,8 +130,6 @@ namespace GameDevProject_August.Sprites
                    this.RectangleHitbox.Right > block.BlockRectangle.Left &&
                    this.RectangleHitbox.Left < block.BlockRectangle.Right;
         }
-
         #endregion
-        //Collision
     }
 }
