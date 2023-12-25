@@ -1,22 +1,22 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.Levels;
+using GameDevProject_August.Models.Movement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
     public class Dragonfly : Enemy
     {
-        private bool isMovingUp = true;
-
         public Dragonfly(Texture2D moveTexture, Texture2D deathTexture, Vector2 startPosition)
             : base(moveTexture,deathTexture)
         {
             MoveTexture = moveTexture;
             facingDirectionIndicator = false;
             numberOfCodeToFall = 2;
+
+            Movement.Direction = Direction.Up;
 
             RectangleHitbox = new Rectangle((int)startPosition.X, (int)startPosition.Y, 51, 39);
 
@@ -40,7 +40,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             Move(gameTime, blocks);
 
             CollisionRules(gameTime, sprites);
-
         }
 
         protected override void PositionTracker()
@@ -59,17 +58,17 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             {
                 if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
                 {
-                    isMovingUp = !isMovingUp;
-                }
+                    Movement.flipDirectionUpAndDown();
+                } 
             }
 
             if (!isDeathAnimating)
             {
-                if (isMovingUp)
+                if (Movement.Direction == Direction.Up)
                 {
                     Velocity.Y -= Speed;
                 }
-                if (!isMovingUp)
+                if (Movement.Direction == Direction.Down)
                 {
                     Velocity.Y += Speed;
                 }
@@ -79,7 +78,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         protected override void UniqueDrawRules(SpriteBatch spriteBatch)
         {
-            if (isMovingUp || !isMovingUp)
+            if (Movement.Direction == Direction.Up || Movement.Direction == Direction.Down)
             {
                 spriteBatch.Draw(MoveTexture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }

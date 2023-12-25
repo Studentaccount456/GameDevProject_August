@@ -1,6 +1,7 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.AnimationClasses.AnimationMethods;
 using GameDevProject_August.Levels;
+using GameDevProject_August.Models.Movement;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -60,7 +61,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             AdditionalHitBox_1 = new Rectangle((int)Position.X, (int)Position.Y, 0, 0);
 
-            facingDirectionIndicator = false;
+            Movement.Direction = Direction.Left;
 
             isIdling = true;
 
@@ -159,7 +160,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 animationIdle.Update(gameTime);
             }
 
-            if (facingDirectionIndicator || !facingDirectionIndicator && !isShootingAnimating)
+            if (Movement.Direction == Direction.Right || Movement.Direction == Direction.Left && !isShootingAnimating)
             {
                 hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 54, 49);
             }
@@ -213,7 +214,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 {
                     hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 76, 42);
                     //Tongue
-                    if (facingDirectionIndicator)
+                    if (Movement.Direction == Direction.Right)
                     {
                         hitboxes["SoftSpot2"] = new Rectangle((int)Position.X + 45, (int)Position.Y - 30, 27, 30);
                     }
@@ -226,7 +227,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 {
                     hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 69, 42);
                     //Tongue
-                    if (facingDirectionIndicator)
+                    if (Movement.Direction == Direction.Right)
                     {
                         hitboxes["SoftSpot2"] = new Rectangle((int)Position.X + 63, (int)Position.Y - 15, 9, 15);
                     }
@@ -262,16 +263,16 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 {
                     if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
                     {
-                        facingDirectionIndicator = !facingDirectionIndicator;
+                        Movement.flipDirectionLeftAndRight();
                     }
                 }
 
-                if (!facingDirectionIndicator)
+                if (Movement.Direction == Direction.Left)
                 {
                     Velocity.X -= Speed;
                     facingDirection = -Vector2.UnitX;
                 }
-                if (facingDirectionIndicator)
+                if (Movement.Direction == Direction.Right)
                 {
                     Velocity.X += Speed;
                     facingDirection = Vector2.UnitX;
@@ -288,20 +289,20 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
             else if (isShootingAnimating)
             {
-                if (facingDirectionIndicator == true)
+                if (Movement.Direction == Direction.Right)
                 {
                     spriteBatch.Draw(ShootTexture, Position + OffsetAnimation, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
                 }
-                else if (facingDirectionIndicator == false)
+                else if (Movement.Direction == Direction.Left)
                 {
                     spriteBatch.Draw(ShootTexture, Position + OffsetAnimation, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
                 }
             }
-            else if (facingDirectionIndicator)
+            else if (Movement.Direction == Direction.Right)
             {
                 spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
-            else if (!facingDirectionIndicator)
+            else if (Movement.Direction == Direction.Left)
             {
                 spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }

@@ -1,5 +1,6 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.Levels;
+using GameDevProject_August.Models.Movement;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -48,18 +49,18 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         {
             if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
             {
-                facingDirectionIndicator = !facingDirectionIndicator;
+               Movement.flipDirectionLeftAndRight();
             }
         }
 
         if (!isDeathAnimating)
         {
-            if (!facingDirectionIndicator)
+            if (Movement.Direction == Direction.Left)
             {
                 Velocity.X -= Speed;
                 facingDirection = -Vector2.UnitX;
             }
-            else if (facingDirectionIndicator)
+            else if (Movement.Direction == Direction.Right)
             {
                 Velocity.X += Speed;
                 facingDirection = Vector2.UnitX;
@@ -74,7 +75,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             int rect2X = (int)Position.X + 42;
             int rect3X = (int)Position.X;
 
-            if (!facingDirectionIndicator)
+            if (Movement.Direction == Direction.Left)
             {
                 // Left-Facing direction 
                 rect2X -= 42;
@@ -96,11 +97,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         protected override void UniqueDrawRules(SpriteBatch spriteBatch)
         {
-            if (facingDirectionIndicator == true)
+            if (Movement.Direction == Direction.Right)
             {
                 spriteBatch.Draw(MoveTexture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
-            else if (facingDirectionIndicator == false)
+            else if (Movement.Direction == Direction.Left)
             {
                 spriteBatch.Draw(MoveTexture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }

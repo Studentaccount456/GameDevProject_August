@@ -1,5 +1,6 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.Levels;
+using GameDevProject_August.Models.Movement;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
@@ -156,12 +157,12 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 isShootingAnimating = true;
                 if (EnemyPosition.X > Position.X)
                 {
-                    facingDirectionIndicator = true;
+                    Movement.Direction = Direction.Right;
                     facingDirection = Vector2.UnitX;
                 }
                 else if (EnemyPosition.X < Position.X)
                 {
-                    facingDirectionIndicator = false;
+                    Movement.Direction = Direction.Left;
                     facingDirection = -Vector2.UnitX;
                 }
                 if (shootDelay > 0.75f && !isDeathAnimating)
@@ -230,16 +231,16 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 {
                     if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
                     {
-                        facingDirectionIndicator = !facingDirectionIndicator;
+                        Movement.flipDirectionLeftAndRight();
                     }
                 }
 
-                if (!facingDirectionIndicator)
+                if (Movement.Direction == Direction.Left)
                 {
                     Velocity.X -= Speed;
                     facingDirection = -Vector2.UnitX;
                 }
-                if (facingDirectionIndicator)
+                if (Movement.Direction == Direction.Right)
                 {
                     Velocity.X += Speed;
                     facingDirection = Vector2.UnitX;
@@ -264,31 +265,31 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         {
             if (isShootingAnimating)
             {
-                if (facingDirectionIndicator == true)
+                if (Movement.Direction == Direction.Right)
                 {
                     spriteBatch.Draw(ShootTexture, Position, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
                 }
-                else if (facingDirectionIndicator == false)
+                else if (Movement.Direction == Direction.Left)
                 {
                     spriteBatch.Draw(ShootTexture, Position, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
                 }
             }
             else if (isIdling)
             {
-                if (facingDirectionIndicator == true)
+                if (Movement.Direction == Direction.Right)
                 {
                     spriteBatch.Draw(IdleTexture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
                 }
-                else if (facingDirectionIndicator == false)
+                else if (Movement.Direction == Direction.Left)
                 {
                     spriteBatch.Draw(IdleTexture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
                 }
             }
-            else if (facingDirectionIndicator == true && !isIdling)
+            else if (Movement.Direction == Direction.Right && !isIdling)
             {
                 spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
-            else if (facingDirectionIndicator == false && !isIdling)
+            else if (Movement.Direction == Direction.Left && !isIdling)
             {
                 spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }

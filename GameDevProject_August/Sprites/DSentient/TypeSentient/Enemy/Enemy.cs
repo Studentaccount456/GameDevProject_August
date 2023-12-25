@@ -1,6 +1,7 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.AnimationClasses.AnimationMethods;
 using GameDevProject_August.Levels;
+using GameDevProject_August.Models.Movement;
 using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
@@ -32,6 +33,12 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         protected AnimationHandler animationHandlerEnemy;
 
         protected int numberOfCodeToFall = 0;
+
+        protected Movement Movement = new Movement()
+        {
+            Direction = Direction.Right
+        };
+
 
 
 
