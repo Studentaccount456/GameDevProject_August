@@ -4,6 +4,7 @@ using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
 {
@@ -11,8 +12,20 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
     {
         Archeologist
     }
-    public class Player
+    public class Player : Sentient
     {
+        // ManualMovement
+        public Input Input;
+
+        // ManualMovement
+        protected KeyboardState _currentKey;
+        protected KeyboardState _previousKey;
+
+        public Player(Texture2D texture) : base(texture)
+        {
+
+        }
+
         public Player()
         {
 

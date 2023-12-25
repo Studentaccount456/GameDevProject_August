@@ -30,8 +30,6 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
-            _previousKey = _currentKey;
-            _currentKey = Keyboard.GetState();
 
             foreach (var sprite in sprites)
             {

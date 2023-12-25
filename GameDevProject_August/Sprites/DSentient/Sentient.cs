@@ -17,5 +17,9 @@ namespace GameDevProject_August.Sprites.DSentient
         public Sentient(Texture2D texture) : base(texture)
         {
         }
+
+        public Sentient()
+        {
+        }
     }
 }

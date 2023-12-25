@@ -9,12 +9,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
     public class Porcupine : Enemy
     {
-        private Animation animationMove;
 
         public Porcupine(Texture2D moveTexture, Texture2D deathTexture)
             : base(moveTexture, deathTexture)
         {
-            _texture = moveTexture;
+            MoveTexture = moveTexture;
 
             hitboxes.Add("SoftSpot1", RectangleHitbox);
             hitboxes.Add("HardSpot1", AdditionalHitBox_1);
@@ -98,11 +97,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         {
             if (facingDirectionIndicator == true)
             {
-                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(MoveTexture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
             else if (facingDirectionIndicator == false)
             {
-                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(MoveTexture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
 
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);

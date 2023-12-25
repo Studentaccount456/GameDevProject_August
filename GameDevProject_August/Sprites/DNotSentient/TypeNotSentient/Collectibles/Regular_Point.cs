@@ -10,14 +10,14 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectible
         public Regular_Point(Texture2D texture)
             : base(texture)
         {
-            _texture = texture;
+            MoveTexture = texture;
         }
 
         public override Rectangle RectangleHitbox
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
+                return new Rectangle((int)Position.X, (int)Position.Y, MoveTexture.Width, MoveTexture.Height);
             }
         }
     }

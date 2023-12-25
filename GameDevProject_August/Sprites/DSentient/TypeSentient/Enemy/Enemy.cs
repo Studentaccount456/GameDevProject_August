@@ -16,6 +16,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         protected Animation animationDeath;
 
+        protected Animation animationMove;
+
         public Rectangle DeathRectangle;
 
         public Rectangle AdditionalHitBox_1;
@@ -27,8 +29,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         protected Dictionary<string, Rectangle> hitboxes = new Dictionary<string, Rectangle>();
 
         protected AnimationHandler animationHandlerEnemy;
-
-        protected Animation animationMove;
 
 
 

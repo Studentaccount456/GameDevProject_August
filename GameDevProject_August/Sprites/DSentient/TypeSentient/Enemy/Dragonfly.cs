@@ -14,7 +14,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         public Dragonfly(Texture2D moveTexture, Texture2D deathTexture, Vector2 startPosition)
             : base(moveTexture,deathTexture)
         {
-            _texture = moveTexture;
+            MoveTexture = moveTexture;
             facingDirectionIndicator = false;
 
             RectangleHitbox = new Rectangle((int)startPosition.X, (int)startPosition.Y, 51, 39);
@@ -80,7 +80,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         {
             if (isMovingUp || !isMovingUp)
             {
-                spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(MoveTexture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
 
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);

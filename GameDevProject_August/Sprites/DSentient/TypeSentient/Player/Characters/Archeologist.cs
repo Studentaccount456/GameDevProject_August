@@ -15,7 +15,7 @@ using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
 {
-    public class Archeologist : Sentient
+    public class Archeologist : Player
     {
         public Score Score;
 
@@ -94,7 +94,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
 
             hasJumped = true;
 
-            OriginBullet = new Vector2(30, _texture.Height / 2 - 2);
+            OriginBullet = new Vector2(30, MoveTexture.Height / 2 - 2);
 
 
 

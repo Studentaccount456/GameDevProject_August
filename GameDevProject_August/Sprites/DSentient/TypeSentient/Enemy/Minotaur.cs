@@ -10,7 +10,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
     public class Minotaur : Enemy
     {
-        private Animation animationMove;
         private Animation animationIdle;
         private Animation animationShoot;
 
@@ -49,7 +48,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                         Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
             : base(moveTexture,deathTexture)
         {
-            _texture = moveTexture;
+            MoveTexture = moveTexture;
             ShootTexture = shootTexture;
             IdleTexture = idleTexture;
 
@@ -299,11 +298,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
             else if (facingDirectionIndicator)
             {
-                spriteBatch.Draw(_texture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
             else if (!facingDirectionIndicator)
             {
-                spriteBatch.Draw(_texture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
 
             spriteBatch.DrawRectangle(AdditionalHitBox_1, Color.Blue);

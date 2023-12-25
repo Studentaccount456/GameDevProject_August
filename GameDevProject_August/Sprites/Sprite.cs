@@ -9,7 +9,7 @@ namespace GameDevProject_August.Sprites
 {
     public class Sprite
     {
-        protected Texture2D _texture;
+        protected Texture2D MoveTexture;
         public Vector2 Position;
         public Vector2 Origin;
 
@@ -18,17 +18,8 @@ namespace GameDevProject_August.Sprites
         // Shooting
         public Vector2 OriginBullet;
 
-
-
         // Moving
         public Vector2 Velocity;
-
-        // ManualMovement
-        public Input Input;
-
-        // ManualMovement
-        protected KeyboardState _currentKey;
-        protected KeyboardState _previousKey;
 
         // False is left en Right is True
         public bool facingDirectionIndicator = true;
@@ -92,7 +83,12 @@ namespace GameDevProject_August.Sprites
 
         public Sprite(Texture2D texture)
         {
-            _texture = texture;
+            MoveTexture = texture;
+            Origin = Vector2.Zero;
+        }
+
+        public Sprite()
+        {
             Origin = Vector2.Zero;
         }
 
@@ -108,7 +104,7 @@ namespace GameDevProject_August.Sprites
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(MoveTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
         }
 
         //Collision

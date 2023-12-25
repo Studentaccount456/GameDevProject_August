@@ -12,7 +12,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
     {
         public EnemyBullet Bullet;
 
-        private Animation animationMove;
         private Animation animationIdle;
         private Animation animationShoot;
 
@@ -44,14 +43,14 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
             : base(moveTexture, deathTexture)
         {
-            _texture = moveTexture;
+            MoveTexture = moveTexture;
             ShootTexture = shootTexture;
             IdleTexture = idleTexture;
 
             hitboxes.Add("SoftSpot1", RectangleHitbox);
 
             EnemyPosition = new Vector2(0, 0);
-            OriginBullet = new Vector2(60, _texture.Height / 2);
+            OriginBullet = new Vector2(60, MoveTexture.Height / 2);
 
             _offsetPositonSpotter = offsetPositionSpotter;
             _widthSpotter = widthSpotter;
@@ -284,11 +283,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
             else if (facingDirectionIndicator == true && !isIdling)
             {
-                spriteBatch.Draw(_texture, Position + new Vector2(0, -4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
             else if (facingDirectionIndicator == false && !isIdling)
             {
-                spriteBatch.Draw(_texture, Position + new Vector2(0, -4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
 
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
