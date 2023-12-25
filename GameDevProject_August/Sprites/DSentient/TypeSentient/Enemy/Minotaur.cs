@@ -52,7 +52,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             _texture = moveTexture;
             ShootTexture = shootTexture;
             IdleTexture = idleTexture;
-            DeathTexture = deathTexture;
 
             hitboxes.Add("SoftSpot1", RectangleHitbox);
             hitboxes.Add("SoftSpot2", AdditionalHitBox_1);
@@ -283,15 +282,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
         }
 
-
-
-        public override void Draw(SpriteBatch spriteBatch)
+        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
         {
-            if (isDeathAnimating)
-            {
-                AnimationHandler_Minotaur.DrawAnimation(spriteBatch, animationDeath, Position, true);
-            }
-            else if (isIdling)
+            if (isIdling)
             {
                 spriteBatch.Draw(IdleTexture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }

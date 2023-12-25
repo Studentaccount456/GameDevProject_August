@@ -47,7 +47,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             _texture = moveTexture;
             ShootTexture = shootTexture;
             IdleTexture = idleTexture;
-            DeathTexture = deathTexture;
 
             hitboxes.Add("SoftSpot1", RectangleHitbox);
 
@@ -261,22 +260,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             sprites.Add(bullet);
         }
 
-
-
-        public override void Draw(SpriteBatch spriteBatch)
+        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
         {
-            if (isDeathAnimating)
-            {
-                if (reachedFourthDeathFrame)
-                {
-                    spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-                }
-                else
-                {
-                    spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-                }
-            }
-            else if (isShootingAnimating)
+            if (isShootingAnimating)
             {
                 if (facingDirectionIndicator == true)
                 {
@@ -311,7 +297,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
             spriteBatch.DrawRectangle(EnemySpotter, Color.Red);
             spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Yellow);
-
         }
     }
 }

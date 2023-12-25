@@ -16,7 +16,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             : base(moveTexture,deathTexture)
         {
             _texture = moveTexture;
-            DeathTexture = deathTexture;
             facingDirectionIndicator = false;
 
             RectangleHitbox = new Rectangle((int)startPosition.X, (int)startPosition.Y, 51, 39);
@@ -79,22 +78,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
         }
 
-
-
-        public override void Draw(SpriteBatch spriteBatch)
+        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
         {
-            if (isDeathAnimating)
-            {
-                if (reachedFourthDeathFrame)
-                {
-                    spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-                }
-                else
-                {
-                    spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-                }
-            }
-            else if (isMovingUp || !isMovingUp)
+            if (isMovingUp || !isMovingUp)
             {
                 spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }

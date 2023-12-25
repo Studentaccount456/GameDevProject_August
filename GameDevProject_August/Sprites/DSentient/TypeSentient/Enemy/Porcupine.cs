@@ -15,7 +15,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             : base(moveTexture, deathTexture)
         {
             _texture = moveTexture;
-            DeathTexture = deathTexture;
 
             hitboxes.Add("SoftSpot1", RectangleHitbox);
             hitboxes.Add("HardSpot1", AdditionalHitBox_1);
@@ -89,20 +88,17 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             hitboxes["HardSpot1"] = new Rectangle(rect3X, (int)Position.Y, 42, 48);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
         {
-            if (isDeathAnimating)
+            if (sprite.RectangleHitbox.Intersects(hitbox) && sprite is PlayerBullet playerbullet && isHardSpot == true)
             {
-                if (reachedFourthDeathFrame)
-                {
-                    spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-                }
-                else
-                {
-                    spriteBatch.Draw(DeathTexture, Position, animationDeath.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-                }
+                playerbullet.IsDestroyed = true;
             }
-            else if (facingDirectionIndicator == true)
+        }
+
+        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
+        {
+            if (facingDirectionIndicator == true)
             {
                 spriteBatch.Draw(_texture, Position, animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
             }
@@ -116,15 +112,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
             spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Black);
             spriteBatch.DrawRectangle(hitboxes["HardSpot1"], Color.White);
-
-        }
-
-        protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
-        {
-            if (sprite.RectangleHitbox.Intersects(hitbox) && sprite is PlayerBullet playerbullet && isHardSpot == true)
-            {
-                playerbullet.IsDestroyed = true;
-            }
         }
     }
 }

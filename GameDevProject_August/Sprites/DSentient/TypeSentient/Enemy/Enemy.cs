@@ -1,4 +1,5 @@
 ﻿using GameDevProject_August.AnimationClasses;
+using GameDevProject_August.AnimationClasses.AnimationMethods;
 using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
@@ -24,9 +25,15 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         protected Dictionary<string, Rectangle> hitboxes = new Dictionary<string, Rectangle>();
 
+        protected AnimationHandler animationHandlerEnemy;
+
 
         public Enemy(Texture2D texture, Texture2D deathTexture) : base(texture)
         {
+            DeathTexture = deathTexture;
+
+            animationHandlerEnemy = new AnimationHandler();
+
             //Height is 44 for each frame
             #region Death
             animationDeath = new Animation(AnimationType.Death, deathTexture);
@@ -132,6 +139,20 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             // Necessary When not override Rectanglehitbox with getter
             PositionXRectangleHitbox = (int)Position.X;
             PositionYRectangleHitbox = (int)Position.Y;
+        }
+
+        protected abstract void UniqueDrawRules(SpriteBatch spriteBatch);
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (isDeathAnimating)
+            {
+                animationHandlerEnemy.DrawAnimation(spriteBatch, animationDeath, Position, true);
+            } 
+            else
+            {
+                UniqueDrawRules(spriteBatch);
+            }
         }
     }
 
