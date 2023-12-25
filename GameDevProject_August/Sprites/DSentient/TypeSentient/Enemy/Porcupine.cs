@@ -42,32 +42,30 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             UpdatePositionAndResetVelocity();
         }
 
-        private void Move(GameTime gameTime, List<Block> blocks)
+        protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
         {
-            foreach (var block in blocks)
+        foreach (var block in blocks)
+        {
+            if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
             {
-                if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
-                {
-                    facingDirectionIndicator = !facingDirectionIndicator;
-                }
+                facingDirectionIndicator = !facingDirectionIndicator;
             }
+        }
 
-            if (!isDeathAnimating)
+        if (!isDeathAnimating)
+        {
+            if (!facingDirectionIndicator)
             {
-                if (!facingDirectionIndicator)
-                {
-                    Velocity.X -= Speed;
-                    facingDirection = -Vector2.UnitX;
-                }
-                else if (facingDirectionIndicator)
-                {
-                    Velocity.X += Speed;
-                    facingDirection = Vector2.UnitX;
-                }
-
-                Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
-                animationMove.Update(gameTime);
+                Velocity.X -= Speed;
+                facingDirection = -Vector2.UnitX;
             }
+            else if (facingDirectionIndicator)
+            {
+                Velocity.X += Speed;
+                facingDirection = Vector2.UnitX;
+            }
+        }
+            animationMove.Update(gameTime);
         }
 
         private void PorcupineHitBoxFunct()
@@ -88,7 +86,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             hitboxes["HardSpot1"] = new Rectangle(rect3X, (int)Position.Y, 42, 48);
         }
 
-        protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
+        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
         {
             if (sprite.RectangleHitbox.Intersects(hitbox) && sprite is PlayerBullet playerbullet && isHardSpot == true)
             {

@@ -2,14 +2,13 @@
 using GameDevProject_August.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
     public class Dragonfly : Enemy
     {
-        private Animation animationMove;
-
         private bool isMovingUp = true;
 
         public Dragonfly(Texture2D moveTexture, Texture2D deathTexture, Vector2 startPosition)
@@ -48,12 +47,12 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 51, 39);
         }
 
-        protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
+        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
         {
 
         }
 
-        private void Move(GameTime gameTime, List<Block> blocks)
+        protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
         {
             foreach (var block in blocks)
             {
@@ -73,7 +72,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 {
                     Velocity.Y += Speed;
                 }
-                Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
                 animationMove.Update(gameTime);
             }
         }

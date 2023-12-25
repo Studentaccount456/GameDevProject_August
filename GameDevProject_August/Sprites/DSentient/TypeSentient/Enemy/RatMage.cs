@@ -117,7 +117,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         }
 
 
-        protected override void SpecificCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
+        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
         {
             if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist)
             {
@@ -220,7 +220,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             // Necessary When not override Rectanglehitbox with getter
         }
 
-        private void Move(GameTime gameTime, List<Block> blocks)
+        protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
         {
             if (!isDeathAnimating && !isIdling && !isShootingAnimating)
             {
@@ -242,10 +242,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     Velocity.X += Speed;
                     facingDirection = Vector2.UnitX;
                 }
-
-                Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
-                animationMove.Update(gameTime);
             }
+            animationMove.Update(gameTime);
         }
 
         private void AddBullet(List<Sprite> sprites)

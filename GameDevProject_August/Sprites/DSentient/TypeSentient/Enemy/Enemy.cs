@@ -1,5 +1,6 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.AnimationClasses.AnimationMethods;
+using GameDevProject_August.Levels;
 using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
@@ -26,6 +27,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         protected Dictionary<string, Rectangle> hitboxes = new Dictionary<string, Rectangle>();
 
         protected AnimationHandler animationHandlerEnemy;
+
+        protected Animation animationMove;
+
 
 
         public Enemy(Texture2D texture, Texture2D deathTexture) : base(texture)
@@ -111,7 +115,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                         IsHardSpot = true;
                     }
                     {
-                        SpecificCollisionRules(sprite, hitbox.Value, IsHardSpot);
+                        UniqueCollisionRules(sprite, hitbox.Value, IsHardSpot);
 
                         if (sprite.RectangleHitbox.Intersects(hitbox.Value) && sprite is PlayerBullet && sprite is NotSentient notSentient && hitbox.Key.StartsWith("SoftSpot"))
                         {
@@ -132,7 +136,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
         }
 
-        protected abstract void SpecificCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot);
+        protected abstract void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot);
 
         protected virtual void PositionTracker()
         {
@@ -154,6 +158,17 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 UniqueDrawRules(spriteBatch);
             }
         }
+
+        protected void Move(GameTime gameTime, List<Block> blocks)
+        {
+            UniqueMovingRules(gameTime, blocks);
+
+            Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
+        }
+
+        protected abstract void UniqueMovingRules(GameTime gameTime, List<Block> blocks);
+
+
     }
 
 
