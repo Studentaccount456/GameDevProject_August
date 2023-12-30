@@ -39,6 +39,12 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             Direction = Direction.Right
         };
 
+        protected Animation animationIdle;
+        public Texture2D IdleTexture;
+        protected bool isIdling = false;
+        protected const float IdleTimeoutDuration = 5.0f;
+        protected float idleTimer = 0f;
+
 
 
 
@@ -80,6 +86,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             Move(gameTime, blocks);
 
             CollisionRules(gameTime, sprites);
+
+            IdleFunctionality(gameTime);
         }
 
 
@@ -192,7 +200,10 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         protected abstract void UniqueMovingRules(GameTime gameTime, List<Block> blocks);
 
+        protected virtual void IdleFunctionality(GameTime gameTime)
+        {
 
+        }
     }
 
 

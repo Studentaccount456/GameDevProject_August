@@ -10,12 +10,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
 {
     public class Minotaur : MeleeEnemy
     {
-        private Animation animationIdle;
-        public Texture2D IdleTexture;
-        private bool isIdling = false;
-        private const float IdleTimeoutDuration = 5.0f;
-        private float idleTimer = 0f;
-
         private Vector2 OffsetAnimation;
 
         public Minotaur(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture,
@@ -77,8 +71,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
         {
             base.Update(gameTime, sprites, blocks);
 
-            IdleFunctionality(gameTime);
-
             RemoveEnemySpotterSpotted(_enemySpotted);
         }
 
@@ -88,7 +80,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             // Necessary When not override Rectanglehitbox with getter
         }
 
-        private void IdleFunctionality(GameTime gameTime)
+        protected override void IdleFunctionality(GameTime gameTime)
         {
             idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 

@@ -11,14 +11,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
 {
     public class RatMage : ShootingEnemy
     {
-        private Animation animationIdle;
-
-        public Texture2D IdleTexture;
-
-        private bool isIdling = false;
-        private const float IdleTimeoutDuration = 5.0f;
-        private float idleTimer = 0f;
-
         public RatMage(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture,
             Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
             : base(moveTexture, deathTexture, shootTexture, startPosition, offsetPositionSpotter, widthSpotter, heightSpotter)
@@ -72,8 +64,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
             base.Update(gameTime, sprites, blocks);
-
-            IdleFunctionality(gameTime);
         }
 
 
@@ -91,7 +81,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
 
         }
 
-        private void IdleFunctionality(GameTime gameTime)
+        protected override void IdleFunctionality(GameTime gameTime)
         {
             idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
