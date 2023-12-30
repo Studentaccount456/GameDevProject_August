@@ -25,6 +25,10 @@ namespace GameDevProject_August.AnimationClasses.AnimationMethods
             {
                 spriteBatch.Draw(animationToRun.SpriteSheetTexture, Position, animationToRun.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
+            else
+            {
+                spriteBatch.Draw(animationToRun.SpriteSheetTexture, Position, animationToRun.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+            }
         }
 
         public void DrawAnimation(SpriteBatch spriteBatch, Animation animationToRun, Vector2 Position, Direction direction, Vector2 offsetAnimation)

@@ -12,7 +12,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEn
     {
         public Texture2D AttackTexture;
         protected Animation animationAttack;
-        protected Vector2 offsetAnimationAttack = new Vector2(0,0);
+        protected Vector2 offsetAnimationAttack = new Vector2(0, 0);
 
         protected bool isAttackingAnimating = false;
 
@@ -27,14 +27,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEn
         {
             if (isAttackingAnimating && !isDeathAnimating)
             {
-                if (Movement.Direction == Direction.Right)
-                {
-                    animationHandlerEnemy.DrawAnimation(spriteBatch, animationAttack, Position + offsetAnimationAttack, Direction.Right);
-                }
-                else if (Movement.Direction == Direction.Left)
-                {
-                    animationHandlerEnemy.DrawAnimation(spriteBatch, animationAttack, Position + offsetAnimationAttack, Direction.Left);
-                }
+                animationHandlerEnemy.DrawAnimation(spriteBatch, animationAttack, Position + offsetAnimationAttack, Movement.Direction);
             }
             else
             {
