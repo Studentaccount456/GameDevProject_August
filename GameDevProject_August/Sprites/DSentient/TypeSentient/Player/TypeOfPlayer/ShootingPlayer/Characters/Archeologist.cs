@@ -1,5 +1,4 @@
 ﻿using GameDevProject_August.AnimationClasses;
-using GameDevProject_August.Models.Movement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -17,15 +16,16 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlay
             }
         }
 
-
         public Archeologist(Texture2D moveTexture, Texture2D attackTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture)
             : base(moveTexture, attackTexture, idleTexture, deathTexture, standStillTexture, jumpTexture, bowDownTexture)
         {
+            DeathAnimationOffset = new Vector2(0, 5);
+            BowDownAnimationOffset = new Vector2(0, 4);
 
             // Standard walks right
             #region MoveAnimation
             animationMove.AddFrame(0, 0, 30, 50);
-            animationMove.AddConsistentFramesWithStartCoördinates(128,0,128,0,28,50,3);
+            animationMove.AddConsistentFramesWithStartCoördinates(128, 0, 128, 0, 28, 50, 3);
             animationMove.AddFrame(512, 0, 30, 50);
             animationMove.AddConsistentFramesWithStartCoördinates(640, 0, 128, 0, 34, 50, 3);
             #endregion
@@ -70,86 +70,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlay
                                 { "IdleAnimation", animationIdle },
                                 { "JumpAnimation", animationJump }
                                 };
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            if (isDeathAnimating)
-            {
-                if (Movement.Direction_X == Direction_X.Left)
-                {
-                    AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, Direction.Left);
-                }
-                else if (Movement.Direction_X == Direction_X.Right)
-                {
-                    AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, Direction.Right);
-                }
-                if (animationDictionary["DeathAnimation"].IsAnimationComplete)
-                {
-                    HasDied = true;
-                    IsKilled = true;
-                }
-            }
-            else if (isAttackingAnimating)
-            {
-                if (Movement.Direction_X == Direction_X.Right)
-                {
-                    AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, Direction.Right);
-                }
-                else if (Movement.Direction_X == Direction_X.Left)
-                {
-                    AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, Direction.Left);
-                }
-                if (animationDictionary["AttackAnimation"].IsAnimationComplete)
-                {
-                    isAttackingAnimating = false;
-                }
-            }
-            else if (hasJumped && Movement.Direction_X == Direction_X.Right && Movement.Direction_Y == Direction_Y.None)
-            {
-                AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, Direction.Right);
-            }
-            else if (hasJumped && Movement.Direction_X == Direction_X.Left && Movement.Direction_Y == Direction_Y.None)
-            {
-                AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, Direction.Left);
-            }
-            else if (Movement.Direction_X == Direction_X.Left && isCharacterMoving == true)
-            {
-                AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, Direction.Left);
-            }
-            else if (Movement.Direction_X == Direction_X.Right && isCharacterMoving == true)
-            {
-                AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, Direction.Right);
-            }
-            else if (isIdling)
-            {
-                if (Movement.Direction_X == Direction_X.Right && isCharacterMoving == false)
-                {
-                    AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, Direction.Right);
-                }
-                else if (Movement.Direction_X == Direction_X.Left && isCharacterMoving == false)
-                {
-                    AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, Direction.Left);
-                }
-            }
-
-            else if (Movement.Direction_X == Direction_X.Right && standStillNoIdle == true && !isAttackingAnimating || Movement.Direction_X == Direction_X.Right && !isAttackingAnimating && Movement.Direction_Y == Direction_Y.None || Movement.Direction_X == Direction_X.Right && !isAttackingAnimating && Movement.Direction_Y == Direction_Y.Up)
-            {
-                AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, Direction.Right);
-            }
-            else if (Movement.Direction_X == Direction_X.Left && standStillNoIdle == true && !isAttackingAnimating || Movement.Direction_X == Direction_X.Left && !isAttackingAnimating && Movement.Direction_Y == Direction_Y.Up || Movement.Direction_X == Direction_X.Left && !isAttackingAnimating && Movement.Direction_Y == Direction_Y.None)
-            {
-                AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, Direction.Left);
-            }
-            else if (Movement.Direction_X == Direction_X.Right && Movement.Direction_Y == Direction_Y.Down && !hasJumped)
-            {
-                AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), Direction.Right);
-            }
-            else if (Movement.Direction_X == Direction_X.Left && Movement.Direction_Y == Direction_Y.Down && !hasJumped)
-            {
-                AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), Direction.Left);
-            }
-            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
         }
     }
 }

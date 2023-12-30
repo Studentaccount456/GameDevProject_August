@@ -36,6 +36,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
         protected Animation animationIdle;
         protected Animation animationShoot;
         protected Animation animationJump;
+        protected Vector2 DeathAnimationOffset = new Vector2(0,0);
+        protected Vector2 BowDownAnimationOffset = new Vector2(0, 0);
 
         public Dictionary<string, Animation> animationDictionary;
 
@@ -70,8 +72,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
         protected bool isAttackingAnimating = false;
 
 
-        public Player(Texture2D moveTexture, Texture2D attackTexture, Texture2D idleTexture, Texture2D deathTexture, 
-                      Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture) 
+        public Player(Texture2D moveTexture, Texture2D attackTexture, Texture2D idleTexture, Texture2D deathTexture,
+                      Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture)
                       : base(moveTexture)
         {
             hasJumped = true;
@@ -97,14 +99,14 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
 
         }
 
-        public Sprite makePlayer(Input input, TypePlayer typePlayer, Texture2D moveTexture, Texture2D attackTexture, Texture2D idleTexture, 
+        public Sprite makePlayer(Input input, TypePlayer typePlayer, Texture2D moveTexture, Texture2D attackTexture, Texture2D idleTexture,
                                  Texture2D deathTexture, Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture,
                                  Vector2 startPosition, float speed, PlayerBullet bullet, Score score, bool facingDirectionIndicator)
         {
             switch (typePlayer)
             {
                 case TypePlayer.Archeologist:
-                    return new Archeologist(moveTexture, attackTexture, idleTexture, deathTexture, standStillTexture, jumpTexture, bowDownTexture) 
+                    return new Archeologist(moveTexture, attackTexture, idleTexture, deathTexture, standStillTexture, jumpTexture, bowDownTexture)
                     {
                         Input = input,
                         Position = startPosition,
@@ -119,7 +121,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
             }
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks) 
+        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
             ImplementGravity(gameTime);
 
@@ -143,10 +145,10 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
                 if (Input == null)
                     return;
 
-                if (!Keyboard.GetState().IsKeyDown((Keys)Input.Left) 
-                    && !Keyboard.GetState().IsKeyDown((Keys)Input.Right) 
-                    && !Keyboard.GetState().IsKeyDown((Keys)Input.Down) 
-                    && !Keyboard.GetState().IsKeyDown((Keys)Input.Up))
+                if (!Keyboard.GetState().IsKeyDown((Keys)Input.Left)
+                    && !Keyboard.GetState().IsKeyDown((Keys)Input.Right)
+                    && !Keyboard.GetState().IsKeyDown((Keys)Input.Up)
+                    && !Keyboard.GetState().IsKeyDown((Keys)Input.Down))
                 {
                     isCharacterMoving = false;
                     Movement.Direction_Y = Direction_Y.None;
@@ -154,6 +156,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
                 else if (isDeathAnimating)
                 {
                     Velocity = Vector2.Zero;
+                }
+                else if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
+                {
+                    Movement.Direction_Y = Direction_Y.Down;
+                    isCharacterMoving = false;
                 }
                 else
                 {
@@ -192,10 +199,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
                             }
                         }
                     }
-                    if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
-                    {
-                        Movement.Direction_Y = Direction_Y.Down;
-                    }
                     if (Keyboard.GetState().IsKeyDown((Keys)Input.Left) && !hasJumped)
                     {
                         Velocity.X -= Speed;
@@ -211,7 +214,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
                     }
                 }
             }
-            Position = Vector2.Clamp(Position, new Vector2(0, 0 + RectangleHitbox.Height / 4), 
+            Position = Vector2.Clamp(Position, new Vector2(0, 0 + RectangleHitbox.Height / 4),
                        new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height));
 
             animationMove.Update(gameTime);
@@ -282,6 +285,61 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
                 }
             }
         }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (isDeathAnimating)
+            {
+                AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position + DeathAnimationOffset, (Direction)Movement.Direction_X);
+
+                if (animationDictionary["DeathAnimation"].IsAnimationComplete)
+                {
+                    HasDied = true;
+                    IsKilled = true;
+                }
+            }
+
+            else if (isAttackingAnimating)
+            {
+                AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, (Direction)Movement.Direction_X);
+
+                if (animationDictionary["AttackAnimation"].IsAnimationComplete)
+                {
+                    isAttackingAnimating = false;
+                }
+            }
+
+            else if (hasJumped && Movement.Direction_Y == Direction_Y.None)
+            {
+                AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, (Direction)Movement.Direction_X);
+            }
+
+            else if (isCharacterMoving == true)
+            {
+                AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, (Direction)Movement.Direction_X);
+            }
+
+            else if (isIdling)
+            {
+                if (isCharacterMoving == false)
+                {
+                    AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, (Direction)Movement.Direction_X);
+                }
+            }
+
+            else if (standStillNoIdle == true && Movement.Direction_Y != Direction_Y.Down)
+            {
+                AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, (Direction)Movement.Direction_X);
+            }
+
+            else if (Movement.Direction_Y == Direction_Y.Down && !hasJumped)
+            {
+                AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + BowDownAnimationOffset, (Direction)Movement.Direction_X);
+            }
+
+            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
+        }
+
 
         protected void IdleFunctionality(GameTime gameTime)
         {
