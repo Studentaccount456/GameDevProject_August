@@ -1,5 +1,4 @@
-﻿using GameDevProject_August.Levels;
-using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
+﻿using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -23,12 +22,17 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlay
             OriginBullet = new Vector2(30, MoveTexture.Height / 2 - 2);
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
+        //LSP
+        public ShootingPlayer()
         {
-            base.Update(gameTime, sprites, blocks);
 
+        }
+
+        protected override void AttackFunctionality(GameTime gameTime, List<Sprite> sprites)
+        {
             ShootingFunctionality(gameTime, sprites);
         }
+
 
         private void ShootingFunctionality(GameTime gameTime, List<Sprite> sprites)
         {

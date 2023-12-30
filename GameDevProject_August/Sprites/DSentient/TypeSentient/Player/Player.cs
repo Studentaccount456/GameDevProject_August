@@ -134,6 +134,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
             DeathTriggered(gameTime);
 
             UpdatePositionAndResetVelocity();
+
+            AttackFunctionality(gameTime, sprites);
         }
 
 
@@ -381,6 +383,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
             {
                 animationDeath.Update(gameTime);
             }
+        }
+
+        protected virtual void AttackFunctionality(GameTime gameTime, List<Sprite> sprites)
+        {
+
         }
     }
 }

@@ -9,6 +9,7 @@ using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Fal
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal;
 using GameDevProject_August.Sprites.DSentient;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlayer.ShootingPlayer;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlayer.ShootingPlayer.Characters;
 using GameDevProject_August.States.LevelStates;
 using GameDevProject_August.States.MenuStates;
@@ -135,7 +136,7 @@ namespace GameDevProject_August.States
             Random = new Random();
             LoadContent(content);
 
-            player_1 = new Player();
+            player_1 = new Archeologist();
 
             fallingCode = new FallingCode(playerBullet);
         }

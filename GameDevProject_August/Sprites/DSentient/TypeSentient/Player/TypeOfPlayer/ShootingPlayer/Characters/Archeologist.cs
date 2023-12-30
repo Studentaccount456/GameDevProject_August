@@ -71,5 +71,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlay
                                 { "JumpAnimation", animationJump }
                                 };
         }
+
+        // LSP
+        public Archeologist()
+        {
+
+        }
     }
 }
