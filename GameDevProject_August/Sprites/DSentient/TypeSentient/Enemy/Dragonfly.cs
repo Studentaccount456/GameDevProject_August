@@ -10,7 +10,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
     public class Dragonfly : Enemy
     {
         public Dragonfly(Texture2D moveTexture, Texture2D deathTexture, Vector2 startPosition)
-            : base(moveTexture,deathTexture, startPosition)
+            : base(moveTexture, deathTexture, startPosition)
         {
             MoveTexture = moveTexture;
             Movement.Direction = Direction.Up;
@@ -46,24 +46,24 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
                 {
                     Movement.flipDirectionUpAndDown();
-                } 
+                }
             }
 
-                if (Movement.Direction == Direction.Up)
-                {
-                    Velocity.Y -= Speed;
-                }
-                if (Movement.Direction == Direction.Down)
-                {
-                    Velocity.Y += Speed;
-                }
+            if (Movement.Direction == Direction.Up)
+            {
+                Velocity.Y -= Speed;
+            }
+            if (Movement.Direction == Direction.Down)
+            {
+                Velocity.Y += Speed;
+            }
         }
 
         protected override void UniqueDrawRules(SpriteBatch spriteBatch)
         {
             if (Movement.Direction == Direction.Up || Movement.Direction == Direction.Down)
             {
-                animationHandlerEnemy.DrawAnimation(spriteBatch, animationMove, Position , Direction.Left);
+                animationHandlerEnemy.DrawAnimation(spriteBatch, animationMove, Position, Direction.Left);
             }
 
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);

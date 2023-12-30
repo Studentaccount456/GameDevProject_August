@@ -172,7 +172,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             if (isDeathAnimating)
             {
                 animationHandlerEnemy.DrawAnimation(spriteBatch, animationDeath, Position, Direction.Right);
-            } 
+            }
             else
             {
                 UniqueDrawRules(spriteBatch);

@@ -33,13 +33,13 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
         {
-        foreach (var block in blocks)
-        {
-            if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
+            foreach (var block in blocks)
             {
-               Movement.flipDirectionLeftAndRight();
+                if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
+                {
+                    Movement.flipDirectionLeftAndRight();
+                }
             }
-        }
 
             if (Movement.Direction == Direction.Left)
             {
