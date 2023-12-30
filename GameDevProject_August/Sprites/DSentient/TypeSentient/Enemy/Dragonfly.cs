@@ -29,16 +29,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             #endregion
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
-        {
-            PositionTracker();
-
-            Move(gameTime, blocks);
-
-            CollisionRules(gameTime, sprites);
-        }
-
-        protected override void PositionTracker()
+        protected override void HitBoxTracker()
         {
             hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 51, 39);
         }

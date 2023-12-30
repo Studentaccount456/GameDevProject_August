@@ -71,19 +71,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
-            PositionTracker();
-
-            InitializeEnemySpotter(Position, _offsetPositonSpotter, _widthSpotter, _heightSpotter);
+            base.Update(gameTime, sprites, blocks);
 
             IdleFunctionality(gameTime);
-
-            Move(gameTime, blocks);
-
-            ShootingFunctionality(gameTime, sprites);
-
-            CollisionRules(gameTime, sprites);
-
-            UpdatePositionAndResetVelocity();
         }
 
 
@@ -118,7 +108,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
         }
 
 
-        protected override void PositionTracker()
+        protected override void HitBoxTracker()
         {
             hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 60, 49);
             // Necessary When not override Rectanglehitbox with getter

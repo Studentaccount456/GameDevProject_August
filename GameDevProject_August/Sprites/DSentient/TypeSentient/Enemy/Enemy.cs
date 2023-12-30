@@ -73,6 +73,16 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             Position = StartPosition;
         }
 
+        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
+        {
+            HitBoxTracker();
+
+            Move(gameTime, blocks);
+
+            CollisionRules(gameTime, sprites);
+        }
+
+
         protected void GlitchDeathInit(GameTime gameTime, Sprite sprite, int pieceOfCodeToFall)
         {
             if (isDeathAnimating)
@@ -118,6 +128,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             Velocity = Vector2.Zero;
         }
 
+        abstract protected void HitBoxTracker();
+
         protected virtual void CollisionRules(GameTime gameTime, List<Sprite> sprites)
         {
             foreach (var sprite in sprites)
@@ -152,13 +164,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         }
 
         protected abstract void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot);
-
-        protected virtual void PositionTracker()
-        {
-            // Necessary When not override Rectanglehitbox with getter
-            PositionXRectangleHitbox = (int)Position.X;
-            PositionYRectangleHitbox = (int)Position.Y;
-        }
 
         protected abstract void UniqueDrawRules(SpriteBatch spriteBatch);
 

@@ -31,15 +31,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             #endregion
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
-        {
-            PositionTracker();
-
-            Move(gameTime, blocks);
-
-            CollisionRules(gameTime, sprites);
-        }
-
         protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
         {
         foreach (var block in blocks)
@@ -101,6 +92,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
             spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Black);
             spriteBatch.DrawRectangle(hitboxes["HardSpot1"], Color.White);
+        }
+
+        protected override void HitBoxTracker()
+        {
+            //throw new System.NotImplementedException();
         }
     }
 }

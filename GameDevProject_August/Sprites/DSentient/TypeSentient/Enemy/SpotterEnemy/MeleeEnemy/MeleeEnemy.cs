@@ -32,6 +32,13 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             animationShoot = new Animation(AnimationType.Attack, shootTexture);
         }
 
+        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
+        {
+            base.Update(gameTime, sprites, blocks);
+
+            MeleeAttackImplementation(gameTime);
+        }
+
         protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
         {
             throw new NotImplementedException();

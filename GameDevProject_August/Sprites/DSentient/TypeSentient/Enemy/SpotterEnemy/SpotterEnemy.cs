@@ -27,6 +27,13 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             InitializeEnemySpotter(Position, _offsetPositonSpotter, _widthSpotter, _heightSpotter);
         }
 
+        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
+        {
+            base.Update(gameTime, sprites, blocks);
+
+            InitializeEnemySpotter(Position, _offsetPositonSpotter, _widthSpotter, _heightSpotter);
+        }
+
         protected void AttackCooldown(GameTime gameTime)
         {
             // Attack cooldown
@@ -58,6 +65,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
         }
 
         protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void HitBoxTracker()
         {
             throw new NotImplementedException();
         }
