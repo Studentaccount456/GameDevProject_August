@@ -1,4 +1,6 @@
-﻿namespace GameDevProject_August.Levels.Level1
+﻿using GameDevProject_August.Interfaces;
+
+namespace GameDevProject_August.Levels.Level1
 {
     public class Level1 : Level
     {

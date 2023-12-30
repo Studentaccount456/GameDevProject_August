@@ -1,4 +1,5 @@
-﻿using GameDevProject_August.Levels.BlockTypes;
+﻿using GameDevProject_August.Interfaces;
+using GameDevProject_August.Levels.BlockTypes;
 using Microsoft.Xna.Framework;
 
 namespace GameDevProject_August.Levels.Level1

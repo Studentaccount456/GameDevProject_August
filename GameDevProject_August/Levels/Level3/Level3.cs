@@ -1,4 +1,6 @@
-﻿namespace GameDevProject_August.Levels.Level3
+﻿using GameDevProject_August.Interfaces;
+
+namespace GameDevProject_August.Levels.Level3
 {
     internal class Level3 : Level
     {
