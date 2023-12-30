@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.PassiveEnemy
 {
     public class Dragonfly : Enemy
     {

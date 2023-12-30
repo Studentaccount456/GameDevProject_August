@@ -109,7 +109,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEn
         protected override void HitBoxTracker()
         {
             hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 63, 44);
-            // Necessary When not override Rectanglehitbox with getter
         }
 
         public override void Draw(SpriteBatch spriteBatch)
