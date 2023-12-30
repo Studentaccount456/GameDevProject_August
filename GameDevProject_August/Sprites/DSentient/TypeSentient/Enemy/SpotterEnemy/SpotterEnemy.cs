@@ -12,19 +12,15 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
         protected const float AttackCooldownDuration = 1f;
         protected float AttackCooldownTimer = 0f;
 
+        public Rectangle EnemySpotter;
         protected int _widthSpotter, _heightSpotter;
         protected Vector2 _offsetPositonSpotter;
-
-        public Rectangle EnemySpotter;
-
 
         public SpotterEnemy(Texture2D moveTexture, Texture2D deathTexture, Vector2 StartPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter) : base(moveTexture, deathTexture, StartPosition)
         {
             _offsetPositonSpotter = offsetPositionSpotter;
             _widthSpotter = widthSpotter;
             _heightSpotter = heightSpotter;
-
-            InitializeEnemySpotter(Position, _offsetPositonSpotter, _widthSpotter, _heightSpotter);
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
@@ -54,22 +50,22 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             // Otherwise put in update so the Position updates so the spot can be reset
         }
 
-        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
         {
             throw new NotImplementedException();
         }
 
+        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void HitBoxTracker()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
         }

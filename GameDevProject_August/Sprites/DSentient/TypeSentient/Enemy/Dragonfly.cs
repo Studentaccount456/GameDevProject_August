@@ -12,7 +12,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         public Dragonfly(Texture2D moveTexture, Texture2D deathTexture, Vector2 startPosition)
             : base(moveTexture, deathTexture, startPosition)
         {
-            MoveTexture = moveTexture;
             Movement.Direction = Direction.Up;
 
             RectangleHitbox = new Rectangle((int)startPosition.X, (int)startPosition.Y, 51, 39);
@@ -27,16 +26,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             animationMove.AddFrame(new AnimationFrame(new Rectangle(192, 0, 51, 42)));
             animationMove.AddFrame(new AnimationFrame(new Rectangle(288, 0, 51, 42)));
             #endregion
-        }
-
-        protected override void HitBoxTracker()
-        {
-            hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 51, 39);
-        }
-
-        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
-        {
-
         }
 
         protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
@@ -57,6 +46,16 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             {
                 Velocity.Y += Speed;
             }
+        }
+
+        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
+        {
+
+        }
+
+        protected override void HitBoxTracker()
+        {
+            hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 51, 39);
         }
 
         protected override void UniqueDrawRules(SpriteBatch spriteBatch)

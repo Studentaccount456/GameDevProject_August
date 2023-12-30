@@ -10,12 +10,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
     public class Porcupine : Enemy
     {
-
         public Porcupine(Texture2D moveTexture, Texture2D deathTexture, Vector2 startPosition)
             : base(moveTexture, deathTexture, startPosition)
         {
-            MoveTexture = moveTexture;
-
             hitboxes.Add("SoftSpot1", RectangleHitbox);
             hitboxes.Add("HardSpot1", AdditionalHitBox_1);
 
@@ -59,7 +56,10 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             {
                 playerbullet.IsDestroyed = true;
             }
+        }
 
+        protected override void HitBoxTracker()
+        {
             // Update Hitboxes when facingDirection Changes
             int rect2X = (int)Position.X + 42;
             int rect3X = (int)Position.X;
@@ -92,11 +92,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
             spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Black);
             spriteBatch.DrawRectangle(hitboxes["HardSpot1"], Color.White);
-        }
-
-        protected override void HitBoxTracker()
-        {
-            //throw new System.NotImplementedException();
         }
     }
 }

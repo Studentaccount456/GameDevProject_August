@@ -14,15 +14,18 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
     abstract public class Enemy : Sentient
     {
+        protected Animation animationMove;
+
+        protected Uniaxial_Movement Movement = new Uniaxial_Movement()
+        {
+            Direction = Direction.Right
+        };
+
         protected Texture2D DeathTexture;
 
         protected Animation animationDeath;
 
-        protected Animation animationMove;
-
         public Rectangle DeathRectangle;
-
-        public Rectangle AdditionalHitBox_1;
 
         protected int deathAnimationFrameIndex = 0;
 
@@ -30,23 +33,21 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         protected Dictionary<string, Rectangle> hitboxes = new Dictionary<string, Rectangle>();
 
+        public Rectangle AdditionalHitBox_1;
+
+        protected Animation animationIdle;
+
+        public Texture2D IdleTexture;
+
+        protected bool isIdling = false;
+
+        protected const float IdleTimeoutDuration = 5.0f;
+
+        protected float idleTimer = 0f;
+
         protected AnimationHandler animationHandlerEnemy;
 
         protected int numberOfCodeToFall = 0;
-
-        protected Uniaxial_Movement Movement = new Uniaxial_Movement()
-        {
-            Direction = Direction.Right
-        };
-
-        protected Animation animationIdle;
-        public Texture2D IdleTexture;
-        protected bool isIdling = false;
-        protected const float IdleTimeoutDuration = 5.0f;
-        protected float idleTimer = 0f;
-
-
-
 
         public Enemy(Texture2D moveTexture, Texture2D deathTexture, Vector2 StartPosition) : base(moveTexture)
         {
@@ -90,6 +91,76 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             IdleFunctionality(gameTime);
         }
 
+        protected void Move(GameTime gameTime, List<Block> blocks)
+        {
+            if (!isDeathAnimating)
+            {
+                UniqueMovingRules(gameTime, blocks);
+            }
+            animationMove.Update(gameTime);
+
+            Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
+        }
+
+        protected abstract void UniqueMovingRules(GameTime gameTime, List<Block> blocks);
+
+        protected void UpdatePositionAndResetVelocity()
+        {
+            Position += Velocity;
+
+            Velocity = Vector2.Zero;
+        }
+
+        protected virtual void CollisionRules(GameTime gameTime, List<Sprite> sprites)
+        {
+            foreach (var sprite in sprites)
+            {
+                foreach (var hitbox in hitboxes)
+                {
+                    bool IsHardSpot = false;
+                    if (hitbox.Key.StartsWith("HardSpot"))
+                    {
+                        IsHardSpot = true;
+                    }
+                    {
+                        UniqueCollisionRules(sprite, hitbox.Value, IsHardSpot);
+
+                        if (sprite.RectangleHitbox.Intersects(hitbox.Value) && sprite is PlayerBullet && sprite is NotSentient notSentient && hitbox.Key.StartsWith("SoftSpot"))
+                        {
+                            Game1.PlayerScore.MainScore++;
+                            isDeathAnimating = true;
+                            notSentient.IsDestroyed = true;
+                        }
+                        if (sprite.RectangleHitbox.Intersects(hitbox.Value) && sprite is Archeologist archeologist)
+                        {
+                            archeologist.isDeathAnimating = true;
+                        }
+                    }
+                }
+
+                GlitchDeathInit(gameTime, sprite, numberOfCodeToFall);
+
+                UpdatePositionAndResetVelocity();
+            }
+        }
+
+        protected abstract void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot);
+
+        abstract protected void HitBoxTracker();
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (isDeathAnimating)
+            {
+                animationHandlerEnemy.DrawAnimation(spriteBatch, animationDeath, Position, Direction.Right);
+            }
+            else
+            {
+                UniqueDrawRules(spriteBatch);
+            }
+        }
+
+        protected abstract void UniqueDrawRules(SpriteBatch spriteBatch);
 
         protected void GlitchDeathInit(GameTime gameTime, Sprite sprite, int pieceOfCodeToFall)
         {
@@ -128,77 +199,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             }
         }
-
-        protected void UpdatePositionAndResetVelocity()
-        {
-            Position += Velocity;
-
-            Velocity = Vector2.Zero;
-        }
-
-        abstract protected void HitBoxTracker();
-
-        protected virtual void CollisionRules(GameTime gameTime, List<Sprite> sprites)
-        {
-            foreach (var sprite in sprites)
-            {
-                foreach (var hitbox in hitboxes)
-                {
-                    bool IsHardSpot = false;
-                    if (hitbox.Key.StartsWith("HardSpot"))
-                    {
-                        IsHardSpot = true;
-                    }
-                    {
-                        UniqueCollisionRules(sprite, hitbox.Value, IsHardSpot);
-
-                        if (sprite.RectangleHitbox.Intersects(hitbox.Value) && sprite is PlayerBullet && sprite is NotSentient notSentient && hitbox.Key.StartsWith("SoftSpot"))
-                        {
-                            Game1.PlayerScore.MainScore++;
-                            isDeathAnimating = true;
-                            notSentient.IsDestroyed = true;
-                        }
-                        if (sprite.RectangleHitbox.Intersects(hitbox.Value) && sprite is Archeologist archeologist)
-                        {
-                            archeologist.isDeathAnimating = true;
-                        }
-                    }
-                }
-
-                GlitchDeathInit(gameTime, sprite, numberOfCodeToFall);
-
-                UpdatePositionAndResetVelocity();
-            }
-        }
-
-        protected abstract void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot);
-
-        protected abstract void UniqueDrawRules(SpriteBatch spriteBatch);
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            if (isDeathAnimating)
-            {
-                animationHandlerEnemy.DrawAnimation(spriteBatch, animationDeath, Position, Direction.Right);
-            }
-            else
-            {
-                UniqueDrawRules(spriteBatch);
-            }
-        }
-
-        protected void Move(GameTime gameTime, List<Block> blocks)
-        {
-            if (!isDeathAnimating)
-            {
-                UniqueMovingRules(gameTime, blocks);
-            }
-            animationMove.Update(gameTime);
-
-            Position = Vector2.Clamp(Position, new Vector2(0 - RectangleHitbox.Width, 0 + RectangleHitbox.Height / 2), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height / 2));
-        }
-
-        protected abstract void UniqueMovingRules(GameTime gameTime, List<Block> blocks);
 
         protected virtual void IdleFunctionality(GameTime gameTime)
         {

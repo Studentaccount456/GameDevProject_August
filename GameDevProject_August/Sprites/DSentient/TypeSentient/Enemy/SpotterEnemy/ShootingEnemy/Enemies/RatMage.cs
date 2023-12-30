@@ -1,7 +1,6 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.Levels;
 using GameDevProject_August.Models.Movement;
-using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,7 +14,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
             : base(moveTexture, deathTexture, shootTexture, startPosition, offsetPositionSpotter, widthSpotter, heightSpotter)
         {
-            MoveTexture = moveTexture;
             IdleTexture = idleTexture;
 
             numberOfCodeToFall = 4;
@@ -61,49 +59,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             #endregion
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
-        {
-            base.Update(gameTime, sprites, blocks);
-        }
-
-
-        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
-        {
-            if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist)
-            {
-                enemySpotted = true;
-                EnemyPosition.X = sprite.Position.X;
-            }
-            if (!sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist)
-            {
-                enemySpotted = false;
-            }
-
-        }
-
-        protected override void IdleFunctionality(GameTime gameTime)
-        {
-            idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (idleTimer >= IdleTimeoutDuration + 1f && !isShootingAnimating)
-            {
-                isIdling = false;
-                idleTimer = 0;
-            }
-            else if (idleTimer >= IdleTimeoutDuration && !isShootingAnimating)
-            {
-                isIdling = true;
-                animationIdle.Update(gameTime);
-            }
-        }
-
-
-        protected override void HitBoxTracker()
-        {
-            hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 60, 49);
-            // Necessary When not override Rectanglehitbox with getter
-        }
-
         protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
         {
             if (!isIdling && !isShootingAnimating)
@@ -127,6 +82,26 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
                     facingDirection = Vector2.UnitX;
                 }
             }
+        }
+
+        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
+        {
+            if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist)
+            {
+                enemySpotted = true;
+                EnemyPosition.X = sprite.Position.X;
+            }
+            if (!sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist)
+            {
+                enemySpotted = false;
+            }
+
+        }
+
+        protected override void HitBoxTracker()
+        {
+            hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 60, 49);
+            // Necessary When not override Rectanglehitbox with getter
         }
 
         protected override void UniqueDrawRules(SpriteBatch spriteBatch)
@@ -166,6 +141,22 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
             spriteBatch.DrawRectangle(EnemySpotter, Color.Red);
             spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Yellow);
+        }
+
+        protected override void IdleFunctionality(GameTime gameTime)
+        {
+            idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (idleTimer >= IdleTimeoutDuration + 1f && !isShootingAnimating)
+            {
+                isIdling = false;
+                idleTimer = 0;
+            }
+            else if (idleTimer >= IdleTimeoutDuration && !isShootingAnimating)
+            {
+                isIdling = true;
+                animationIdle.Update(gameTime);
+            }
         }
     }
 }

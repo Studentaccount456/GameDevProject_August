@@ -16,7 +16,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
                         Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
             : base(moveTexture, shootTexture, deathTexture, startPosition, offsetPositionSpotter, widthSpotter, heightSpotter)
         {
-            MoveTexture = moveTexture;
             IdleTexture = idleTexture;
             numberOfCodeToFall = 1;
 
@@ -74,11 +73,80 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             RemoveEnemySpotterSpotted(_enemySpotted);
         }
 
+        protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
+        {
+            if (_enemySpotted && canSeeEnemy)
+            {
+                foreach (var block in blocks)
+                {
+                    if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
+                    {
+                        Movement.flipDirectionLeftAndRight();
+                    }
+                }
+
+                if (Movement.Direction == Direction.Left)
+                {
+                    Velocity.X -= Speed;
+                    facingDirection = -Vector2.UnitX;
+                }
+                if (Movement.Direction == Direction.Right)
+                {
+                    Velocity.X += Speed;
+                    facingDirection = Vector2.UnitX;
+                }
+            }
+        }
+
+        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
+        {
+            if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist && canSeeEnemy)
+            {
+                _enemySpotted = true;
+                isIdling = false;
+            }
+        }
+
         protected override void HitBoxTracker()
         {
             hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 63, 44);
             // Necessary When not override Rectanglehitbox with getter
         }
+
+        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
+        {
+            if (isIdling)
+            {
+                spriteBatch.Draw(IdleTexture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+            }
+            else if (isShootingAnimating)
+            {
+                if (Movement.Direction == Direction.Right)
+                {
+                    spriteBatch.Draw(ShootTexture, Position + OffsetAnimation, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                }
+                else if (Movement.Direction == Direction.Left)
+                {
+                    spriteBatch.Draw(ShootTexture, Position + OffsetAnimation, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                }
+            }
+            else if (Movement.Direction == Direction.Right)
+            {
+                spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+            }
+            else if (Movement.Direction == Direction.Left)
+            {
+                spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+            }
+
+            spriteBatch.DrawRectangle(AdditionalHitBox_1, Color.Blue);
+            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
+            spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
+            spriteBatch.DrawRectangle(EnemySpotter, Color.Yellow);
+            spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Black);
+            spriteBatch.DrawRectangle(hitboxes["SoftSpot2"], Color.White);
+        }
+
 
         protected override void IdleFunctionality(GameTime gameTime)
         {
@@ -167,74 +235,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             {
                 EnemySpotter = Rectangle.Empty;
             }
-        }
-
-        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
-        {
-            if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist && canSeeEnemy)
-            {
-                _enemySpotted = true;
-                isIdling = false;
-            }
-        }
-
-        protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
-        {
-            if (_enemySpotted && canSeeEnemy)
-            {
-                foreach (var block in blocks)
-                {
-                    if (block.BlockRectangle.Intersects(hitboxes["SoftSpot1"]) && block.EnemyBehavior == true)
-                    {
-                        Movement.flipDirectionLeftAndRight();
-                    }
-                }
-
-                if (Movement.Direction == Direction.Left)
-                {
-                    Velocity.X -= Speed;
-                    facingDirection = -Vector2.UnitX;
-                }
-                if (Movement.Direction == Direction.Right)
-                {
-                    Velocity.X += Speed;
-                    facingDirection = Vector2.UnitX;
-                }
-            }
-        }
-
-        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
-        {
-            if (isIdling)
-            {
-                spriteBatch.Draw(IdleTexture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
-            }
-            else if (isShootingAnimating)
-            {
-                if (Movement.Direction == Direction.Right)
-                {
-                    spriteBatch.Draw(ShootTexture, Position + OffsetAnimation, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-                }
-                else if (Movement.Direction == Direction.Left)
-                {
-                    spriteBatch.Draw(ShootTexture, Position + OffsetAnimation, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
-                }
-            }
-            else if (Movement.Direction == Direction.Right)
-            {
-                spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-            }
-            else if (Movement.Direction == Direction.Left)
-            {
-                spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
-            }
-
-            spriteBatch.DrawRectangle(AdditionalHitBox_1, Color.Blue);
-            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
-            spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
-            spriteBatch.DrawRectangle(EnemySpotter, Color.Yellow);
-            spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Black);
-            spriteBatch.DrawRectangle(hitboxes["SoftSpot2"], Color.White);
         }
     }
 }

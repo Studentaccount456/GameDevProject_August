@@ -6,39 +6,30 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnemy.ShootingEnemy
 {
     public class ShootingEnemy : SpotterEnemy
     {
         public EnemyBullet Bullet;
-        public Texture2D ShootTexture;
-        protected bool isShootingAnimating = false;
-
-        protected bool enemySpotted;
-
-        public Vector2 EnemyPosition;
-
-        protected float shootDelay;
-
         protected Vector2 OriginBullet;
+        public Texture2D ShootTexture;
+
+        protected bool isShootingAnimating = false;
+        protected float shootDelay;
 
         protected Animation animationShoot;
 
-
-
+        public Vector2 EnemyPosition;
+        protected bool enemySpotted;
 
         public ShootingEnemy(Texture2D moveTexture, Texture2D deathTexture, Texture2D shootTexture, Vector2 StartPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter) : base(moveTexture, deathTexture, StartPosition, offsetPositionSpotter, widthSpotter, heightSpotter)
         {
             ShootTexture = shootTexture;
+            animationShoot = new Animation(AnimationType.Attack, shootTexture);
 
             EnemyPosition = new Vector2(0, 0);
             OriginBullet = new Vector2(60, MoveTexture.Height / 2);
-            animationShoot = new Animation(AnimationType.Attack, shootTexture);
-
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
@@ -46,21 +37,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             base.Update(gameTime, sprites, blocks);
 
             ShootingFunctionality(gameTime, sprites);
-        }
-
-        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
-        {
-            throw new NotImplementedException();
         }
 
         protected void ShootingFunctionality(GameTime gameTime, List<Sprite> sprites)
@@ -98,7 +74,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
                 {
                     Shoot(sprites);
                 }
-
             }
         }
 
@@ -119,6 +94,21 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             bullet.Parent = this;
 
             sprites.Add(bullet);
+        }
+
+        protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
+        {
+            throw new NotImplementedException();
         }
     }
 }
