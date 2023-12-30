@@ -3,7 +3,7 @@ using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy;
-using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.ShootingEnemy;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnemy.ShootingEnemy.Enemies;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;

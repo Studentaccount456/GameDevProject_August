@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.ShootingEnemy
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnemy.ShootingEnemy.Enemies
 {
     public class RatMage : ShootingEnemy
     {

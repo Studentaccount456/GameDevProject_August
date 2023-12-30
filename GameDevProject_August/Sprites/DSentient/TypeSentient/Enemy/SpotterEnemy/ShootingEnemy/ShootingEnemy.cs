@@ -10,27 +10,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.ShootingEnemy
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnemy.ShootingEnemy
 {
-    public class ShootingEnemy : Enemy
+    public class ShootingEnemy : SpotterEnemy
     {
         public EnemyBullet Bullet;
         public Texture2D ShootTexture;
         protected bool isShootingAnimating = false;
-        protected bool isShootingCooldown = false;
-        protected const float ShootingCooldownDuration = 1f;
-        protected float shootingCooldownTimer = 0f;
 
         protected bool enemySpotted;
-
-        public Rectangle EnemySpotter;
 
         public Vector2 EnemyPosition;
 
         protected float shootDelay;
-
-        protected int _widthSpotter, _heightSpotter;
-        protected Vector2 _offsetPositonSpotter;
 
         protected Vector2 OriginBullet;
 
@@ -39,7 +31,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.ShootingEne
 
 
 
-        public ShootingEnemy(Texture2D moveTexture, Texture2D deathTexture, Texture2D shootTexture, Vector2 StartPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter) : base(moveTexture, deathTexture, StartPosition)
+        public ShootingEnemy(Texture2D moveTexture, Texture2D deathTexture, Texture2D shootTexture, Vector2 StartPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter) : base(moveTexture, deathTexture, StartPosition, offsetPositionSpotter, widthSpotter, heightSpotter)
         {
             ShootTexture = shootTexture;
 
@@ -47,10 +39,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.ShootingEne
             OriginBullet = new Vector2(60, MoveTexture.Height / 2);
             animationShoot = new Animation(AnimationType.Attack, shootTexture);
 
-
-            _offsetPositonSpotter = offsetPositionSpotter;
-            _widthSpotter = widthSpotter;
-            _heightSpotter = heightSpotter;
         }
 
         protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
@@ -70,7 +58,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.ShootingEne
 
         protected void ShootingFunctionality(GameTime gameTime, List<Sprite> sprites)
         {
-            ShootCooldown(gameTime);
+            AttackCooldown(gameTime);
             if (isShootingAnimating)
             {
                 animationShoot.Update(gameTime);
@@ -85,7 +73,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.ShootingEne
                 shootDelay = 0f;
             }
 
-            if (enemySpotted && !isShootingCooldown)
+            if (enemySpotted && !isAttackCooldown)
             {
                 shootDelay += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 isShootingAnimating = true;
@@ -110,21 +98,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.ShootingEne
         protected void Shoot(List<Sprite> sprites)
         {
             AddBullet(sprites);
-            isShootingCooldown = true;
-            shootingCooldownTimer = 0f;
-        }
-
-        protected void ShootCooldown(GameTime gameTime)
-        {
-            // Shooting cooldown
-            if (isShootingCooldown)
-            {
-                shootingCooldownTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (shootingCooldownTimer >= ShootingCooldownDuration)
-                {
-                    isShootingCooldown = false;
-                }
-            }
+            isAttackCooldown = true;
+            AttackCooldownTimer = 0f;
         }
 
         protected void AddBullet(List<Sprite> sprites)
@@ -137,13 +112,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.ShootingEne
             bullet.Parent = this;
 
             sprites.Add(bullet);
-        }
-
-        protected void InitializeEnemySpotter(Vector2 position, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
-        {
-            // Initialize in Constructor + use RemoveEnemySpotterSpotted() when spotter needs dissapear after spot
-            EnemySpotter = new Rectangle((int)(position.X - offsetPositionSpotter.X), (int)(position.Y - offsetPositionSpotter.Y), widthSpotter, heightSpotter);
-            // Otherwise put in update so the Position updates so the spot can be reset
         }
     }
 }

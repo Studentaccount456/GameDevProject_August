@@ -1,5 +1,4 @@
 ﻿using GameDevProject_August.AnimationClasses;
-using GameDevProject_August.AnimationClasses.AnimationMethods;
 using GameDevProject_August.Levels;
 using GameDevProject_August.Models.Movement;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
@@ -7,18 +6,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnemy.MeleeEnemy.Enemies
 {
-    public class Minotaur : Enemy
+    public class Minotaur : MeleeEnemy
     {
-        public Texture2D ShootTexture;
-        private Animation animationShoot;
-        private bool isShootingAnimating = false;
-        private bool isShootingCooldown = false;
-        private const float ShootingCooldownDuration = 1f;
-        private float shootingCooldownTimer = 0f;
-        private int shootAnimationFrameIndex = 0;
-
         private Animation animationIdle;
         public Texture2D IdleTexture;
         private bool isIdling = false;
@@ -27,24 +18,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         private Vector2 OffsetAnimation;
 
- 
-        private bool canSeeEnemy = true;
-
-        private bool _enemySpotted;
-
-        public Rectangle EnemySpotter;
-
-        public Vector2 EnemyPosition;
-
-        private int _widthSpotter, _heightSpotter;
-        private Vector2 _offsetPositonSpotter;
-
         public Minotaur(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture,
                         Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
-            : base(moveTexture,deathTexture, startPosition)
+            : base(moveTexture, shootTexture, deathTexture, startPosition, offsetPositionSpotter, widthSpotter, heightSpotter)
         {
             MoveTexture = moveTexture;
-            ShootTexture = shootTexture;
             IdleTexture = idleTexture;
             numberOfCodeToFall = 1;
 
@@ -56,13 +34,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             Movement.Direction = Direction.Left;
 
             isIdling = true;
-
-            _offsetPositonSpotter = offsetPositionSpotter;
-            _widthSpotter = widthSpotter;
-            _heightSpotter = heightSpotter;
-
-            InitializeEnemySpotter(Position, _offsetPositonSpotter, _widthSpotter, _heightSpotter);
-
 
             #region MoveAnimation
             animationMove.fps = 12;
@@ -79,7 +50,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             // Height for standstill without attack is 42
             OffsetAnimation = new Vector2(0, -30);
             #region animationShoot
-            animationShoot = new Animation(AnimationType.Attack, shootTexture);
             animationShoot.fps = 2;
             animationShoot.AddFrame(new AnimationFrame(new Rectangle(0, 0, 63, 72)));
             animationShoot.AddFrame(new AnimationFrame(new Rectangle(96, 0, 69, 72)));
@@ -103,13 +73,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         }
 
-        private void InitializeEnemySpotter(Vector2 position, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
-        {
-            // Initialize in Constructor + use RemoveEnemySpotterSpotted() when spotter needs dissapear after spot
-            EnemySpotter = new Rectangle((int)(position.X - offsetPositionSpotter.X), (int)(position.Y - offsetPositionSpotter.Y), widthSpotter, heightSpotter);
-            // Otherwise put in update so the Position updates so the spot can be reset
-        }
-
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
             PositionTracker();
@@ -118,9 +81,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             RemoveEnemySpotterSpotted(_enemySpotted);
 
-            ShootCooldown(gameTime);
+            AttackCooldown(gameTime);
 
-            MinotaurAttack(gameTime);
+            MeleeAttackImplementation(gameTime);
 
             Move(gameTime, blocks);
 
@@ -139,7 +102,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
         {
             idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (idleTimer >= IdleTimeoutDuration && !isShootingAnimating && isIdling && !isShootingCooldown)
+            if (idleTimer >= IdleTimeoutDuration && !isShootingAnimating && isIdling && !isAttackCooldown)
             {
                 isShootingAnimating = true;
                 isIdling = false;
@@ -161,31 +124,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
         }
 
-        private void ShootCooldown(GameTime gameTime)
+        protected override void UniqueMeleeAttackImplementation(GameTime gameTime)
         {
-            // Shooting cooldown
-            if (isShootingCooldown)
-            {
-                shootingCooldownTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (shootingCooldownTimer >= ShootingCooldownDuration)
-                {
-                    isShootingCooldown = false;
-                }
-            }
-        }
-
-        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
-        {
-            if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist && canSeeEnemy)
-            {
-                _enemySpotted = true;
-                isIdling = false;
-            }          
-        }
-
-        private void MinotaurAttack(GameTime gameTime)
-        {
-            animationShoot.Update(gameTime);
             if (isShootingAnimating)
             {
                 hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y - 15, 63, 42);
@@ -237,11 +177,20 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             }
         }
 
-        private void RemoveEnemySpotterSpotted(bool enemySpotted)
+        protected void RemoveEnemySpotterSpotted(bool enemySpotted)
         {
             if (enemySpotted)
             {
                 EnemySpotter = Rectangle.Empty;
+            }
+        }
+
+        protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
+        {
+            if (sprite.RectangleHitbox.Intersects(EnemySpotter) && sprite is Archeologist && canSeeEnemy)
+            {
+                _enemySpotted = true;
+                isIdling = false;
             }
         }
 
