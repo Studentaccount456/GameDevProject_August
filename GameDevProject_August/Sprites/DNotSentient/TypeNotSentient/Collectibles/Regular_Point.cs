@@ -1,6 +1,7 @@
 ﻿using GameDevProject_August.Sprites.DNotSentient;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles
 {
@@ -19,6 +20,11 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectible
             {
                 return new Rectangle((int)Position.X, (int)Position.Y, staticTexture.Width, staticTexture.Height);
             }
+        }
+
+        protected override void UniqueCollisionRules(List<Sprite> sprites)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

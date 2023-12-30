@@ -7,12 +7,8 @@ namespace GameDevProject_August.Sprites
 {
     public class Sprite
     {
-        protected Texture2D staticTexture;
-
         public Vector2 Position;
         public Vector2 Origin;
-
-        // Moving
         public Vector2 Velocity;
 
         // False is left en Right is True
@@ -71,7 +67,7 @@ namespace GameDevProject_August.Sprites
 
         public Sprite(Texture2D texture)
         {
-            staticTexture = texture;
+            //staticTexture = texture;
             Origin = Vector2.Zero;
         }
 
@@ -92,7 +88,7 @@ namespace GameDevProject_August.Sprites
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(staticTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+            //spriteBatch.Draw(staticTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
         }
 
         #region CollisionBlock

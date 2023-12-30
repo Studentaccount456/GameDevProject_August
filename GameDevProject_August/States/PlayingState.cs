@@ -276,7 +276,7 @@ namespace GameDevProject_August.States
                 if (sprite_1 is FinalTerminal)
                 {
                     var finalTerminal = sprite_1 as FinalTerminal;
-                    if (finalTerminal.HasDied)
+                    if (finalTerminal.IsDestroyed)
                     {
                         _game.ChangeState(new VictoryState(_game, _graphicsDevice, _content));
                     }

@@ -1,36 +1,34 @@
 ﻿using GameDevProject_August.Levels;
-using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal
 {
     public class FinalTerminal : NotSentient
     {
-        public bool HasDied = false;
-
-        public Texture2D StandStillTexture;
-
         public override Rectangle RectangleHitbox
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, StandStillTexture.Width, StandStillTexture.Height);
+                return new Rectangle((int)Position.X, (int)Position.Y, staticTexture.Width, staticTexture.Height);
             }
         }
 
         public FinalTerminal(Texture2D texture)
             : base(texture)
         {
-            StandStillTexture = texture;
+
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
+            CollisionRules(sprites);
+        }
 
+        protected override void UniqueCollisionRules(List<Sprite> sprites)
+        {
             foreach (var sprite in sprites)
             {
                 if (sprite is FinalTerminal)
@@ -40,17 +38,10 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal
 
                 if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is PlayerBullet && sprite is NotSentient notSentient)
                 {
-                    HasDied = true;
+                    IsDestroyed = true;
                     notSentient.IsDestroyed = true;
                 }
             }
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(StandStillTexture, Position, Color.White);
-
-            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
         }
     }
 }

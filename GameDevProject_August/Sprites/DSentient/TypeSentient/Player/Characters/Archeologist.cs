@@ -346,7 +346,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
             var bullet = Bullet.Clone() as PlayerBullet;
             bullet.facingDirection = facingDirection;
             bullet.Position = Position + OriginBullet;
-            bullet.BulletSpeed = Speed;
+            bullet.ProjectileSpeed = Speed;
             bullet.Lifespan = 1f;
             bullet.Parent = this;
 
