@@ -1,6 +1,5 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.Levels;
-using GameDevProject_August.Models.Movement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

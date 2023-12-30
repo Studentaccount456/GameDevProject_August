@@ -1,5 +1,4 @@
-﻿using GameDevProject_August.AnimationClasses;
-using GameDevProject_August.Levels;
+﻿using GameDevProject_August.Levels;
 using GameDevProject_August.Models.Movement;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
 using Microsoft.Xna.Framework;

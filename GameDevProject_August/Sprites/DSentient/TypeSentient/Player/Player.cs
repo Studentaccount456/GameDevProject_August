@@ -4,8 +4,8 @@ using GameDevProject_August.Levels;
 using GameDevProject_August.Levels.BlockTypes;
 using GameDevProject_August.Models;
 using GameDevProject_August.Models.Movement;
-using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
 using GameDevProject_August.Sprites.DNotSentient;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.FallingCode;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlayer.ShootingPlayer.Characters;
@@ -36,7 +36,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
         protected Animation animationIdle;
         protected Animation animationShoot;
         protected Animation animationJump;
-        protected Vector2 DeathAnimationOffset = new Vector2(0,0);
+        protected Vector2 DeathAnimationOffset = new Vector2(0, 0);
         protected Vector2 BowDownAnimationOffset = new Vector2(0, 0);
 
         public Dictionary<string, Animation> animationDictionary;

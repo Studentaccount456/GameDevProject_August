@@ -152,7 +152,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             else
             {
                 animationHandlerEnemy.DrawAnimation(spriteBatch, animationMove, Position + offsetMoveAnimation, Movement.Direction);
-            }            
+            }
         }
 
         protected void GlitchDeathInit(GameTime gameTime, Sprite sprite, int pieceOfCodeToFall)

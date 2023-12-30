@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameDevProject_August
+namespace GameDevProject_August.UI
 {
     public abstract class Component
     {

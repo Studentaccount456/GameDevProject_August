@@ -16,8 +16,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlay
         protected const float ShootingCooldownDuration = 0.5f;
         protected float shootingCooldownTimer = 0f;
 
-        public ShootingPlayer(Texture2D moveTexture, Texture2D attackTexture, Texture2D idleTexture, Texture2D deathTexture, 
-                              Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture) 
+        public ShootingPlayer(Texture2D moveTexture, Texture2D attackTexture, Texture2D idleTexture, Texture2D deathTexture,
+                              Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture)
             : base(moveTexture, attackTexture, idleTexture, deathTexture, standStillTexture, jumpTexture, bowDownTexture)
         {
             OriginBullet = new Vector2(30, MoveTexture.Height / 2 - 2);

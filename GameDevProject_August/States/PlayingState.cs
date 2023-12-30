@@ -238,7 +238,7 @@ namespace GameDevProject_August.States
             if (isNextLevelTrigger)
             {
                 isNextLevelTrigger = false;
-                switch(nextLevelIndicator)
+                switch (nextLevelIndicator)
                 {
                     case 2:
                         _game.ChangeState(new Level2State(_game, _graphicsDevice, _content, false));
@@ -292,11 +292,13 @@ namespace GameDevProject_August.States
             {
                 newlevel = new Level1(new Level1BlockFactory());
                 newlevel.Generate(newlevel.Map, tileSize);
-            } else if (level is Level2)
+            }
+            else if (level is Level2)
             {
                 newlevel = new Level2(new Level2BlockFactory());
                 newlevel.Generate(newlevel.Map, tileSize);
-            } else if (level is Level3)
+            }
+            else if (level is Level3)
             {
                 newlevel = new Level3(new Level3BlockFactory());
                 newlevel.Generate(newlevel.Map, tileSize);

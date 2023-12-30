@@ -1,13 +1,11 @@
 ﻿using GameDevProject_August.Levels.Level2;
 using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
-using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
-using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
-using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEnemy.SpotterEnemy.ShootingEnemy.Enemies;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.PassiveEnemy;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
+using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;

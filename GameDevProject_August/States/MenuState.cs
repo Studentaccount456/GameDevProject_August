@@ -1,4 +1,5 @@
 ﻿using GameDevProject_August.Sprites;
+using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
