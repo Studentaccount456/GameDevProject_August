@@ -19,13 +19,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.PassiveEnem
             numberOfCodeToFall = 3;
 
             // Spritesheet looks to the right
-            #region MoveAnimation
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 57, 48)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(96, 0, 57, 48)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(192, 0, 57, 48)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(288, 0, 57, 48)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(384, 0, 57, 48)));
-            #endregion
+            animationMove.AddConsistentFrames(96, 0, 57, 48, 5);
         }
 
         protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)

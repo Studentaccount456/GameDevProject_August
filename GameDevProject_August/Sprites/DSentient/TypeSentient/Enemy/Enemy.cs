@@ -59,19 +59,10 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             #region Death
             animationDeath = new Animation(AnimationType.Death, deathTexture);
             animationDeath.fps = 4;
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 0, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 0, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 0, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(192, 0, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 64, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 64, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 64, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(192, 64, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 128, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(64, 128, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(128, 128, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(192, 128, 64, 64)));
-            animationDeath.AddFrame(new AnimationFrame(new Rectangle(0, 192, 64, 64)));
+            animationDeath.AddConsistentFrames(64, 0, 64, 64, 4);
+            animationDeath.AddConsistentFramesWithStartCoördinates(0, 64, 64, 0, 64, 64, 4);
+            animationDeath.AddConsistentFramesWithStartCoördinates(0, 128, 64, 0, 64, 64, 4);
+            animationDeath.AddFrame(0, 192, 64, 64);
             #endregion
 
             animationMove = new Animation(AnimationType.Move, moveTexture);

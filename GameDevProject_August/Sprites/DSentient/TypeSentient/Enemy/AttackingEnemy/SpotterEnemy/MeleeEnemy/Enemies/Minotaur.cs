@@ -28,39 +28,25 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEn
 
             isIdling = true;
 
-            #region MoveAnimation
             animationMove.fps = 12;
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(0, 0, 54, 51)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(96, 0, 54, 51)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(192, 0, 54, 51)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(288, 0, 54, 51)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(384, 0, 54, 51)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(480, 0, 54, 51)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(576, 0, 54, 51)));
-            animationMove.AddFrame(new AnimationFrame(new Rectangle(672, 0, 54, 51)));
-            #endregion
+            animationMove.AddConsistentFrames(96, 0, 54, 51, 8);
 
             // Height for standstill without attack is 42
             #region animationShoot
             animationAttack.fps = 2;
-            animationAttack.AddFrame(new AnimationFrame(new Rectangle(0, 0, 63, 72)));
-            animationAttack.AddFrame(new AnimationFrame(new Rectangle(96, 0, 69, 72)));
-            animationAttack.AddFrame(new AnimationFrame(new Rectangle(192, 0, 75, 72)));
-            animationAttack.AddFrame(new AnimationFrame(new Rectangle(288, 0, 75, 72)));
-            animationAttack.AddFrame(new AnimationFrame(new Rectangle(384, 0, 72, 72)));
-            animationAttack.AddFrame(new AnimationFrame(new Rectangle(480, 0, 72, 72)));
-            animationAttack.AddFrame(new AnimationFrame(new Rectangle(576, 0, 75, 72)));
-            animationAttack.AddFrame(new AnimationFrame(new Rectangle(672, 0, 72, 72)));
+            animationAttack.AddFrame(0, 0, 63, 72);
+            animationAttack.AddFrame(96, 0, 69, 72);
+            animationAttack.AddConsistentFramesWithStartCoördinates(192, 0, 96, 0, 75, 72, 2);
+            animationAttack.AddConsistentFramesWithStartCoördinates(384, 0, 96, 0, 72, 72, 2);
+            animationAttack.AddFrame(576, 0, 75, 72);
+            animationAttack.AddFrame(672, 0, 72, 72);
             #endregion
 
             #region Idle
             animationIdle = new Animation(AnimationType.Idle, idleTexture);
             animationIdle.fps = 8;
-            animationIdle.AddFrame(new AnimationFrame(new Rectangle(0, 0, 63, 42)));
-            animationIdle.AddFrame(new AnimationFrame(new Rectangle(96, 0, 63, 42)));
-            animationIdle.AddFrame(new AnimationFrame(new Rectangle(192, 0, 63, 42)));
-            animationIdle.AddFrame(new AnimationFrame(new Rectangle(288, 0, 66, 42)));
-            animationIdle.AddFrame(new AnimationFrame(new Rectangle(384, 0, 66, 42)));
+            animationIdle.AddConsistentFrames(96, 0, 63, 42, 3);
+            animationIdle.AddConsistentFramesWithStartCoördinates(288, 0, 96, 0, 66, 42, 2);
             #endregion
 
         }

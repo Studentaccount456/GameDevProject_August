@@ -38,9 +38,38 @@ namespace GameDevProject_August.AnimationClasses
             SpriteSheetTexture = spriteSheetTexture;
         }
 
-        public void AddFrame(AnimationFrame frame)
+        public void AddFrame(int X, int Y, int width, int height)
         {
-            frames.Add(frame);
+            frames.Add(new AnimationFrame(new Rectangle(X, Y, width, height)));
+            CurrentFrame = frames[0];
+        }
+
+        public void AddConsistentFrames(int X_Increment, int Y_Increment, int width, int height, int amount)
+        {
+            int X = 0;
+            int Y = 0;
+
+            for (int i = amount; i > 0; i--)
+            {
+                frames.Add(new AnimationFrame(new Rectangle(X, Y, width, height)));
+                X += X_Increment;
+                Y += Y_Increment;
+            }
+            CurrentFrame = frames[0];
+        }
+
+        public void AddConsistentFramesWithStartCoördinates(int X_Start, int Y_Start, int X_Increment, int Y_Increment, 
+                                                            int width, int height, int amount)
+        {
+            int X = X_Start;
+            int Y = Y_Start;
+
+            for (int i = amount; i > 0; i--)
+            {
+                frames.Add(new AnimationFrame(new Rectangle(X, Y, width, height)));
+                X += X_Increment;
+                Y += Y_Increment;
+            }
             CurrentFrame = frames[0];
         }
 
