@@ -7,58 +7,28 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.ShootingEnemy
 {
-    public class RatMage : Enemy
+    public class RatMage : ShootingEnemy
     {
-        public EnemyBullet Bullet;
-
         private Animation animationIdle;
-        private Animation animationShoot;
 
-        public Texture2D ShootTexture;
         public Texture2D IdleTexture;
-
-        private bool isShootingAnimating = false;
-
-        private bool isShootingCooldown = false;
-        private const float ShootingCooldownDuration = 1f;
-        private float shootingCooldownTimer = 0f;
 
         private bool isIdling = false;
         private const float IdleTimeoutDuration = 5.0f;
         private float idleTimer = 0f;
 
-        private bool enemySpotted;
-
-        public Rectangle EnemySpotter;
-
-        public Vector2 EnemyPosition;
-
-        private float shootDelay;
-
-        private int _widthSpotter, _heightSpotter;
-        private Vector2 _offsetPositonSpotter;
-
-        private Vector2 OriginBullet;
-
         public RatMage(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture,
             Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
-            : base(moveTexture, deathTexture, startPosition)
+            : base(moveTexture, deathTexture, shootTexture, startPosition, offsetPositionSpotter, widthSpotter, heightSpotter)
         {
             MoveTexture = moveTexture;
-            ShootTexture = shootTexture;
             IdleTexture = idleTexture;
+
             numberOfCodeToFall = 4;
 
             hitboxes.Add("SoftSpot1", RectangleHitbox);
-
-            EnemyPosition = new Vector2(0, 0);
-            OriginBullet = new Vector2(60, MoveTexture.Height / 2);
-
-            _offsetPositonSpotter = offsetPositionSpotter;
-            _widthSpotter = widthSpotter;
-            _heightSpotter = heightSpotter;
 
             // Standard walks right
             #region MoveAnimation
@@ -75,7 +45,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             //Height is 48 for each frame
             #region animationCast
-            animationShoot = new Animation(AnimationType.Attack, shootTexture);
             animationShoot.fps = 6;
             animationShoot.AddFrame(new AnimationFrame(new Rectangle(0, 0, 60, 48)));
             animationShoot.AddFrame(new AnimationFrame(new Rectangle(96, 0, 51, 48)));
@@ -132,65 +101,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
         }
 
-        private void ShootingFunctionality(GameTime gameTime, List<Sprite> sprites)
-        {
-            ShootCooldown(gameTime);
-            if (isShootingAnimating)
-            {
-                animationShoot.Update(gameTime);
-                if (animationShoot.IsAnimationComplete && enemySpotted == false)
-                {
-                    isShootingAnimating = false;
-                }
-            }
-
-            if (!enemySpotted)
-            {
-                shootDelay = 0f;
-            }
-
-            if (enemySpotted && !isShootingCooldown)
-            {
-                shootDelay += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                isShootingAnimating = true;
-                if (EnemyPosition.X > Position.X)
-                {
-                    Movement.Direction = Direction.Right;
-                    facingDirection = Vector2.UnitX;
-                }
-                else if (EnemyPosition.X < Position.X)
-                {
-                    Movement.Direction = Direction.Left;
-                    facingDirection = -Vector2.UnitX;
-                }
-                if (shootDelay > 0.75f && !isDeathAnimating)
-                {
-                    Shoot(sprites);
-                }
-
-            }
-        }
-
-        private void Shoot(List<Sprite> sprites)
-        {
-            AddBullet(sprites);
-            isShootingCooldown = true;
-            shootingCooldownTimer = 0f;
-        }
-
-        private void ShootCooldown(GameTime gameTime)
-        {
-            // Shooting cooldown
-            if (isShootingCooldown)
-            {
-                shootingCooldownTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (shootingCooldownTimer >= ShootingCooldownDuration)
-                {
-                    isShootingCooldown = false;
-                }
-            }
-        }
-
         private void IdleFunctionality(GameTime gameTime)
         {
             idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -205,13 +115,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                 isIdling = true;
                 animationIdle.Update(gameTime);
             }
-        }
-
-        private void InitializeEnemySpotter(Vector2 position, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
-        {
-            // Initialize in Constructor + use RemoveEnemySpotterSpotted() when spotter needs dissapear after spot
-            EnemySpotter = new Rectangle((int)(position.X - offsetPositionSpotter.X), (int)(position.Y - offsetPositionSpotter.Y), widthSpotter, heightSpotter);
-            // Otherwise put in update so the Position updates so the spot can be reset
         }
 
 
@@ -244,18 +147,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
                     facingDirection = Vector2.UnitX;
                 }
             }
-        }
-
-        private void AddBullet(List<Sprite> sprites)
-        {
-            var bullet = Bullet.Clone() as EnemyBullet;
-            bullet.facingDirection = facingDirection;
-            bullet.Position = Position + OriginBullet;
-            bullet.BulletSpeed = Speed;
-            bullet.Lifespan = 1f;
-            bullet.Parent = this;
-
-            sprites.Add(bullet);
         }
 
         protected override void UniqueDrawRules(SpriteBatch spriteBatch)

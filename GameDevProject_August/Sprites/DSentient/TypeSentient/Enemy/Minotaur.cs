@@ -11,29 +11,23 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 {
     public class Minotaur : Enemy
     {
-        private Animation animationIdle;
-        private Animation animationShoot;
-
         public Texture2D ShootTexture;
-        public Texture2D IdleTexture;
-
+        private Animation animationShoot;
         private bool isShootingAnimating = false;
-
         private bool isShootingCooldown = false;
         private const float ShootingCooldownDuration = 1f;
         private float shootingCooldownTimer = 0f;
+        private int shootAnimationFrameIndex = 0;
 
+        private Animation animationIdle;
+        public Texture2D IdleTexture;
         private bool isIdling = false;
         private const float IdleTimeoutDuration = 5.0f;
         private float idleTimer = 0f;
 
-        private int shootAnimationFrameIndex = 0;
-
-
         private Vector2 OffsetAnimation;
 
-        public AnimationHandler AnimationHandler_Minotaur;
-
+ 
         private bool canSeeEnemy = true;
 
         private bool _enemySpotted;
@@ -56,8 +50,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
 
             hitboxes.Add("SoftSpot1", RectangleHitbox);
             hitboxes.Add("SoftSpot2", AdditionalHitBox_1);
-
-            AnimationHandler_Minotaur = new AnimationHandler();
 
             AdditionalHitBox_1 = new Rectangle((int)Position.X, (int)Position.Y, 0, 0);
 
