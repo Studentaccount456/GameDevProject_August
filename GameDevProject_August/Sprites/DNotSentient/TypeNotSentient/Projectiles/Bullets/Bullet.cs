@@ -1,31 +1,13 @@
 ﻿using GameDevProject_August.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles
+namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets
 {
-    public class PlayerBullet : Projectile, ICloneable
+    public class Bullet : Projectile
     {
-        public float Lifespan = 0f;
-
-        private float _timer;
-
-        public float BulletSpeed = 4f;
-
-
-        public override Rectangle RectangleHitbox
-        {
-            get
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, staticTexture.Width, staticTexture.Height);
-            }
-        }
-
-
-        public PlayerBullet(Texture2D texture)
-            : base(texture)
+        public Bullet(Texture2D texture) : base(texture)
         {
 
         }
@@ -33,7 +15,7 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
         {
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Position += facingDirection * BulletSpeed;
+            Position += facingDirection * ProjectileSpeed;
 
             foreach (var block in blocks)
             {

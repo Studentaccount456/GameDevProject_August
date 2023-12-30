@@ -1,6 +1,8 @@
 ﻿using GameDevProject_August.Levels.Level3;
 using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
 using Microsoft.Xna.Framework;

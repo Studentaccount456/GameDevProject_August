@@ -1,5 +1,5 @@
 ﻿using GameDevProject_August.Models;
-using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;

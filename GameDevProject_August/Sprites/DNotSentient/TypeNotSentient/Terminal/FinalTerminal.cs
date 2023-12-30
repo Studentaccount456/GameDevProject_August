@@ -1,5 +1,5 @@
 ﻿using GameDevProject_August.Levels;
-using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -8,14 +8,6 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal
 {
     public class FinalTerminal : NotSentient
     {
-        public override Rectangle RectangleHitbox
-        {
-            get
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, staticTexture.Width, staticTexture.Height);
-            }
-        }
-
         public FinalTerminal(Texture2D texture)
             : base(texture)
         {
@@ -27,7 +19,7 @@ namespace GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal
             CollisionRules(sprites);
         }
 
-        protected override void UniqueCollisionRules(List<Sprite> sprites)
+        protected virtual void CollisionRules(List<Sprite> sprites)
         {
             foreach (var sprite in sprites)
             {

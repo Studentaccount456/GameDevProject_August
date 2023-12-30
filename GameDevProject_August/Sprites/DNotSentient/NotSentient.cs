@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace GameDevProject_August.Sprites.DNotSentient
 {
@@ -10,12 +9,18 @@ namespace GameDevProject_August.Sprites.DNotSentient
 
         public Texture2D staticTexture;
 
+        public override Rectangle RectangleHitbox
+        {
+            get
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y, staticTexture.Width, staticTexture.Height);
+            }
+        }
+
         public NotSentient(Texture2D texture) : base(texture)
         {
             staticTexture = texture;
         }
-
-
 
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -23,19 +28,5 @@ namespace GameDevProject_August.Sprites.DNotSentient
 
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
         }
-
-        protected void UpdatePositionAndResetVelocity()
-        {
-            Position += Velocity;
-
-            Velocity = Vector2.Zero;
-        }
-
-        protected virtual void CollisionRules(List<Sprite> sprites)
-        {
-            UniqueCollisionRules(sprites);
-        }
-
-        protected abstract void UniqueCollisionRules(List<Sprite> sprites);
     }
 }

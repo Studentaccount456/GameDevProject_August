@@ -1,7 +1,7 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.Levels;
 using GameDevProject_August.Models.Movement;
-using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -82,7 +82,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEn
             var bullet = Bullet.Clone() as EnemyBullet;
             bullet.facingDirection = facingDirection;
             bullet.Position = Position + OriginBullet;
-            bullet.BulletSpeed = Speed;
+            bullet.ProjectileSpeed = Speed;
             bullet.Lifespan = 1f;
             bullet.Parent = this;
 
