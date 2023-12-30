@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnemy
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEnemy.SpotterEnemy
 {
-    public class SpotterEnemy : Enemy
+    public class SpotterEnemy : AttackingEnemy
     {
         protected bool isAttackCooldown = false;
         protected const float AttackCooldownDuration = 1f;
@@ -16,7 +16,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
         protected int _widthSpotter, _heightSpotter;
         protected Vector2 _offsetPositonSpotter;
 
-        public SpotterEnemy(Texture2D moveTexture, Texture2D deathTexture, Vector2 StartPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter) : base(moveTexture, deathTexture, StartPosition)
+        public SpotterEnemy(Texture2D moveTexture, Texture2D attackTexture, Texture2D deathTexture, Vector2 StartPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter) : base(moveTexture, attackTexture, deathTexture, StartPosition)
         {
             _offsetPositonSpotter = offsetPositionSpotter;
             _widthSpotter = widthSpotter;
@@ -61,11 +61,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
         }
 
         protected override void HitBoxTracker()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
         }

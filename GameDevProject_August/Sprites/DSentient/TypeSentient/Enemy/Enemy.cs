@@ -154,13 +154,23 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             {
                 animationHandlerEnemy.DrawAnimation(spriteBatch, animationDeath, Position, Direction.Right);
             }
-            else
+            else if (isIdling)
             {
-                UniqueDrawRules(spriteBatch);
+                animationHandlerEnemy.DrawAnimation(spriteBatch, animationIdle, Position, Direction.Left);
+            }
+            else if (Movement.Direction == Direction.Right)
+            {
+                animationHandlerEnemy.DrawAnimation(spriteBatch, animationMove, Position + offsetMoveAnimation, Direction.Right);
+            }
+            else if (Movement.Direction == Direction.Left)
+            {
+                animationHandlerEnemy.DrawAnimation(spriteBatch, animationMove, Position + offsetMoveAnimation, Direction.Left);
+            }
+            else if (Movement.Direction == Direction.Up || Movement.Direction == Direction.Down)
+            {
+                animationHandlerEnemy.DrawAnimation(spriteBatch, animationMove, Position, Direction.Left);
             }
         }
-
-        protected abstract void UniqueDrawRules(SpriteBatch spriteBatch);
 
         protected void GlitchDeathInit(GameTime gameTime, Sprite sprite, int pieceOfCodeToFall)
         {

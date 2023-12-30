@@ -76,17 +76,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             hitboxes["HardSpot1"] = new Rectangle(rect3X, (int)Position.Y, 42, 48);
         }
 
-        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Movement.Direction == Direction.Right)
-            {
-                animationHandlerEnemy.DrawAnimation(spriteBatch, animationMove, Position, Direction.Right);
-            }
-            else if (Movement.Direction == Direction.Left)
-            {
-                animationHandlerEnemy.DrawAnimation(spriteBatch, animationMove, Position, Direction.Left);
-            }
-
+            base.Draw(spriteBatch);
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
             spriteBatch.DrawRectangle(AdditionalHitBox_1, Color.Yellow);
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);

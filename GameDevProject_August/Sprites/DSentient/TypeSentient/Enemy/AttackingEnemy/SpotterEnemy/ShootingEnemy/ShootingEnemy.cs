@@ -7,27 +7,20 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnemy.ShootingEnemy
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEnemy.SpotterEnemy.ShootingEnemy
 {
     public class ShootingEnemy : SpotterEnemy
     {
         public EnemyBullet Bullet;
         protected Vector2 OriginBullet;
-        public Texture2D ShootTexture;
 
-        protected bool isShootingAnimating = false;
         protected float shootDelay;
-
-        protected Animation animationShoot;
 
         public Vector2 EnemyPosition;
         protected bool enemySpotted;
 
-        public ShootingEnemy(Texture2D moveTexture, Texture2D deathTexture, Texture2D shootTexture, Vector2 StartPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter) : base(moveTexture, deathTexture, StartPosition, offsetPositionSpotter, widthSpotter, heightSpotter)
+        public ShootingEnemy(Texture2D moveTexture, Texture2D deathTexture, Texture2D attackTexture, Vector2 StartPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter) : base(moveTexture, attackTexture, deathTexture, StartPosition, offsetPositionSpotter, widthSpotter, heightSpotter)
         {
-            ShootTexture = shootTexture;
-            animationShoot = new Animation(AnimationType.Attack, shootTexture);
-
             EnemyPosition = new Vector2(0, 0);
             OriginBullet = new Vector2(60, MoveTexture.Height / 2);
         }
@@ -42,12 +35,12 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
         protected void ShootingFunctionality(GameTime gameTime, List<Sprite> sprites)
         {
             AttackCooldown(gameTime);
-            if (isShootingAnimating)
+            if (isAttackingAnimating)
             {
-                animationShoot.Update(gameTime);
-                if (animationShoot.IsAnimationComplete && enemySpotted == false)
+                animationAttack.Update(gameTime);
+                if (animationAttack.IsAnimationComplete && enemySpotted == false)
                 {
-                    isShootingAnimating = false;
+                    isAttackingAnimating = false;
                 }
             }
 
@@ -59,7 +52,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             if (enemySpotted && !isAttackCooldown)
             {
                 shootDelay += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                isShootingAnimating = true;
+                isAttackingAnimating = true;
                 if (EnemyPosition.X > Position.X)
                 {
                     Movement.Direction = Direction.Right;
@@ -102,11 +95,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
         }
 
         protected override void UniqueCollisionRules(Sprite sprite, Rectangle hitbox, bool isHardSpot)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
         }

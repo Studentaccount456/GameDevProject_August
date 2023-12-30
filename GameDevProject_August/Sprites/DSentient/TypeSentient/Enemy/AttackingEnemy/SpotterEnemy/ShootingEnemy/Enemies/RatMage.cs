@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnemy.ShootingEnemy.Enemies
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEnemy.SpotterEnemy.ShootingEnemy.Enemies
 {
     public class RatMage : ShootingEnemy
     {
@@ -14,6 +14,8 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
             : base(moveTexture, deathTexture, shootTexture, startPosition, offsetPositionSpotter, widthSpotter, heightSpotter)
         {
+            offsetMoveAnimation = new Vector2(0, -4);
+
             IdleTexture = idleTexture;
 
             numberOfCodeToFall = 4;
@@ -35,13 +37,13 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
 
             //Height is 48 for each frame
             #region animationCast
-            animationShoot.fps = 6;
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(0, 0, 60, 48)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(96, 0, 51, 48)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(192, 0, 42, 48)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(288, 0, 42, 48)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(384, 0, 72, 48)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(480, 0, 69, 48)));
+            animationAttack.fps = 6;
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(0, 0, 60, 48)));
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(96, 0, 51, 48)));
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(192, 0, 42, 48)));
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(288, 0, 42, 48)));
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(384, 0, 72, 48)));
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(480, 0, 69, 48)));
             #endregion
 
             //Height is 44 for each frame
@@ -61,7 +63,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
 
         protected override void UniqueMovingRules(GameTime gameTime, List<Block> blocks)
         {
-            if (!isIdling && !isShootingAnimating)
+            if (!isIdling && !isAttackingAnimating)
             {
                 foreach (var block in blocks)
                 {
@@ -104,37 +106,22 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             // Necessary When not override Rectanglehitbox with getter
         }
 
-        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            if (isShootingAnimating)
+            if (isIdling && !isAttackingAnimating)
             {
                 if (Movement.Direction == Direction.Right)
                 {
-                    spriteBatch.Draw(ShootTexture, Position, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+                    animationHandlerEnemy.DrawAnimation(spriteBatch, animationIdle, Position, Direction.Right);
                 }
                 else if (Movement.Direction == Direction.Left)
                 {
-                    spriteBatch.Draw(ShootTexture, Position, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                    animationHandlerEnemy.DrawAnimation(spriteBatch, animationIdle, Position, Direction.Left);
                 }
             }
-            else if (isIdling)
+            else
             {
-                if (Movement.Direction == Direction.Right)
-                {
-                    spriteBatch.Draw(IdleTexture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-                }
-                else if (Movement.Direction == Direction.Left)
-                {
-                    spriteBatch.Draw(IdleTexture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
-                }
-            }
-            else if (Movement.Direction == Direction.Right && !isIdling)
-            {
-                spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-            }
-            else if (Movement.Direction == Direction.Left && !isIdling)
-            {
-                spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -4), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                base.Draw(spriteBatch);
             }
 
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
@@ -147,12 +134,12 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
         {
             idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (idleTimer >= IdleTimeoutDuration + 1f && !isShootingAnimating)
+            if (idleTimer >= IdleTimeoutDuration + 1f && !isAttackingAnimating)
             {
                 isIdling = false;
                 idleTimer = 0;
             }
-            else if (idleTimer >= IdleTimeoutDuration && !isShootingAnimating)
+            else if (idleTimer >= IdleTimeoutDuration && !isAttackingAnimating)
             {
                 isIdling = true;
                 animationIdle.Update(gameTime);

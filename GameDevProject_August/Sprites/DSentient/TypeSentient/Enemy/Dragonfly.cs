@@ -58,13 +58,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 51, 39);
         }
 
-        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Movement.Direction == Direction.Up || Movement.Direction == Direction.Down)
-            {
-                animationHandlerEnemy.DrawAnimation(spriteBatch, animationMove, Position, Direction.Left);
-            }
-
+            base.Draw(spriteBatch);
             spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
             spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Yellow);
         }

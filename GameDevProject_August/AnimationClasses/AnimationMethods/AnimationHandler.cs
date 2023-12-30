@@ -27,6 +27,18 @@ namespace GameDevProject_August.AnimationClasses.AnimationMethods
             }
         }
 
+        public void DrawAnimation(SpriteBatch spriteBatch, Animation animationToRun, Vector2 Position, Direction direction, Vector2 offsetAnimation)
+        {
+            if (direction == Direction.Right)
+            {
+                spriteBatch.Draw(animationToRun.SpriteSheetTexture, Position + offsetAnimation, animationToRun.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
+            }
+            else if (direction == Direction.Left)
+            {
+                spriteBatch.Draw(animationToRun.SpriteSheetTexture, Position + offsetAnimation, animationToRun.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+            }
+        }
+
         public void DrawOneFrameAnimation(SpriteBatch spriteBatch, Texture2D standStillTexture, Vector2 Position, Direction direction)
         {
             if (direction == Direction.Right)

@@ -6,16 +6,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnemy.MeleeEnemy.Enemies
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEnemy.SpotterEnemy.MeleeEnemy.Enemies
 {
     public class Minotaur : MeleeEnemy
     {
-        private Vector2 OffsetAnimation;
-
         public Minotaur(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture,
                         Vector2 startPosition, Vector2 offsetPositionSpotter, int widthSpotter, int heightSpotter)
             : base(moveTexture, shootTexture, deathTexture, startPosition, offsetPositionSpotter, widthSpotter, heightSpotter)
         {
+            offsetAnimationAttack = new Vector2(0, -30);
+
             IdleTexture = idleTexture;
             numberOfCodeToFall = 1;
 
@@ -41,17 +41,16 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             #endregion
 
             // Height for standstill without attack is 42
-            OffsetAnimation = new Vector2(0, -30);
             #region animationShoot
-            animationShoot.fps = 2;
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(0, 0, 63, 72)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(96, 0, 69, 72)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(192, 0, 75, 72)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(288, 0, 75, 72)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(384, 0, 72, 72)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(480, 0, 72, 72)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(576, 0, 75, 72)));
-            animationShoot.AddFrame(new AnimationFrame(new Rectangle(672, 0, 72, 72)));
+            animationAttack.fps = 2;
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(0, 0, 63, 72)));
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(96, 0, 69, 72)));
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(192, 0, 75, 72)));
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(288, 0, 75, 72)));
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(384, 0, 72, 72)));
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(480, 0, 72, 72)));
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(576, 0, 75, 72)));
+            animationAttack.AddFrame(new AnimationFrame(new Rectangle(672, 0, 72, 72)));
             #endregion
 
             #region Idle
@@ -113,30 +112,15 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
             // Necessary When not override Rectanglehitbox with getter
         }
 
-        protected override void UniqueDrawRules(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            if (isIdling)
+            if (isIdling && !isAttackingAnimating)
             {
-                spriteBatch.Draw(IdleTexture, Position, animationIdle.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                animationHandlerEnemy.DrawAnimation(spriteBatch, animationIdle, Position, Direction.Left);
             }
-            else if (isShootingAnimating)
+            else
             {
-                if (Movement.Direction == Direction.Right)
-                {
-                    spriteBatch.Draw(ShootTexture, Position + OffsetAnimation, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-                }
-                else if (Movement.Direction == Direction.Left)
-                {
-                    spriteBatch.Draw(ShootTexture, Position + OffsetAnimation, animationShoot.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
-                }
-            }
-            else if (Movement.Direction == Direction.Right)
-            {
-                spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.None, 0);
-            }
-            else if (Movement.Direction == Direction.Left)
-            {
-                spriteBatch.Draw(MoveTexture, Position + new Vector2(0, -8), animationMove.CurrentFrame.SourceRectangle, Colour, 0, Origin, 1, SpriteEffects.FlipHorizontally, 0);
+                base.Draw(spriteBatch);
             }
 
             spriteBatch.DrawRectangle(AdditionalHitBox_1, Color.Blue);
@@ -152,9 +136,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
         {
             idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (idleTimer >= IdleTimeoutDuration && !isShootingAnimating && isIdling && !isAttackCooldown)
+            if (idleTimer >= IdleTimeoutDuration && !isAttackingAnimating && isIdling && !isAttackCooldown)
             {
-                isShootingAnimating = true;
+                isAttackingAnimating = true;
                 isIdling = false;
                 idleTimer = 0;
             }
@@ -163,7 +147,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
                 animationIdle.Update(gameTime);
             }
 
-            if (Movement.Direction == Direction.Right || Movement.Direction == Direction.Left && !isShootingAnimating)
+            if (Movement.Direction == Direction.Right || Movement.Direction == Direction.Left && !isAttackingAnimating)
             {
                 hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 54, 49);
             }
@@ -178,21 +162,21 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
         {
             AttackCooldown(gameTime);
 
-            if (isShootingAnimating)
+            if (isAttackingAnimating)
             {
                 hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y - 15, 63, 42);
                 hitboxes["SoftSpot2"] = new Rectangle((int)Position.X, (int)Position.Y, 0, 0);
-                shootAnimationFrameIndex = animationShoot.CurrentFrameIndex;
+                meleeAttackAnimationFrameIndex = animationAttack.CurrentFrameIndex;
                 canSeeEnemy = false;
-                if (shootAnimationFrameIndex == 1)
+                if (meleeAttackAnimationFrameIndex == 1)
                 {
                     hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 69, 42);
                 }
-                else if (shootAnimationFrameIndex == 2 || shootAnimationFrameIndex == 3 || shootAnimationFrameIndex == 6)
+                else if (meleeAttackAnimationFrameIndex == 2 || meleeAttackAnimationFrameIndex == 3 || meleeAttackAnimationFrameIndex == 6)
                 {
                     hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 75, 42);
                 }
-                else if (shootAnimationFrameIndex == 4)
+                else if (meleeAttackAnimationFrameIndex == 4)
                 {
                     hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 76, 42);
                     //Tongue
@@ -205,7 +189,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
                         hitboxes["SoftSpot2"] = new Rectangle((int)Position.X, (int)Position.Y - 30, 27, 30);
                     }
                 }
-                else if (shootAnimationFrameIndex == 5)
+                else if (meleeAttackAnimationFrameIndex == 5)
                 {
                     hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y, 69, 42);
                     //Tongue
@@ -218,11 +202,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.SpotterEnem
                         hitboxes["SoftSpot2"] = new Rectangle((int)Position.X, (int)Position.Y - 15, 9, 15);
                     }
                 }
-                else if (shootAnimationFrameIndex == 7)
+                else if (meleeAttackAnimationFrameIndex == 7)
                 {
                     hitboxes["SoftSpot1"] = new Rectangle((int)Position.X, (int)Position.Y - 15, 72, 42);
                     idleTimer = 0;
-                    isShootingAnimating = false;
+                    isAttackingAnimating = false;
                     isIdling = true;
                     canSeeEnemy = true;
                 }
