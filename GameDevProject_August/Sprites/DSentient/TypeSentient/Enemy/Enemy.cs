@@ -4,7 +4,7 @@ using GameDevProject_August.Levels;
 using GameDevProject_August.Models.Movement;
 using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
-using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlayer.ShootingPlayer.Characters;
 using GameDevProject_August.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

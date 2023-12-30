@@ -15,55 +15,18 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
+namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlayer.ShootingPlayer.Characters
 {
-    public class Archeologist : Player
+    public class Archeologist : ShootingPlayer
     {
-        public Score Score;
-
         public PlayerBullet Bullet;
-
-        private Animation animationMove;
-        private Animation animationDeath;
-        private Animation animationIdle;
-        private Animation animationShoot;
-        private Animation animationJump;
-
-        public Dictionary<string, Animation> animationDictionary;
-
-        public Texture2D ShootTexture;
-        public Texture2D IdleTexture;
-        public Texture2D DeathTexture;
-        public Texture2D StandStillTexture;
-        public Texture2D JumpTexture;
-        public Texture2D BowDownTexture;
-
-        private bool canMove = true;
-
-        private bool isShootingAnimating = false;
-
-        private bool isShootingCooldown = false;
-        private const float ShootingCooldownDuration = 0.5f;
-        private float shootingCooldownTimer = 0f;
-
-        private bool isIdling = false;
-        private const float IdleTimeoutDuration = 3.0f;
-        private float idleTimer = 0f;
-        private bool standStillNoIdle = false;
-
-        public AnimationHandler AnimationHandler_MC;
+        private Vector2 OriginBullet;
 
         //TODO: movement enum van dit maken
         bool isMovingLeft;
         bool isMovingRight;
         bool isMovingUp;
         bool isMovingDown;
-
-        // Movement
-        //public ManualMovement manualMovementController;
-        // 
-        //public Input MainCharacterInput;
-
 
         // Consistent Hitbox
         public override Rectangle RectangleHitbox
@@ -74,21 +37,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
             }
         }
 
-        bool hasJumped;
-
-        private const float GravityAcceleration = 125;
-
-        private bool keyPressed;
-
-        private Vector2 OriginBullet;
-
-
-
 
         public Archeologist(Texture2D moveTexture, Texture2D shootTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture)
             : base(moveTexture)
         {
-            AnimationHandler_MC = new AnimationHandler();
+            AnimationHandler_Player = new AnimationHandler();
 
             StandStillTexture = standStillTexture;
 
@@ -259,14 +212,14 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
                 }
                 else if (block is ThreePointsType)
                 {
-                    if ((block.BlockRectangle.Intersects(RectangleHitbox) && Game1.PlayerScore.MainScore >= 3))
+                    if (block.BlockRectangle.Intersects(RectangleHitbox) && Game1.PlayerScore.MainScore >= 3)
                     {
                         PlayingState.isNextLevelTrigger = true;
                     }
                 }
                 else if (block is SevenPointsType)
                 {
-                    if ((block.BlockRectangle.Intersects(RectangleHitbox) && Game1.PlayerScore.MainScore >= 7))
+                    if (block.BlockRectangle.Intersects(RectangleHitbox) && Game1.PlayerScore.MainScore >= 7)
                     {
                         PlayingState.isNextLevelTrigger = true;
                     }
@@ -454,11 +407,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
             {
                 if (facingDirectionIndicator == false)
                 {
-                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, Direction.Left);
+                    AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, Direction.Left);
                 }
                 else if (facingDirectionIndicator == true)
                 {
-                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, Direction.Right);
+                    AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, Direction.Right);
                 }
                 if (animationDictionary["DeathAnimation"].IsAnimationComplete)
                 {
@@ -470,11 +423,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
             {
                 if (facingDirectionIndicator == true)
                 {
-                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, Direction.Right);
+                    AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, Direction.Right);
                 }
                 else if (facingDirectionIndicator == false)
                 {
-                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, Direction.Left);
+                    AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, Direction.Left);
                 }
                 if (animationDictionary["AttackAnimation"].IsAnimationComplete)
                 {
@@ -483,47 +436,47 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters
             }
             else if (hasJumped && facingDirectionIndicator == true && !isMovingDown)
             {
-                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, Direction.Right);
+                AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, Direction.Right);
             }
             else if (hasJumped && facingDirectionIndicator == false && !isMovingDown)
             {
-                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, Direction.Left);
+                AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, Direction.Left);
             }
             else if (isMovingLeft)
             {
-                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, Direction.Left);
+                AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, Direction.Left);
             }
             else if (isMovingRight)
             {
-                AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, Direction.Right);
+                AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, Direction.Right);
             }
             else if (isIdling)
             {
                 if (facingDirectionIndicator == true)
                 {
-                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, Direction.Right);
+                    AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, Direction.Right);
                 }
                 else if (facingDirectionIndicator == false)
                 {
-                    AnimationHandler_MC.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, Direction.Left);
+                    AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, Direction.Left);
                 }
             }
 
             else if (facingDirectionIndicator == true && standStillNoIdle == true && !isShootingAnimating || facingDirectionIndicator == true && !isShootingAnimating && !isMovingDown || facingDirectionIndicator == true && !isShootingAnimating && isMovingUp)
             {
-                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, Direction.Right);
+                AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, Direction.Right);
             }
             else if (facingDirectionIndicator == false && standStillNoIdle == true && !isShootingAnimating || facingDirectionIndicator == false && !isShootingAnimating && isMovingUp || facingDirectionIndicator == false && !isShootingAnimating && !isMovingDown)
             {
-                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, Direction.Left);
+                AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, Direction.Left);
             }
             else if (facingDirectionIndicator == true && isMovingDown && !hasJumped)
             {
-                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), Direction.Right);
+                AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), Direction.Right);
             }
             else if (facingDirectionIndicator == false && isMovingDown && !hasJumped)
             {
-                AnimationHandler_MC.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), Direction.Left);
+                AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), Direction.Left);
             }
             spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
 

@@ -9,7 +9,7 @@ using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Fal
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal;
 using GameDevProject_August.Sprites.DSentient;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
-using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.Characters;
+using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlayer.ShootingPlayer.Characters;
 using GameDevProject_August.States.LevelStates;
 using GameDevProject_August.States.MenuStates;
 using GameDevProject_August.UI;
