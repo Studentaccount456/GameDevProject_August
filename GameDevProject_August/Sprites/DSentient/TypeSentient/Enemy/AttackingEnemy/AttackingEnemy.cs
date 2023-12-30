@@ -25,7 +25,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEn
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (isAttackingAnimating)
+            if (isAttackingAnimating && !isDeathAnimating)
             {
                 if (Movement.Direction == Direction.Right)
                 {

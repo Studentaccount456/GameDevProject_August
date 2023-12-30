@@ -1,8 +1,15 @@
 ﻿using GameDevProject_August.AnimationClasses;
 using GameDevProject_August.AnimationClasses.AnimationMethods;
+using GameDevProject_August.Levels;
+using GameDevProject_August.Levels.BlockTypes;
 using GameDevProject_August.Models;
+using GameDevProject_August.Models.Movement;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
+using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
+using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.FallingCode;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlayer.ShootingPlayer.Characters;
+using GameDevProject_August.States;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -52,8 +59,36 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
 
         protected bool keyPressed;
 
-        public Player(Texture2D texture) : base(texture)
+        protected bool isCharacterMoving;
+
+        protected Biaxial_Movement Movement = new Biaxial_Movement()
         {
+            Direction_X = Direction_X.Right,
+            Direction_Y = Direction_Y.None
+        };
+
+        protected bool isAttackingAnimating = false;
+
+
+        public Player(Texture2D moveTexture, Texture2D attackTexture, Texture2D idleTexture, Texture2D deathTexture, 
+                      Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture) 
+                      : base(moveTexture)
+        {
+            hasJumped = true;
+
+            AnimationHandler_Player = new AnimationHandler();
+
+            StandStillTexture = standStillTexture;
+
+            JumpTexture = jumpTexture;
+
+            BowDownTexture = bowDownTexture;
+
+            animationMove = new Animation(AnimationType.Move, moveTexture);
+            animationShoot = new Animation(AnimationType.Attack, attackTexture);
+            animationIdle = new Animation(AnimationType.Idle, idleTexture);
+            animationDeath = new Animation(AnimationType.Death, deathTexture);
+            animationJump = new Animation(AnimationType.Jump, jumpTexture);
 
         }
 
@@ -62,8 +97,9 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
 
         }
 
-        public Sprite makePlayer(Input input, TypePlayer typePlayer, Texture2D moveTexture, Texture2D attackTexture, Texture2D idleTexture, Texture2D deathTexture, Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture,
-                                Vector2 startPosition, float speed, PlayerBullet bullet, Score score, bool facingDirectionIndicator)
+        public Sprite makePlayer(Input input, TypePlayer typePlayer, Texture2D moveTexture, Texture2D attackTexture, Texture2D idleTexture, 
+                                 Texture2D deathTexture, Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture,
+                                 Vector2 startPosition, float speed, PlayerBullet bullet, Score score, bool facingDirectionIndicator)
         {
             switch (typePlayer)
             {
@@ -80,6 +116,213 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
                     ;
                 default:
                     return null;
+            }
+        }
+
+        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks) 
+        {
+            ImplementGravity(gameTime);
+
+            //Moving (Horizontal, Vertical (Including Jump)
+            Move(gameTime, blocks);
+
+            CollisionRules(sprites, blocks);
+
+            IdleFunctionality(gameTime);
+
+            DeathTriggered(gameTime);
+
+            UpdatePositionAndResetVelocity();
+        }
+
+
+        protected void Move(GameTime gameTime, List<Block> blocks)
+        {
+            if (!isAttackingAnimating)
+            {
+                if (Input == null)
+                    return;
+
+                if (!Keyboard.GetState().IsKeyDown((Keys)Input.Left) 
+                    && !Keyboard.GetState().IsKeyDown((Keys)Input.Right) 
+                    && !Keyboard.GetState().IsKeyDown((Keys)Input.Down) 
+                    && !Keyboard.GetState().IsKeyDown((Keys)Input.Up))
+                {
+                    isCharacterMoving = false;
+                    Movement.Direction_Y = Direction_Y.None;
+                }
+                else if (isDeathAnimating)
+                {
+                    Velocity = Vector2.Zero;
+                }
+                else
+                {
+                    isCharacterMoving = true;
+
+                    if (Keyboard.GetState().IsKeyDown((Keys)Input.Up))
+                    {
+                        Movement.Direction_Y = Direction_Y.Up;
+                    }
+
+                    if (Keyboard.GetState().IsKeyDown((Keys)Input.Up) && !hasJumped)
+                    {
+                        hasJumped = true;
+                        Movement.Direction_Y = Direction_Y.Up;
+
+                        if (hasJumped)
+                        {
+                            Velocity.Y = -20f;
+                            if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
+                            {
+                                Velocity.X = Speed;
+                            }
+                            if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
+                            {
+                                Velocity.X = -Speed;
+                            }
+                        }
+                    }
+                    if (hasJumped)
+                    {
+                        foreach (var block in blocks)
+                        {
+                            if (IsTouchingTopBlock(block))
+                            {
+                                hasJumped = true;
+                            }
+                        }
+                    }
+                    if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
+                    {
+                        Movement.Direction_Y = Direction_Y.Down;
+                    }
+                    if (Keyboard.GetState().IsKeyDown((Keys)Input.Left) && !hasJumped)
+                    {
+                        Velocity.X -= Speed;
+                        facingDirection = -Vector2.UnitX;
+                        Movement.Direction_X = Direction_X.Left;
+                    }
+                    if (Keyboard.GetState().IsKeyDown((Keys)Input.Right) && !hasJumped)
+                    {
+                        Velocity.X += Speed;
+                        facingDirection = Vector2.UnitX;
+                        Movement.Direction_X = Direction_X.Right;
+
+                    }
+                }
+            }
+            Position = Vector2.Clamp(Position, new Vector2(0, 0 + RectangleHitbox.Height / 4), 
+                       new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height));
+
+            animationMove.Update(gameTime);
+        }
+
+        protected void UpdatePositionAndResetVelocity()
+        {
+            Position += Velocity;
+
+            if (!hasJumped)
+            {
+                Velocity = Vector2.Zero;
+            }
+        }
+
+        protected void CollisionRules(List<Sprite> sprites, List<Block> blocks)
+        {
+            foreach (var sprite in sprites)
+            {
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && (sprite is FallingCode || sprite is EnemyBullet) && sprite is NotSentient notSentient)
+                {
+                    isDeathAnimating = true;
+                    notSentient.IsDestroyed = true;
+                }
+
+                if (sprite.RectangleHitbox.Intersects(RectangleHitbox) && sprite is Regular_Point && sprite is NotSentient notSentient2)
+                {
+                    Score.MainScore++;
+                    PlayingState.whichCodeFalls = 5;
+                    notSentient2.IsDestroyed = true;
+                }
+            }
+
+            foreach (var block in blocks)
+            {
+                if (block is Block && block is not ThreePointsType && block is not SevenPointsType && block is not InvisibleBlock)
+                {
+                    if ((Velocity.X > 0 && IsTouchingLeftBlock(block) ||
+                        Velocity.X < 0 && IsTouchingRightBlock(block)) && !hasJumped)
+                    {
+                        Velocity.X = 0;
+                    }
+
+                    if (Velocity.Y > 0 && IsTouchingTopBlock(block) && !hasJumped ||
+                        Velocity.Y < 0 && IsTouchingBottomBlock(block))
+                    {
+                        Velocity.Y = 0;
+                    }
+
+                    if (IsTouchingTopBlock(block))
+                    {
+                        hasJumped = false;
+                    }
+                }
+                else if (block is ThreePointsType)
+                {
+                    if (block.BlockRectangle.Intersects(RectangleHitbox) && Game1.PlayerScore.MainScore >= 3)
+                    {
+                        PlayingState.isNextLevelTrigger = true;
+                    }
+                }
+                else if (block is SevenPointsType)
+                {
+                    if (block.BlockRectangle.Intersects(RectangleHitbox) && Game1.PlayerScore.MainScore >= 7)
+                    {
+                        PlayingState.isNextLevelTrigger = true;
+                    }
+                }
+            }
+        }
+
+        protected void IdleFunctionality(GameTime gameTime)
+        {
+            keyPressed = Keyboard.GetState().IsKeyDown((Keys)Input.Left) || Keyboard.GetState().IsKeyDown((Keys)Input.Right) ||
+                  Keyboard.GetState().IsKeyDown((Keys)Input.Up) || Keyboard.GetState().IsKeyDown((Keys)Input.Down) ||
+                  Keyboard.GetState().IsKeyDown((Keys)Input.Shoot) && isAttackingAnimating;
+
+            if (keyPressed)
+            {
+                idleTimer = 0f;
+                isIdling = false;
+                standStillNoIdle = false;
+
+            }
+            else
+            {
+                idleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (idleTimer >= IdleTimeoutDuration)
+                {
+                    isIdling = true;
+                    standStillNoIdle = false;
+                    animationIdle.Update(gameTime);
+                }
+                else
+                {
+                    standStillNoIdle = true;
+                }
+            }
+        }
+
+
+        protected void ImplementGravity(GameTime gameTime)
+        {
+            Velocity.Y += GravityAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        }
+
+        protected void DeathTriggered(GameTime gameTime)
+        {
+            if (isDeathAnimating == true)
+            {
+                animationDeath.Update(gameTime);
             }
         }
     }
