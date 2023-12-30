@@ -136,7 +136,7 @@ namespace GameDevProject_August.States
             Random = new Random();
             LoadContent(content);
 
-            player_1 = new Archeologist();
+            player_1 = new Player();
 
             fallingCode = new FallingCode(playerBullet);
         }
