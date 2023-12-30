@@ -22,11 +22,13 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlay
         public PlayerBullet Bullet;
         private Vector2 OriginBullet;
 
-        //TODO: movement enum van dit maken
-        bool isMovingLeft;
-        bool isMovingRight;
-        bool isMovingUp;
-        bool isMovingDown;
+        protected bool isCharacterMoving;
+
+        protected Biaxial_Movement Movement = new Biaxial_Movement()
+        {
+            Direction_X = Direction_X.Right,
+            Direction_Y = Direction_Y.None
+        };
 
         // Consistent Hitbox
         public override Rectangle RectangleHitbox
@@ -314,102 +316,84 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlay
                 if (Input == null)
                     return;
 
-                if (Keyboard.GetState().IsKeyDown((Keys)Input.Up))
+                if (!Keyboard.GetState().IsKeyDown((Keys)Input.Left) && !Keyboard.GetState().IsKeyDown((Keys)Input.Right) && !Keyboard.GetState().IsKeyDown((Keys)Input.Down) && !Keyboard.GetState().IsKeyDown((Keys)Input.Up))
                 {
-                    isMovingUp = true;
+                    isCharacterMoving = false;
+                    Movement.Direction_Y = Direction_Y.None;
+                } else if (isDeathAnimating)
+                {
+                     Velocity = Vector2.Zero;
                 }
-
-                if (Keyboard.GetState().IsKeyDown((Keys)Input.Up) && !hasJumped)
+                else
                 {
-                    hasJumped = true;
-                    isMovingUp = true;
+                    isCharacterMoving = true;
 
+                    if (Keyboard.GetState().IsKeyDown((Keys)Input.Up))
+                    {
+                        Movement.Direction_Y = Direction_Y.Up;
+                    }
+
+                    if (Keyboard.GetState().IsKeyDown((Keys)Input.Up) && !hasJumped)
+                    {
+                        hasJumped = true;
+                        Movement.Direction_Y = Direction_Y.Up;
+
+                        if (hasJumped)
+                        {
+                            Velocity.Y = -20f;
+                            if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
+                            {
+                                Velocity.X = Speed;
+                            }
+                            if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
+                            {
+                                Velocity.X = -Speed;
+                            }
+                        }
+                    }
                     if (hasJumped)
                     {
-                        Velocity.Y = -20f;
-                        if (Keyboard.GetState().IsKeyDown((Keys)Input.Right))
+                        foreach (var block in blocks)
                         {
-                            Velocity.X = Speed;
-                        }
-                        if (Keyboard.GetState().IsKeyDown((Keys)Input.Left))
-                        {
-                            Velocity.X = -Speed;
+                            if (IsTouchingTopBlock(block))
+                            {
+                                hasJumped = true;
+                            }
                         }
                     }
-                    /*if (!hasJumped)
+                    if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
                     {
-                        float i = 3;
-                        Velocity.Y -= 0.45f * i;
-                    }*/
+                        Movement.Direction_Y = Direction_Y.Down;
+                    }
+                    if (Keyboard.GetState().IsKeyDown((Keys)Input.Left) && !hasJumped)
+                    {
+                        Velocity.X -= Speed;
+                        facingDirection = -Vector2.UnitX;
+                        Movement.Direction_X = Direction_X.Left;
+                    }
+                    if (Keyboard.GetState().IsKeyDown((Keys)Input.Right) && !hasJumped)
+                    {
+                        Velocity.X += Speed;
+                        facingDirection = Vector2.UnitX;
+                        Movement.Direction_X = Direction_X.Right;
 
-                    //Position.Y -= 10f;
-                    //Velocity.Y = -62f;
-                }
-                if (hasJumped)
-                {
-                    foreach (var block in blocks)
-                    {
-                        if (IsTouchingTopBlock(block))
-                        {
-                            hasJumped = true;
-                        }
                     }
                 }
-                if (Keyboard.GetState().IsKeyDown((Keys)Input.Down))
-                {
-                    isMovingDown = true;
-                }
-                if (Keyboard.GetState().IsKeyDown((Keys)Input.Left) && !hasJumped)
-                {
-                    Velocity.X -= Speed;
-                    facingDirection = -Vector2.UnitX;
-                    facingDirectionIndicator = false;
-                    isMovingLeft = true;
-                }
-                if (Keyboard.GetState().IsKeyDown((Keys)Input.Right) && !hasJumped)
-                {
-                    Velocity.X += Speed;
-                    facingDirection = Vector2.UnitX;
-                    facingDirectionIndicator = true;
-                    isMovingRight = true;
-
-                }
-                if (!Keyboard.GetState().IsKeyDown((Keys)Input.Left))
-                {
-                    isMovingLeft = false;
-                }
-                if (!Keyboard.GetState().IsKeyDown((Keys)Input.Right))
-                {
-                    isMovingRight = false;
-                }
-                if (!Keyboard.GetState().IsKeyDown((Keys)Input.Down))
-                {
-                    isMovingDown = false;
-                }
-                if (!Keyboard.GetState().IsKeyDown((Keys)Input.Up))
-                {
-                    isMovingUp = false;
-                }
-                if (isDeathAnimating)
-                {
-                    Velocity = Vector2.Zero;
-                }
-
-                Position = Vector2.Clamp(Position, new Vector2(0, 0 + RectangleHitbox.Height / 4), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height));
-
-                animationMove.Update(gameTime);
             }
+            Position = Vector2.Clamp(Position, new Vector2(0, 0 + RectangleHitbox.Height / 4), new Vector2(Game1.ScreenWidth - RectangleHitbox.Width, Game1.ScreenHeight - RectangleHitbox.Height));
+
+            animationMove.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (isDeathAnimating)
             {
-                if (facingDirectionIndicator == false)
+                if (Movement.Direction_X == Direction_X.Left)
                 {
                     AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, Direction.Left);
                 }
-                else if (facingDirectionIndicator == true)
+                else if (Movement.Direction_X == Direction_X.Right)
                 {
                     AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["DeathAnimation"], Position, Direction.Right);
                 }
@@ -421,11 +405,11 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlay
             }
             else if (isShootingAnimating)
             {
-                if (facingDirectionIndicator == true)
+                if (Movement.Direction_X == Direction_X.Right)
                 {
                     AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, Direction.Right);
                 }
-                else if (facingDirectionIndicator == false)
+                else if (Movement.Direction_X == Direction_X.Left)
                 {
                     AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["AttackAnimation"], Position, Direction.Left);
                 }
@@ -434,47 +418,47 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlay
                     isShootingAnimating = false;
                 }
             }
-            else if (hasJumped && facingDirectionIndicator == true && !isMovingDown)
+            else if (hasJumped && Movement.Direction_X == Direction_X.Right && Movement.Direction_Y == Direction_Y.None)
             {
                 AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, Direction.Right);
             }
-            else if (hasJumped && facingDirectionIndicator == false && !isMovingDown)
+            else if (hasJumped && Movement.Direction_X == Direction_X.Left && Movement.Direction_Y == Direction_Y.None)
             {
                 AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["JumpAnimation"], Position, Direction.Left);
             }
-            else if (isMovingLeft)
+            else if (Movement.Direction_X == Direction_X.Left && isCharacterMoving == true)
             {
                 AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, Direction.Left);
             }
-            else if (isMovingRight)
+            else if (Movement.Direction_X == Direction_X.Right && isCharacterMoving == true)
             {
                 AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["MoveAnimation"], Position, Direction.Right);
             }
             else if (isIdling)
             {
-                if (facingDirectionIndicator == true)
+                if (Movement.Direction_X == Direction_X.Right && isCharacterMoving == false)
                 {
                     AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, Direction.Right);
                 }
-                else if (facingDirectionIndicator == false)
+                else if (Movement.Direction_X == Direction_X.Left && isCharacterMoving == false)
                 {
                     AnimationHandler_Player.DrawAnimation(spriteBatch, animationDictionary["IdleAnimation"], Position, Direction.Left);
                 }
             }
 
-            else if (facingDirectionIndicator == true && standStillNoIdle == true && !isShootingAnimating || facingDirectionIndicator == true && !isShootingAnimating && !isMovingDown || facingDirectionIndicator == true && !isShootingAnimating && isMovingUp)
+            else if (Movement.Direction_X == Direction_X.Right && standStillNoIdle == true && !isShootingAnimating || Movement.Direction_X == Direction_X.Right && !isShootingAnimating && Movement.Direction_Y == Direction_Y.None || Movement.Direction_X == Direction_X.Right && !isShootingAnimating && Movement.Direction_Y == Direction_Y.Up)
             {
                 AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, Direction.Right);
             }
-            else if (facingDirectionIndicator == false && standStillNoIdle == true && !isShootingAnimating || facingDirectionIndicator == false && !isShootingAnimating && isMovingUp || facingDirectionIndicator == false && !isShootingAnimating && !isMovingDown)
+            else if (Movement.Direction_X == Direction_X.Left && standStillNoIdle == true && !isShootingAnimating || Movement.Direction_X == Direction_X.Left && !isShootingAnimating && Movement.Direction_Y == Direction_Y.Up || Movement.Direction_X == Direction_X.Left && !isShootingAnimating && Movement.Direction_Y == Direction_Y.None)
             {
                 AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, StandStillTexture, Position, Direction.Left);
             }
-            else if (facingDirectionIndicator == true && isMovingDown && !hasJumped)
+            else if (Movement.Direction_X == Direction_X.Right && Movement.Direction_Y == Direction_Y.Down && !hasJumped)
             {
                 AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), Direction.Right);
             }
-            else if (facingDirectionIndicator == false && isMovingDown && !hasJumped)
+            else if (Movement.Direction_X == Direction_X.Left && Movement.Direction_Y == Direction_Y.Down && !hasJumped)
             {
                 AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + new Vector2(0, 2), Direction.Left);
             }
