@@ -17,7 +17,7 @@ namespace GameDevProject_August.Sprites.DNotSentient
             }
         }
 
-        public NotSentient(Texture2D texture) : base(texture)
+        public NotSentient(Texture2D texture) : base()
         {
             staticTexture = texture;
         }

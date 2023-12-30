@@ -5,7 +5,6 @@ namespace GameDevProject_August.Levels.Level1
 {
     internal class Level1BlockFactory : IBlockFactory
     {
-        // If Block does not get used in Level it should not be here (change when levels are all made)
         public Block CreateBlock(int number, Rectangle rectangle)
         {
             Block block = null;

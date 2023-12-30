@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameDevProject_August.Levels;
+using Microsoft.Xna.Framework;
 
-namespace GameDevProject_August.Levels
+namespace GameDevProject_August.Interfaces
 {
     public interface IBlockFactory
     {
         public Block CreateBlock(int blockType, Rectangle blockRectangle);
-
     }
 }

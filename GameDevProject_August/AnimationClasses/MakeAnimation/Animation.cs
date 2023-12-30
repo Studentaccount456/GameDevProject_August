@@ -58,7 +58,7 @@ namespace GameDevProject_August.AnimationClasses
             CurrentFrame = frames[0];
         }
 
-        public void AddConsistentFramesWithStartCoördinates(int X_Start, int Y_Start, int X_Increment, int Y_Increment, 
+        public void AddConsistentFramesWithStartCoördinates(int X_Start, int Y_Start, int X_Increment, int Y_Increment,
                                                             int width, int height, int amount)
         {
             int X = X_Start;

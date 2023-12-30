@@ -49,7 +49,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlay
 
         private void ShootCooldown(GameTime gameTime)
         {
-            // Shooting cooldown
             if (isShootingCooldown)
             {
                 shootingCooldownTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;

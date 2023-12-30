@@ -32,7 +32,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEn
 
         protected void AttackCooldown(GameTime gameTime)
         {
-            // Attack cooldown
             if (isAttackCooldown)
             {
                 AttackCooldownTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;

@@ -101,7 +101,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
 
         public Sprite makePlayer(Input input, TypePlayer typePlayer, Texture2D moveTexture, Texture2D attackTexture, Texture2D idleTexture,
                                  Texture2D deathTexture, Texture2D standStillTexture, Texture2D jumpTexture, Texture2D bowDownTexture,
-                                 Vector2 startPosition, float speed, PlayerBullet bullet, Score score, bool facingDirectionIndicator)
+                                 Vector2 startPosition, float speed, PlayerBullet bullet, Score score)
         {
             switch (typePlayer)
             {
@@ -113,7 +113,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
                         Speed = speed,
                         Bullet = bullet,
                         Score = score,
-                        facingDirectionIndicator = facingDirectionIndicator
                     }
                     ;
                 default:

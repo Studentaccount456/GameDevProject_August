@@ -37,7 +37,6 @@ namespace GameDevProject_August.Levels
         #endregion
 
         #region Methods
-
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(blockTexture, blockRectangle, Color.White);

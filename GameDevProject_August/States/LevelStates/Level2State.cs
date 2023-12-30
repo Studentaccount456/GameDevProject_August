@@ -5,7 +5,6 @@ using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bul
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEnemy.SpotterEnemy.ShootingEnemy.Enemies;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.PassiveEnemy;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
-using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,10 +14,6 @@ namespace GameDevProject_August.States.LevelStates
 {
     public class Level2State : PlayingState
     {
-
-        // Might use later
-        private List<Component> _gameComponents;
-
         public Level2State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool isFromMainMenu) : base(game, graphicsDevice, content)
         {
             levelNumber = 2;
@@ -37,7 +32,7 @@ namespace GameDevProject_August.States.LevelStates
         {
             SpriteList = new List<Sprite>()
             {
-                player_1.makePlayer(arrowInput(),TypePlayer.Archeologist,personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture, personBowDownTexture, new Vector2(10,600), 7f, new PlayerBullet(playerBullet), Game1.PlayerScore, true),
+                player_1.makePlayer(arrowInput(),TypePlayer.Archeologist,personMoveTexture, personShootTexture, personIdleTexture, personDeathTexture, personStandStillTexture, personJumpTexture, personBowDownTexture, new Vector2(10,600), 7f, new PlayerBullet(playerBullet), Game1.PlayerScore),
 
 
                 new Dragonfly(dragonflyMoveTexture, glitchDeathTexture, new Vector2(250, 595))
@@ -54,7 +49,7 @@ namespace GameDevProject_August.States.LevelStates
                 {
                     Speed = 2f,
                     Bullet = new EnemyBullet(ratProjectile),
-        },
+                },
                 new Regular_Point(RegularPointTexture)
                 {
                     Position = new Vector2(865 ,400)

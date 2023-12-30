@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameDevProject_August.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -10,9 +11,8 @@ namespace GameDevProject_August.Levels
 
         private List<Block> tileList = new List<Block>();
 
-        //Width/height of level
-        private int width;
-        private int height;
+        private int widthLevel;
+        private int heightLevel;
 
         private int[,] map;
 
@@ -27,8 +27,8 @@ namespace GameDevProject_August.Levels
             get { return tileList; }
         }
 
-        public int Width { get { return width; } }
-        public int Height { get { return height; } }
+        public int Width { get { return widthLevel; } }
+        public int Height { get { return heightLevel; } }
 
         public int[,] Map { get { return map; } set { map = value; } }
 
@@ -54,8 +54,8 @@ namespace GameDevProject_August.Levels
                         tileList.Add(blockFactory.CreateBlock(number, new Rectangle(x * size, y * size, size, size)));
                     }
 
-                    width = (x + 1) * size;
-                    height = (y + 1) * size;
+                    widthLevel = (x + 1) * size;
+                    heightLevel = (y + 1) * size;
                 }
             }
         }

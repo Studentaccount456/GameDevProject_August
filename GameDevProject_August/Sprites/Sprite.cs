@@ -11,19 +11,31 @@ namespace GameDevProject_August.Sprites
         public Vector2 Origin;
         public Vector2 Velocity;
 
-        // False is left en Right is True
-        public bool facingDirectionIndicator = true;
         public Vector2 facingDirection = Vector2.UnitX;
 
-        //Shooting
         public Sprite Parent;
 
-        // Color.Black for glitch
-        public Color Colour = Color.White;
-
-        // Collision
-        //
         private Rectangle _rectangleHitbox;
+
+        public Sprite()
+        {
+            Origin = Vector2.Zero;
+        }
+
+        public virtual void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
+        {
+
+        }
+
+        public virtual void UpdateCollisionBlocks(GameTime gameTime, List<Block> blocks)
+        {
+
+        }
+
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+
+        }
 
         public virtual Rectangle RectangleHitbox
         {
@@ -61,34 +73,6 @@ namespace GameDevProject_August.Sprites
             {
                 _rectangleHitbox.Height = value;
             }
-        }
-        //
-        // End Collision
-
-        public Sprite(Texture2D texture)
-        {
-            //staticTexture = texture;
-            Origin = Vector2.Zero;
-        }
-
-        public Sprite()
-        {
-            Origin = Vector2.Zero;
-        }
-
-        public virtual void Update(GameTime gameTime, List<Sprite> sprites, List<Block> blocks)
-        {
-
-        }
-
-        public virtual void UpdateCollisionBlocks(GameTime gameTime, List<Block> blocks)
-        {
-
-        }
-
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            //spriteBatch.Draw(staticTexture, Position, null, Colour, 0, Origin, 1, SpriteEffects.None, 0);
         }
 
         #region CollisionBlock
