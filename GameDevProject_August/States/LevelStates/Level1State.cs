@@ -5,6 +5,7 @@ using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bul
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEnemy.SpotterEnemy.MeleeEnemy.Enemies;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.PassiveEnemy;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
+using GameDevProject_August.States.StateTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;

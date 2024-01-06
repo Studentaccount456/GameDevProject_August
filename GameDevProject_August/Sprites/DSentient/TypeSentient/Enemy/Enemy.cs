@@ -5,7 +5,7 @@ using GameDevProject_August.Models.Movement;
 using GameDevProject_August.Sprites.DNotSentient;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlayer.ShootingPlayer.Characters;
-using GameDevProject_August.States;
+using GameDevProject_August.States.StateTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -102,7 +102,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy
             Velocity = Vector2.Zero;
         }
 
-        protected virtual void CollisionRules(GameTime gameTime, List<Sprite> sprites)
+        protected void CollisionRules(GameTime gameTime, List<Sprite> sprites)
         {
             foreach (var sprite in sprites)
             {

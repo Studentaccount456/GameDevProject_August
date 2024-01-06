@@ -1,4 +1,4 @@
-﻿using GameDevProject_August.States;
+﻿using GameDevProject_August.States.StateTypes;
 using Microsoft.Xna.Framework;
 
 namespace GameDevProject_August.Levels.BlockTypes

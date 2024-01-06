@@ -3,6 +3,7 @@ using GameDevProject_August.Sprites;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
+using GameDevProject_August.States.StateTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;

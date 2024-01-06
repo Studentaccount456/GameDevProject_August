@@ -9,7 +9,7 @@ using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Collectibles;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Bullets.Types;
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.FallingCode;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlayer.ShootingPlayer.Characters;
-using GameDevProject_August.States;
+using GameDevProject_August.States.StateTypes;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -137,7 +137,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
 
             AttackFunctionality(gameTime, sprites);
         }
-
 
         protected void Move(GameTime gameTime, List<Block> blocks)
         {

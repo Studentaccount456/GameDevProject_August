@@ -1,4 +1,5 @@
 ﻿using GameDevProject_August.States.LevelStates;
+using GameDevProject_August.States.StateTypes;
 using GameDevProject_August.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

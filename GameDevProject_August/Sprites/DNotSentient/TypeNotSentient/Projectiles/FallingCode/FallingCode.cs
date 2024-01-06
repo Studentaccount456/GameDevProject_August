@@ -1,5 +1,5 @@
 ﻿using GameDevProject_August.Levels;
-using GameDevProject_August.States;
+using GameDevProject_August.States.StateTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;

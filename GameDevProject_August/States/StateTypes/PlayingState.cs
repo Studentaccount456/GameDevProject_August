@@ -9,7 +9,6 @@ using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Projectiles.Fal
 using GameDevProject_August.Sprites.DNotSentient.TypeNotSentient.Terminal;
 using GameDevProject_August.Sprites.DSentient;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player;
-using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlayer.ShootingPlayer;
 using GameDevProject_August.Sprites.DSentient.TypeSentient.Player.TypeOfPlayer.ShootingPlayer.Characters;
 using GameDevProject_August.States.LevelStates;
 using GameDevProject_August.States.MenuStates;
@@ -20,7 +19,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace GameDevProject_August.States
+namespace GameDevProject_August.States.StateTypes
 
 {
 
@@ -259,7 +258,7 @@ namespace GameDevProject_August.States
             {
                 var sprite_1 = sprites[i];
 
-                if ((sprite_1 is Sentient sentient && sentient.IsKilled) || (sprite_1 is NotSentient notSentient && notSentient.IsDestroyed))
+                if (sprite_1 is Sentient sentient && sentient.IsKilled || sprite_1 is NotSentient notSentient && notSentient.IsDestroyed)
                 {
                     sprites.RemoveAt(i);
                     i--;
