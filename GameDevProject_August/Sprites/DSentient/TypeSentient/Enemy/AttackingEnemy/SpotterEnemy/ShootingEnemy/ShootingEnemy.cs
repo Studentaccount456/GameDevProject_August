@@ -82,7 +82,7 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEn
             bullet.facingDirection = facingDirection;
             bullet.Position = Position + OriginBullet;
             bullet.ProjectileSpeed = Speed;
-            bullet.Lifespan = 1f;
+            bullet.Lifespan = 2f;
             bullet.Parent = this;
 
             sprites.Add(bullet);

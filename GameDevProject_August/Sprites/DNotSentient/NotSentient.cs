@@ -25,8 +25,6 @@ namespace GameDevProject_August.Sprites.DNotSentient
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(staticTexture, Position, Color.White);
-
-            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
         }
     }
 }

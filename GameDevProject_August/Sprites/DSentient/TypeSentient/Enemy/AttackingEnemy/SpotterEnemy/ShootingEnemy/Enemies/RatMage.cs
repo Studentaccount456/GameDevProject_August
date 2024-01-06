@@ -117,11 +117,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEn
             {
                 base.Draw(spriteBatch);
             }
-
-            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
-            spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
-            spriteBatch.DrawRectangle(EnemySpotter, Color.Red);
-            spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Yellow);
         }
 
         protected override void IdleFunctionality(GameTime gameTime)

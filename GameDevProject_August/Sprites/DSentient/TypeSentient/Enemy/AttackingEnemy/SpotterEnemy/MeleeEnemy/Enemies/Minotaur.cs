@@ -107,13 +107,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.AttackingEn
             {
                 base.Draw(spriteBatch);
             }
-
-            spriteBatch.DrawRectangle(AdditionalHitBox_1, Color.Blue);
-            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
-            spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
-            spriteBatch.DrawRectangle(EnemySpotter, Color.Yellow);
-            spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Black);
-            spriteBatch.DrawRectangle(hitboxes["SoftSpot2"], Color.White);
         }
 
 

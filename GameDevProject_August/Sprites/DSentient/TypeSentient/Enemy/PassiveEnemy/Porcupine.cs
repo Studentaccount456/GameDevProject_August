@@ -68,15 +68,5 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Enemy.PassiveEnem
             hitboxes["SoftSpot1"] = new Rectangle(rect2X, (int)Position.Y + 24, 15, 24);
             hitboxes["HardSpot1"] = new Rectangle(rect3X, (int)Position.Y, 42, 48);
         }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            base.Draw(spriteBatch);
-            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
-            spriteBatch.DrawRectangle(AdditionalHitBox_1, Color.Yellow);
-            spriteBatch.DrawRectangle(DeathRectangle, Color.Red);
-            spriteBatch.DrawRectangle(hitboxes["SoftSpot1"], Color.Black);
-            spriteBatch.DrawRectangle(hitboxes["HardSpot1"], Color.White);
-        }
     }
 }

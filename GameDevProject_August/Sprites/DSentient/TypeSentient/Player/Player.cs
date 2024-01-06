@@ -336,8 +336,6 @@ namespace GameDevProject_August.Sprites.DSentient.TypeSentient.Player
             {
                 AnimationHandler_Player.DrawOneFrameAnimation(spriteBatch, BowDownTexture, Position + BowDownAnimationOffset, (Direction)Movement.Direction_X);
             }
-
-            spriteBatch.DrawRectangle(RectangleHitbox, Color.Blue);
         }
 
 
